@@ -1,0 +1,38 @@
+
+wordlist_global<-unlist(read.table('wordlist.txt', header = FALSE, sep = "", dec = "."))
+start_index<-1
+length_wordlist<-0
+iterations<-0
+#wordlist_global<-c('a','b','c','d','e')
+wordlist<-wordlist_global
+word_search<-function(word,wordlist)
+{
+  iterations<<-iterations+1
+  length_wordlist<<-length(wordlist)
+  half_length<-as.integer(length_wordlist/2)+1
+  word_half_length<-wordlist[half_length]
+  #print(paste(length_wordlist,start_index,end_index,wordlist_global[end_index]))
+  #if(length_wordlist==2){print(wordlist)}
+  if(word==word_half_length)
+  {
+    return(TRUE)
+  }
+  if(length_wordlist==1)
+  {
+    if(word==wordlist[1])
+    {
+      return(TRUE)
+    }
+    return(FALSE)
+  }else{
+    if(word<word_half_length){
+      word_search(word,wordlist[1:(half_length-1)])
+    }else{
+      start_index<<-start_index+half_length-1
+      word_search(word,wordlist[half_length:length(wordlist)])
+    }
+  }
+}
+word_search('agreement',wordlist_global)
+iterations
+start_index+as.integer(length_wordlist/2)

@@ -1,0 +1,3 @@
+# Preface {.unnumbered}
+
+This book is currently being written for the course STAT201.
