@@ -16,6 +16,7 @@ book:
     - index.qmd
     - Introduction to Jupyter Notebooks and programming in python.ipynb
     - data_structures.ipynb
+    - recursion.qmd
   appendices: 
     - Assignment 1 (control flow).ipynb
     - Assignment 1 (control flow).ipynb
