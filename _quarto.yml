@@ -1,7 +1,6 @@
 project:
   type: book
 
-
 book:
   title: "Introduction to programming for data science"
   subtitle: "STAT 201"
@@ -15,28 +14,12 @@ book:
     
   chapters:
     - index.qmd
-    - part: "Python"
-      chapters:
-        - Introduction to Jupyter Notebooks and programming in python.ipynb
-        - Variable_expressions_statements.ipynb
-        - Control flow.ipynb
-        - functions2.ipynb
-        - data_structures-complete.ipynb
-        - classes.ipynb
-    - part: "R"
-      chapters:
-        - Variable_expressions_statements-R.qmd
-        - control_flow_noSol.qmd
-        - control_flow2.qmd
-        - robjects.qmd
-        - recursion.qmd
+    - data_structures.ipynb
   appendices: 
     - Assignment 1 (control flow).ipynb
     - Assignment 1 (control flow).ipynb
     - Assignment 2 (control flow).ipynb
     - Assignment C.ipynb
-    - assignment5.qmd
-    - assignmentF.qmd
     - Datasets.ipynb
 
 bibliography: references.bib
