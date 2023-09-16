@@ -1,5 +1,5 @@
 ---
-title: "R: Recursion"
+title: "R: Introduction"
 format:
     html:
       toc: true
@@ -8,9 +8,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Recursion
+## Installing R
 
-Recursion is a method of solving a problem by dividing it into smaller instances of the same problem. Recursion solves such problems by using functions that call themselves from within their own code. This forms a loop, where every time the function is called, it calls itself again and again. However, every time the function calls itself, it checks certain condition(s) which are the stopping condition(s). When such condition(s) are true the function will stop calling itself. These conditions are called the base case of the recursive function.
+Go to the The Comprehensive R Archive Network (CRAN): https://cran.r-project.org/ 
+
+![Rcran](\images\Rcran.jpg)
+
 
 Every recursive function must have at least two cases:
 
