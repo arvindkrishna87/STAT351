@@ -11,7 +11,7 @@
     "href": "Rintro.html#installing-r",
     "title": "1  R: Introduction",
     "section": "1.1 Installing R",
-    "text": "1.1 Installing R\nGo to the The Comprehensive R Archive Network (CRAN): https://cran.r-project.org/\nUnder “Download and Install R,” choose “Linux,” “MacOS X” or “Windows.” If you choose Windows, on the next page choose “base,” and on the following page choose “Download R 4.3.1 for Windows” to download the setup program.\nIf you choose MacOS X or Linux you will need to read through the instructions to find the downloads you need for your machine.\nOnce you have downloaded the setup program, execute it and follow the instructions for installing R on your system. If you have an earlier version of R already installed, you may continue to use it, or you can uninstall it and then install the most recent version, which is R 4.3.1."
+    "text": "1.1 Installing R\nGo to the The Comprehensive R Archive Network (CRAN): https://cran.r-project.org/\n\n\n\nRcra\n\n\nUnder “Download and Install R,” choose “Linux,” “MacOS X” or “Windows.” If you choose Windows, on the next page choose “base,” and on the following page choose “Download R 4.3.1 for Windows” to download the setup program.\nIf you choose MacOS X or Linux you will need to read through the instructions to find the downloads you need for your machine.\nOnce you have downloaded the setup program, execute it and follow the instructions for installing R on your system. If you have an earlier version of R already installed, you may continue to use it, or you can uninstall it and then install the most recent version, which is R 4.3.1."
   },
   {
     "objectID": "Rintro.html#installing-rstudio",
