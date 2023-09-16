@@ -12,7 +12,7 @@ editor_options:
 
 Go to the The Comprehensive R Archive Network (CRAN): https://cran.r-project.org/
 
-![Rcran](C:/Users/akl0407/Desktop/Courses/2023/Fall 2023/STAT350 Fall 2023/STAT350-class-notes/images/Rcran.jpg)
+
 
 Under "Download and Install R," choose "Linux," "MacOS X" or "Windows." If you choose Windows, on the next page choose "base," and on the following page choose "Download R 4.3.1 for Windows" to download the setup program.
 
