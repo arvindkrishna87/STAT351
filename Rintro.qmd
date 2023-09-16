@@ -26,6 +26,8 @@ https://rstudio.com/products/rstudio/download/
 
 Choose your version: RStudio Desktop, Open Source License, Free. After you install RStudio, you can double click on it and open:
 
+![Studio](Rstudio.jpg)
+
 **1. Base case:** This is the simplest case that can be answered directly, and the function does not call itself.
 
 **2. Recursive case:** This is a relatively more complex case that cannot be answered directly, but can be described as a smaller instance of the same problem. In this case, the function calls itself to answer the smaller problem.
