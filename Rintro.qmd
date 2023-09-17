@@ -1,13 +1,4 @@
----
-title: "R: Introduction"
-format:
-    html:
-      toc: true
-      self-contained: true
-      default-image-extension: png
-editor_options: 
-  chunk_output_type: console
----
+# R: Introduction
 
 ## Installing R
 
@@ -141,7 +132,7 @@ Then `Data` will no longer be in your current R environment.  When you quit R, i
 Suppose the data for Problem 19 of Chapter One has been stored in an R object named Data which has two columns, the first column named `GPA` and the second column named `ACT`. You want to make a scatterplot in R with `ACT` scores on the horizontal axis and `GPA` on the vertical axis.  The R command is:
 
 
-```{r, eval=FALSE}
+```{r}
 plot(Data$ACT, Data$GPA)
 ```
 
@@ -174,7 +165,7 @@ fit <- lm(GPA~ACT, data=Data)   # another option
 ```
 
 
-```{r, eval=FALSE}
+```{r}
 fit <- lm(Data$GPA ~ Data$ACT)
 fit <- lm(GPA~ACT, data=Data)   # another option
 plot(Data$ACT, Data$GPA, main="Problem 1.19", xlab="ACT Test Score", ylab="Freshman GPA", pch=19)
@@ -183,7 +174,7 @@ abline(fit, col = "red", lwd = 2) #lwd is for line-width
 
 The line will appear superimposed over the data. You can also just type the actual values for the estimated intercept and slope if you prefer.
 
-You may also use [ggplot2](https://ggplot2-book.org/) to make plots if you wish. `ggplot()` has a more intuitive syntax as it is based on the Grammar of Graphics, and also has more sophisticated formatting options.
+You may also use [ggplot2](https://ggplot2-book.org/) to make plots if you wish. `ggplot()` has a more intuitive syntax as it is based on the Grammar of Graphics, and also has more comprehensive formatting options.
 
 ```{r}
 library(ggplot2)
