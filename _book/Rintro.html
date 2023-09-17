@@ -319,6 +319,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Suppose the data for Problem 19 of Chapter One has been stored in an R object named Data which has two columns, the first column named <code>GPA</code> and the second column named <code>ACT</code>. You want to make a scatterplot in R with <code>ACT</code> scores on the horizontal axis and <code>GPA</code> on the vertical axis. The R command is:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Data<span class="sc">$</span>ACT, Data<span class="sc">$</span>GPA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Rintro_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <p>Note that the dollar sign is used to reference either column in the table named Data. The first argument to the <code>plot()</code> function is the column corresponding to the variable associated with the horizontal axis, and the second argument is the column corresponding to the variable associated with the vertical axis. Alternately, you could define two new vector variables, <code>X</code> and <code>Y</code>, to hold the data of the individual columns, and use these vectors as the arguments to the <code>plot()</code> function:</p>
 <div class="cell">
@@ -330,37 +333,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note that whenever you make a new plot the old one will disappear (this can be changed; but not easily), so save it if you don’t want to lose it. However, the current scatterplot is inadequate. It has no title, the axis labels aren’t very informative, and the points are open circles rather than dark filled-in circles. To fix this, we can add some additional settings to the <code>plot()</code> command:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Data<span class="sc">$</span>ACT, Data<span class="sc">$</span>GPA, <span class="at">main=</span><span class="st">"Problem 1.19"</span>, <span class="at">xlab=</span><span class="st">"ACT Test Score"</span>, <span class="at">ylab=</span><span class="st">"Freshman GPA"</span>, <span class="at">pch=</span><span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Rintro_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <p>Now we obtain a much nicer scatterplot.</p>
 <p>Whatever you put in quotes after <code>main =</code> will be the title for the plot. Whatever you put in quotes after <code>xlab =</code> and <code>ylab =</code> will the the labels for the horizontal and vertical axes, respectively. The number after <code>pch =</code> is a code for the symbol to use for the points. You can try other numbers from 1 to 25. You can also use any symbol on your keyboard for the points, including numerals and letters, using quotes. For instance, if you want to use an asterisk for the points, type <code>pch="*"</code>.</p>
 <p>You may want to also add a plot of the estimated regression function to the scatterplot of the data. This assumes you have already obtained the least squares estimates of the regression coefficients (see “Simple Linear Regression in R”).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Data<span class="sc">$</span>GPA <span class="sc">~</span> Data<span class="sc">$</span>ACT)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(GPA<span class="sc">~</span>ACT, <span class="at">data=</span>Data)   <span class="co"># another option</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(GPA<span class="sc">~</span>ACT, <span class="at">data=</span>Data)   <span class="co"># another option</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Data<span class="sc">$</span>ACT, Data<span class="sc">$</span>GPA, <span class="at">main=</span><span class="st">"Problem 1.19"</span>, <span class="at">xlab=</span><span class="st">"ACT Test Score"</span>, <span class="at">ylab=</span><span class="st">"Freshman GPA"</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>) <span class="co">#lwd is for line-width</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Rintro_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Data<span class="sc">$</span>GPA <span class="sc">~</span> Data<span class="sc">$</span>ACT)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(GPA<span class="sc">~</span>ACT, <span class="at">data=</span>Data)   <span class="co"># another option</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Data<span class="sc">$</span>ACT, Data<span class="sc">$</span>GPA, <span class="at">main=</span><span class="st">"Problem 1.19"</span>, <span class="at">xlab=</span><span class="st">"ACT Test Score"</span>, <span class="at">ylab=</span><span class="st">"Freshman GPA"</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>) <span class="co">#lwd is for line-width</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The line will appear superimposed over the data. You can also just type the actual values for the estimated intercept and slope if you prefer.</p>
-<p>You may also use <a href="https://ggplot2-book.org/">ggplot2</a> to make plots if you wish. <code>ggplot()</code> has a more intuitive syntax as it is based on the Grammar of Graphics, and also has more sophisticated formatting options.</p>
+<p>You may also use <a href="https://ggplot2-book.org/">ggplot2</a> to make plots if you wish. <code>ggplot()</code> has a more intuitive syntax as it is based on the Grammar of Graphics, and also has more comprehensive formatting options.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> ACT, <span class="at">y =</span> GPA))<span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Problem 1.19"</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> ACT, <span class="at">y =</span> GPA))<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Problem 1.19"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Rintro_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="Rintro_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>To save your plot, click anywhere on the plot, then on the menu bar choose <code>File</code>, then <code>Save as</code>. Choose the format in which you want to save the plot, then where you want to save it on your drive.</p>
 <p>Check the estimates for the intercept and slope:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -373,16 +378,16 @@ Coefficients:
 </div>
 <p>Compute fitted values:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>fitted.values </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>fitted.values </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Compute residuals:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Compute the estimate of <span class="math inline">\(\sigma^2\)</span>, that is, the MSE:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">dim</span>(Data)[<span class="dv">1</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(fit<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(n<span class="dv">-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">dim</span>(Data)[<span class="dv">1</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(fit<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(n<span class="dv">-2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3882848</code></pre>
 </div>

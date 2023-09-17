@@ -148,7 +148,7 @@ For now we will stick with the former approach.  The resulting plot appears in t
 
 Note that whenever you make a new plot the old one will disappear (this can be changed; but not easily), so save it if you don’t want to lose it.  However, the current scatterplot is inadequate.  It has no title, the axis labels aren’t very informative, and the points are open circles rather than dark filled-in circles.  To fix this, we can add some additional settings to the `plot()` command:
 
-```{r, eval=FALSE}
+```{r}
 plot(Data$ACT, Data$GPA, main="Problem 1.19", xlab="ACT Test Score", ylab="Freshman GPA", pch=19)
 ```
 
@@ -157,12 +157,6 @@ Now we obtain a much nicer scatterplot.
 Whatever you put in quotes after `main =` will be the title for the plot.  Whatever you put in quotes after `xlab =` and `ylab =` will the the labels for the horizontal and vertical axes, respectively. The number after `pch =` is a code for the symbol to use for the points.  You can try other numbers from 1 to 25. You can also use any symbol on your keyboard for the points, including numerals and letters, using quotes.  For instance, if you want to use an asterisk for the points, type `pch="*"`.
 
 You may want to also add a plot of the estimated regression function to the scatterplot of the data.   This assumes you have already obtained the least squares estimates of the regression coefficients (see “Simple Linear Regression in R”).  
-
-
-```{r}
-fit <- lm(Data$GPA ~ Data$ACT)
-fit <- lm(GPA~ACT, data=Data)   # another option
-```
 
 
 ```{r}
