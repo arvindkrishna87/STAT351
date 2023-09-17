@@ -140,13 +140,99 @@ Then `Data` will no longer be in your current R environment.  When you quit R, i
 
 Suppose the data for Problem 19 of Chapter One has been stored in an R object named Data which has two columns, the first column named `GPA` and the second column named `ACT`. You want to make a scatterplot in R with `ACT` scores on the horizontal axis and `GPA` on the vertical axis.  The R command is:
 
-```{r}
-library(ggplot2)
-ggplot(Data, aes(x = ACT, y = GPA))+
-  geom_point()
-```
 
-
-```{r}
+```{r, eval=FALSE}
 plot(Data$ACT, Data$GPA)
 ```
+
+Note that the dollar sign is used to reference either column in the table named Data.  The first argument to the `plot()` function is the column corresponding to the variable associated with the horizontal axis, and the second argument is the column corresponding to the variable associated with the vertical axis.  Alternately, you could define two new vector variables, `X` and `Y`, to hold the data of the individual columns, and use these vectors as the arguments to the `plot()` function:
+
+```{r, eval = FALSE}
+X <- Data$ACT
+Y <- Data$GPA
+plot(X, Y)
+```
+
+For now we will stick with the former approach.  The resulting plot appears in the R Graphics Device within the R interface.  Click on it to view it, save it, print it, etc.  
+
+Note that whenever you make a new plot the old one will disappear (this can be changed; but not easily), so save it if you don’t want to lose it.  However, the current scatterplot is inadequate.  It has no title, the axis labels aren’t very informative, and the points are open circles rather than dark filled-in circles.  To fix this, we can add some additional settings to the `plot()` command:
+
+```{r, eval=FALSE}
+plot(Data$ACT, Data$GPA, main="Problem 1.19", xlab="ACT Test Score", ylab="Freshman GPA", pch=19)
+```
+
+Now we obtain a much nicer scatterplot.
+
+Whatever you put in quotes after `main =` will be the title for the plot.  Whatever you put in quotes after `xlab =` and `ylab =` will the the labels for the horizontal and vertical axes, respectively. The number after `pch =` is a code for the symbol to use for the points.  You can try other numbers from 1 to 25. You can also use any symbol on your keyboard for the points, including numerals and letters, using quotes.  For instance, if you want to use an asterisk for the points, type `pch="*"`.
+
+You may want to also add a plot of the estimated regression function to the scatterplot of the data.   This assumes you have already obtained the least squares estimates of the regression coefficients (see “Simple Linear Regression in R”).  
+
+
+```{r, echo=FALSE}
+fit <- lm(Data$GPA ~ Data$ACT)
+fit <- lm(GPA~ACT, data=Data)   # another option
+```
+
+
+```{r, eval=FALSE}
+fit <- lm(Data$GPA ~ Data$ACT)
+fit <- lm(GPA~ACT, data=Data)   # another option
+plot(Data$ACT, Data$GPA, main="Problem 1.19", xlab="ACT Test Score", ylab="Freshman GPA", pch=19)
+abline(fit, col = "red", lwd = 2) #lwd is for line-width
+```
+
+The line will appear superimposed over the data. You can also just type the actual values for the estimated intercept and slope if you prefer.
+
+You may also use [ggplot2](https://ggplot2-book.org/) to make plots if you wish. `ggplot()` has a more intuitive syntax as it is based on the Grammar of Graphics, and also has more sophisticated formatting options.
+
+```{r, eval=FALSE}
+library(ggplot2)
+ggplot(Data, aes(x = ACT, y = GPA))+
+  geom_point()+
+  labs(
+    title = "Problem 1.19"
+  )
+```
+
+To save your plot, click anywhere on the plot, then on the menu bar choose `File`, then `Save as`.  Choose the format in which you want to save the plot, then where you want to save it on your drive.
+
+Check the estimates for the intercept and slope:
+
+```{r}
+fit
+```
+
+Compute fitted values:
+
+```{r, eval=FALSE}
+fit$fitted.values 
+```
+
+Compute residuals:
+
+```{r, eval = FALSE}
+fit$residuals
+```
+
+Compute the estimate of $\sigma^2$, that is, the MSE: 
+
+```{r}
+n <- dim(Data)[1]
+sum(fit$residuals^2)/(n-2)
+```
+
+## Formatting *\*.qmd* file:  
+ 
+Before Quarto, *\*.Rmd* files were commonly used to render HTML files with R code and formatted-text. This [Cheatsheet](https://rmarkdown.rstudio.com/lesson-15.html) is for formatting *\*.Rmd* files. However, you may use it to format *\*.qmd* files as well.
+	
+## Some references about using R:
+
+1) 100 page Introduction to R from the R website  			<http://www.ics.uci.edu/~jutts/st108/R-intro.pdf>
+
+2) Practical Regression and Anova using R, by Julian Faraway
+	<http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf>
+
+3) R code by Bryan Goodrich for Kutner et al., Applied Linear Statistical Models 5th ed: <https://rpubs.com/bryangoodrich>
+
+
+
