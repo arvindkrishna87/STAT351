@@ -2,10 +2,10 @@ project:
   type: book
 
 book:
-  title: "Introduction to programming for data science"
-  subtitle: "STAT 201"
+  title: "Regression analysis (R notes)"
+  subtitle: "STAT 350"
   author: "Arvind Krishna"
-  date: "9/20/2022"
+  date: "9/20/2023"
   
   sidebar:
     search: true
