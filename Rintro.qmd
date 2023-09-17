@@ -61,3 +61,80 @@ However, if it is a large file, you might not be able to view the whole table at
 ```{r}
 head(Data)
 ```
+
+Note that, in the absence of a header, the columns will be named `V1`, `V2`, etc., and the rows will be numbered.
+
+Now if the file does have a header *(which you may have added yourself)*, you need to change the above command to:
+
+```{r, eval=FALSE}
+Data <- read.table("CH01PR19.txt", header=TRUE)
+```
+
+In this case, when you view the file you will see the title for each column at the top of each column instead of `V1`, `V2`, etc.  R regards these titles as names for the columns, and not as data.
+
+If you want to load the data file from some other directory, you need to type the full path name in the `read.table()` command. For instance,
+
+```{r, eval=FALSE}
+Data <- read.table(file="C:/stat350/CH01PR19.txt", header=FALSE) 
+```
+
+You may read data manually as well. Here both `Return` and `New` are vectors. 
+```{r, eval=FALSE}
+Return <- c(74,66,81,52,73,62,52,45,62,46,60,46,38)
+New <-c(5,6,8,11,12,15,16,17,18,18,19,20,20)
+```
+
+### Renaming columns
+
+Now suppose the file Data has two columns, and the first column is the `GPA`, while the second column is `ACT score`. If you would like to rename the columns in your R data table so that each column has a descriptive title, you could give the R command:
+
+```{r}
+names(Data) <- c("GPA", "ACT")
+```
+
+Then when you view the file the titles of the columns will have the new names you assigned:  
+
+```{r}
+head(Data)
+```
+
+Note that you can also give the columns these titles in the data file before you load it into R, and then use the `header = TRUE` setting when loading.  Also,  to avoid errors, you should never include a space in the title of any column
+
+### Exporting data
+
+Suppose you wish to export `Data` to file `Intro.csv` in your folder. 
+
+```{r, eval=FALSE}
+write.table(Data, "C:/stat350/Intro.csv", col.names=TRUE, sep=",")
+```
+
+Suppose you wish to export `Data` to `Intro.txt` with a tab delimiter:
+
+```{r, eval=FALSE}
+write.table(Data, "C:/stat350/Intro.txt", col.names=TRUE, sep="\t")
+```
+
+You may export R objects to other file types in a similar manner.
+
+### R environment
+
+
+If you want to see which R objects are currently in your R environment, you can type:
+
+```{r, eval = FALSE}
+ls()
+```
+
+You may also see these objects at the top right corner of the R Studio interface.
+
+If you no longer need one or more of these objects, you can remove them.  For instance, if you are done with Data, you can type:
+
+```{r, eval = FALSE}
+rm(Data)
+```
+
+Then `Data` will no longer be in your current R environment.  When you quit R, if you wish to keep all the new objects in your current R environment, be sure to answer `Yes` when asked, `Save workspace image?`
+
+### Scatter plots and simple linear regression
+
+Suppose the data for Problem 19 of Chapter One has been stored in an R object named Data which has two columns, the first column named `GPA` and the second column named `ACT`. You want to make a scatterplot in R with `ACT` scores on the horizontal axis and `GPA` on the vertical axis.  The R command is:
