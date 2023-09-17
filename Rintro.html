@@ -4580,13 +4580,15 @@ vertical-align: -.125em;
   <ul>
   <li><a href="#installing-r" id="toc-installing-r" class="nav-link active" data-scroll-target="#installing-r"><span class="header-section-number">1.1</span> Installing R</a></li>
   <li><a href="#installing-rstudio" id="toc-installing-rstudio" class="nav-link" data-scroll-target="#installing-rstudio"><span class="header-section-number">1.2</span> Installing RStudio</a></li>
-  <li><a href="#getting-data-set-into-r" id="toc-getting-data-set-into-r" class="nav-link" data-scroll-target="#getting-data-set-into-r"><span class="header-section-number">1.3</span> Getting data set into R</a></li>
-  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory"><span class="header-section-number">1.4</span> Working directory</a></li>
-  <li><a href="#getting-started-with-code" id="toc-getting-started-with-code" class="nav-link" data-scroll-target="#getting-started-with-code"><span class="header-section-number">1.5</span> Getting started with code</a>
+  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory"><span class="header-section-number">1.3</span> Working directory</a></li>
+  <li><a href="#getting-started-with-code" id="toc-getting-started-with-code" class="nav-link" data-scroll-target="#getting-started-with-code"><span class="header-section-number">1.4</span> Getting started with code</a>
   <ul class="collapse">
-  <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data"><span class="header-section-number">1.5.1</span> Reading data</a></li>
-  <li><a href="#renaming-columns" id="toc-renaming-columns" class="nav-link" data-scroll-target="#renaming-columns"><span class="header-section-number">1.5.2</span> Renaming columns</a></li>
+  <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data"><span class="header-section-number">1.4.1</span> Reading data</a></li>
+  <li><a href="#renaming-columns" id="toc-renaming-columns" class="nav-link" data-scroll-target="#renaming-columns"><span class="header-section-number">1.4.2</span> Renaming columns</a></li>
+  <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data"><span class="header-section-number">1.4.3</span> Exporting data</a></li>
+  <li><a href="#r-environment" id="toc-r-environment" class="nav-link" data-scroll-target="#r-environment"><span class="header-section-number">1.4.4</span> R environment</a></li>
   </ul></li>
+  <li><a href="#scatter-plots-and-simple-linear-regression" id="toc-scatter-plots-and-simple-linear-regression" class="nav-link" data-scroll-target="#scatter-plots-and-simple-linear-regression"><span class="header-section-number">1.5</span> Scatter plots and simple linear regression</a></li>
   </ul>
 </nav>
     </div>
@@ -4633,22 +4635,19 @@ vertical-align: -.125em;
 <figcaption class="figure-caption">R Studio</figcaption>
 </figure>
 </div>
+<p>Usually you will want to import data from a file corresponding to data associated with a homework problem. Such a file will usually end with the extensions <em>*.txt</em> or <em>*.dat</em>. The data files for this course will always be available on the CD that comes with the text and/or on the course web page. A data file will consist of columns of numbers, with nothing separating the columns but “white space.” If each column has a title on top describing what the data in the column represents (e.g., <code>age</code>, <code>weight</code>, <code>income</code>, etc.), we will say that the file has a <em>header</em>.</p>
 </section>
-<section id="getting-data-set-into-r" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="getting-data-set-into-r"><span class="header-section-number">1.3</span> Getting data set into R</h2>
-<p>Usually you will want to import data from a file corresponding to data associated with a homework problem. Such a file will usually end with the extensions .txt or .dat. The data files for this course will always be available on the CD that comes with the text and/or on the course web page. A data file will consist of columns of numbers, with nothing separating the columns but “white space.” If each column has a title on top describing what the data in the column represents (e.g., “age,” “weight,” “income,” etc.), we will say that the file has a “header.”</p>
-</section>
-<section id="working-directory" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="working-directory"><span class="header-section-number">1.4</span> Working directory</h2>
+<section id="working-directory" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="working-directory"><span class="header-section-number">1.3</span> Working directory</h2>
 <p>The easiest way to import the data into R and have it readily available for the current and future sessions is to first save the data file into your working directory. For example mine is <code>C:\stat350</code>.</p>
 <p>To set up the working directory, select the project option by choosing <code>File</code> menu, then <code>New Project</code>, and then <code>Create Project from Existing Directory</code>.</p>
 <p>To start writing a new R script, navigate to the <code>New File</code> option in the <code>File</code> menu, and select <code>Quarto Document</code>. This will create a <em>*.qmd</em> file. You can write both code and formatted-text in this document. When working on assignment / exam problems, you will work on the <em>*.qmd</em> file, render it as HTML and then submit. You can view some examples on how to write R code and text in a <em>*.qmd</em> file and render it as HTML <a href="https://quarto.org/docs/computations/r.html">here</a>.</p>
 <p>For rough work, i.e., work that won’t be graded, you may use the <code>R script</code> option to write code.</p>
 </section>
-<section id="getting-started-with-code" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="getting-started-with-code"><span class="header-section-number">1.5</span> Getting started with code</h2>
-<section id="reading-data" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="reading-data"><span class="header-section-number">1.5.1</span> Reading data</h3>
+<section id="getting-started-with-code" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="getting-started-with-code"><span class="header-section-number">1.4</span> Getting started with code</h2>
+<section id="reading-data" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="reading-data"><span class="header-section-number">1.4.1</span> Reading data</h3>
 <p>Suppose you want to work with the data from Problem 19 of Chapter 1, which is in a file named <code>CH01PR19.txt</code> which you have saved from the CD or the course web page into your R working directory. Assume the file has no header. You will want to create a Table object in R containing this data. First choose an appropriate name for the table. Assume you choose to name it <code>Data</code>. Then, you can execute the following code :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"CH01PR19.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4671,17 +4670,50 @@ vertical-align: -.125em;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span><span class="st">"C:/stat350/CH01PR19.txt"</span>, <span class="at">header=</span><span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>You may read data manually as well. Here both <code>Return</code> and <code>New</code> are vectors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Return <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">74</span>,<span class="dv">66</span>,<span class="dv">81</span>,<span class="dv">52</span>,<span class="dv">73</span>,<span class="dv">62</span>,<span class="dv">52</span>,<span class="dv">45</span>,<span class="dv">62</span>,<span class="dv">46</span>,<span class="dv">60</span>,<span class="dv">46</span>,<span class="dv">38</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>New <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="renaming-columns" class="level3" data-number="1.5.2">
-<h3 data-number="1.5.2" class="anchored" data-anchor-id="renaming-columns"><span class="header-section-number">1.5.2</span> Renaming columns</h3>
+<section id="renaming-columns" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="renaming-columns"><span class="header-section-number">1.4.2</span> Renaming columns</h3>
 <p>Now suppose the file Data has two columns, and the first column is the <code>GPA</code>, while the second column is <code>ACT score</code>. If you would like to rename the columns in your R data table so that each column has a descriptive title, you could give the R command:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"GPA"</span>, <span class="st">"ACT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"GPA"</span>, <span class="st">"ACT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then when you view the file the titles of the columns will have the new names you assigned. Note that you can also give the columns these titles in the data file before you load it into R, and then use the <code>header=TRUE</code> setting when loading. Also, to avoid errors, you should never include a space in the title of any column</p>
-
-
 </section>
+<section id="exporting-data" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="exporting-data"><span class="header-section-number">1.4.3</span> Exporting data</h3>
+<p>Suppose you wish to export <code>Data</code> to file <code>Intro.csv</code> in your folder.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(Data, <span class="st">"C:/stat350/Intro.csv"</span>, <span class="at">col.names=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose you wish to export <code>Data</code> to <code>Intro.txt</code> with a tab delimiter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(Data, <span class="st">"C:/stat350/Intro.txt"</span>, <span class="at">col.names=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You may export R objects to other file types in a similar manner.</p>
+</section>
+<section id="r-environment" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="r-environment"><span class="header-section-number">1.4.4</span> R environment</h3>
+<p>If you want to see which R objects are currently in your R environment, you can type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You may also see these objects at the top right corner of the R Studio interface.</p>
+<p>If you no longer need one or more of these objects, you can remove them. For instance, if you are done with Data, you can type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then <code>Data</code> will no longer be in your current R environment. When you quit R, if you wish to keep all the new objects in your current R environment, be sure to answer <code>Yes</code> when asked, <code>Save workspace image?</code></p>
+</section>
+</section>
+<section id="scatter-plots-and-simple-linear-regression" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="scatter-plots-and-simple-linear-regression"><span class="header-section-number">1.5</span> Scatter plots and simple linear regression</h2>
+
+
 </section>
 
 </main> <!-- /main -->
