@@ -144,6 +144,6 @@ head(Data)
 ```
 
 
-```{r, eval = FALSE}
+```{r}
 plot(Data$ACT, Data$GPA)
 ```
