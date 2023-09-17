@@ -138,3 +138,7 @@ Then `Data` will no longer be in your current R environment.  When you quit R, i
 ### Scatter plots and simple linear regression
 
 Suppose the data for Problem 19 of Chapter One has been stored in an R object named Data which has two columns, the first column named `GPA` and the second column named `ACT`. You want to make a scatterplot in R with `ACT` scores on the horizontal axis and `GPA` on the vertical axis.  The R command is:
+
+```{r}
+plot(Data$ACT, Data$GPA)
+```
