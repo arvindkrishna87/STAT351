@@ -46,9 +46,9 @@ jobs:
         with:
           cache-version: 1
 
-      - name: Render r plot file
+      - name: Install packages
         run:
-          Rscript -e "source('extra/packages-plot.R')"
+          Rscript -e "install.packages('ggplot2')"
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
