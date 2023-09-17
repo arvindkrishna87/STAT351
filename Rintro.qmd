@@ -44,21 +44,21 @@ For rough work, i.e., work that won't be graded, you may use the `R script` opti
 
 ### Reading data
 
-Suppose you want to work with the data from Problem 19 of Chapter 1, which is in a file named `CH01PR19.txt` which you have saved from the CD or the course web page into your R working directory. Assume the file has no header.  You will want to create a Table object in R containing this data.  First choose an appropriate name for the table.  Assume you choose to name it `Data`.  Then, you can execute the following code :
+Suppose you want to work with the data from Problem 19 of Chapter 1, which is in a file named `CH01PR19.txt` which you have saved from the CD or the course web page in the `Datasets` folder within your R working directory. Assume the file has no header.  You will want to create a Table object in R containing this data.  First choose an appropriate name for the table.  Assume you choose to name it `Data`.  Then, you can execute the following code :
 
-```{r, eval=FALSE}
-Data <- read.table("CH01PR19.txt")
+```{r}
+Data <- read.table("./Datasets/CH01PR19.txt")
 ```
 
 Then there will be a Table object in R named `Data` containing the data in rows and columns.  To view it, you would type
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 Data
 ```
 
 However, if it is a large file, you might not be able to view the whole table at once.  In that case, you may use the `head()` function, which will display only the first 6 rows of `Data`:
 
-```{r, eval=FALSE}
+```{r}
 head(Data)
 ```
 
@@ -88,11 +88,18 @@ New <-c(5,6,8,11,12,15,16,17,18,18,19,20,20)
 
 Now suppose the file Data has two columns, and the first column is the `GPA`, while the second column is `ACT score`. If you would like to rename the columns in your R data table so that each column has a descriptive title, you could give the R command:
 
-```{r, eval=FALSE}
+```{r}
 names(Data) <- c("GPA", "ACT")
 ```
 
-Then when you view the file the titles of the columns will have the new names you assigned.  Note that you can also give the columns these titles in the data file before you load it into R, and then use the `header=TRUE` setting when loading.  Also,  to avoid errors, you should never include a space in the title of any column
+Then when you view the file the titles of the columns will have the new names you assigned:  
+
+```{r}
+head(Data)
+```
+
+
+Note that you can also give the columns these titles in the data file before you load it into R, and then use the `header = TRUE` setting when loading.  Also,  to avoid errors, you should never include a space in the title of any column
 
 ### Exporting data
 
@@ -106,7 +113,6 @@ Suppose you wish to export `Data` to `Intro.txt` with a tab delimiter:
 
 ```{r, eval=FALSE}
 write.table(Data, "C:/stat350/Intro.txt", col.names=TRUE, sep="\t")
-
 ```
 
 You may export R objects to other file types in a similar manner.
@@ -131,9 +137,83 @@ rm(Data)
 Then `Data` will no longer be in your current R environment.  When you quit R, if you wish to keep all the new objects in your current R environment, be sure to answer `Yes` when asked, `Save workspace image?`
 
 
-## Scatter plots and simple linear regression
+### Scatter plots and simple linear regression
 
+Suppose the data for Problem 19 of Chapter One has been stored in an R object named Data which has two columns, the first column named `GPA` and the second column named `ACT`. You want to make a scatterplot in R with `ACT` scores on the horizontal axis and `GPA` on the vertical axis.  The R command is:
 
+```{r}
+plot(Data$ACT, Data$GPA)
+```
 
+Note that the dollar sign is used to reference either column in the table named Data.  The first argument to the `plot()` function is the column corresponding to the variable associated with the horizontal axis, and the second argument is the column corresponding to the variable associated with the vertical axis.  Alternately, you could define two new vector variables, `X` and `Y`, to hold the data of the individual columns, and use these vectors as the arguments to the `plot()` function:
 
+```{r, eval = FALSE}
+X <- Data$ACT
+Y <- Data$GPA
+plot(X, Y)
+```
 
+For now we will stick with the former approach.  The resulting plot appears in the R Graphics Device within the R interface.  Click on it to view it, save it, print it, etc.  
+
+Note that whenever you make a new plot the old one will disappear (this can be changed; but not easily), so save it if you don’t want to lose it.  However, the current scatterplot is inadequate.  It has no title, the axis labels aren’t very informative, and the points are open circles rather than dark filled-in circles.  To fix this, we can add some additional settings to the `plot()` command:
+
+```{r}
+plot(Data$ACT, Data$GPA, main="Problem 1.19", xlab="ACT Test Score", ylab="Freshman GPA", pch=19)
+```
+
+Now we obtain a much nicer scatterplot.
+
+Whatever you put in quotes after `main =` will be the title for the plot.  Whatever you put in quotes after `xlab =` and `ylab =` will the the labels for the horizontal and vertical axes, respectively. The number after `pch =` is a code for the symbol to use for the points.  You can try other numbers from 1 to 25. You can also use any symbol on your keyboard for the points, including numerals and letters, using quotes.  For instance, if you want to use an asterisk for the points, type `pch="*"`.
+
+You may want to also add a plot of the estimated regression function to the scatterplot of the data.   This assumes you have already obtained the least squares estimates of the regression coefficients (see “Simple Linear Regression in R”).  
+
+```{r}
+fit <- lm(Data$GPA ~ Data$ACT)
+fit <- lm(GPA~ACT, data=Data)   # another option
+plot(Data$ACT, Data$GPA, main="Problem 1.19", xlab="ACT Test Score", ylab="Freshman GPA", pch=19)
+abline(fit, col = "red", lwd = 2) #lwd is for line-width
+```
+
+The line will appear superimposed over the data. You can also just type the actual values for the estimated intercept and slope if you prefer.
+
+You may also use [ggplot2](https://ggplot2-book.org/) to make plots if you wish to have more sophisticated formatting options.
+
+To save your plot, click anywhere on the plot, then on the menu bar choose `File`, then `Save as`.  Choose the format in which you want to save the plot, then where you want to save it on your drive.
+
+Check the estimates for the intercept and slope:
+
+```{r}
+fit
+```
+
+Compute fitted values:
+
+```{r, eval=FALSE}
+fit$fitted.values 
+```
+
+Compute residuals:
+
+```{r, eval = FALSE}
+fit$residuals
+```
+
+Compute the estimate of $\sigma^2$, that is, the MSE: 
+
+```{r}
+n <- dim(Data)[1]
+sum(fit$residuals^2)/(n-2)
+```
+
+## Formatting *\*.qmd* file:  
+ 
+Before Quarto, *\*.Rmd* files were commonly used to render HTML files with R code and formatted-text. This [Cheatsheet](https://rmarkdown.rstudio.com/lesson-15.html) is for formatting *\*.Rmd* files. However, you may use it to format *\*.qmd* files as well.
+	
+## Some references about using R:
+
+1) 100 page Introduction to R from the R website  			<http://www.ics.uci.edu/~jutts/st108/R-intro.pdf>
+
+2) Practical Regression and Anova using R, by Julian Faraway
+	<http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf>
+
+3) R code by Bryan Goodrich for Kutner et al., Applied Linear Statistical Models 5th ed: <https://rpubs.com/bryangoodrich>
