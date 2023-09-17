@@ -168,7 +168,7 @@ Whatever you put in quotes after `main =` will be the title for the plot.  Whate
 You may want to also add a plot of the estimated regression function to the scatterplot of the data.   This assumes you have already obtained the least squares estimates of the regression coefficients (see “Simple Linear Regression in R”).  
 
 
-```{r, echo=FALSE}
+```{r}
 fit <- lm(Data$GPA ~ Data$ACT)
 fit <- lm(GPA~ACT, data=Data)   # another option
 ```
@@ -185,7 +185,7 @@ The line will appear superimposed over the data. You can also just type the actu
 
 You may also use [ggplot2](https://ggplot2-book.org/) to make plots if you wish. `ggplot()` has a more intuitive syntax as it is based on the Grammar of Graphics, and also has more sophisticated formatting options.
 
-```{r, eval=FALSE}
+```{r}
 library(ggplot2)
 ggplot(Data, aes(x = ACT, y = GPA))+
   geom_point()+
