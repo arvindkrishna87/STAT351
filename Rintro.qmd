@@ -4,6 +4,7 @@ format:
     html:
       toc: true
       self-contained: true
+      default-image-extension: png
 editor_options: 
   chunk_output_type: console
 ---
