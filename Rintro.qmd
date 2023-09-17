@@ -146,6 +146,6 @@ ggplot(Data, aes(x = ACT, y = GPA))+
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 plot(Data$ACT, Data$GPA)
 ```
