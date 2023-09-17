@@ -46,6 +46,10 @@ jobs:
         with:
           cache-version: 1
 
+      - name: Render r plot file
+        run:
+          Rscript -e "source('extra/packages-plot.R')"
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
