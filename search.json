@@ -49,11 +49,18 @@
     "text": "1.6 Some references about using R:\n\n100 page Introduction to R from the R website http://www.ics.uci.edu/~jutts/st108/R-intro.pdf\nPractical Regression and Anova using R, by Julian Faraway http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf\nR code by Bryan Goodrich for Kutner et al., Applied Linear Statistical Models 5th ed: https://rpubs.com/bryangoodrich"
   },
   {
+    "objectID": "t_test_example.html#question",
+    "href": "t_test_example.html#question",
+    "title": "2  Hypothesis testing example",
+    "section": "2.1 Question",
+    "text": "2.1 Question\nCola manufacturers want to test how much the sweetness of a new cola drink is affected by storage. The sweetness loss due to storage was evaluated by 10 professional tasters (by comparing the sweetness before and after storage):\nTaster          Sweetness loss\n\n 1         2.0\n 2         0.4\n 3         0.7  \n 4         2.0  \n 5       −0.4   \n 6         2.2  \n 7       −1.3   \n 8         1.2  \n 9         1.1\n10         2.3\nObviously, we want to test if storage results in a loss of sweetness\nLet \\(\\mu\\) denote the sweetness loss, thus:\nNull hypotheis: H_0: = 0\nAlternate hypotheis: \\(H_a: \\mu &gt; 0\\)"
+  },
+  {
     "objectID": "t_test_example.html#solution",
     "href": "t_test_example.html#solution",
-    "title": "2  Question",
-    "section": "2.1 Solution",
-    "text": "2.1 Solution\nSample mean (\\(\\bar{x}\\)):\n\ndata &lt;- c(2, 0.4, 0.7, 2, -0.4, 2.2, -1.3, 1.2, 1.1, 2.3)\n\nxbar &lt;- mean(data)\nxbar\n\n[1] 1.02\n\n\nT-statistic:\n\nt = xbar/(sd(data)/sqrt(10))\nt\n\n[1] 2.696689\n\n\np-value:\n\n1-pt(t, df = 9)\n\n[1] 0.01226316\n\n\nIf the probability of Type I error considered is 5%, then we reject the null hypothesis, and conclude that the sweetness loss is indeed greater than 0.\nIf the probability of Type I error considered is 1%, then we fail to reject the null hypothesis, and conclude that the sweetness loss is indeed 0."
+    "title": "2  Hypothesis testing example",
+    "section": "2.2 Solution",
+    "text": "2.2 Solution\nSample mean (\\(\\bar{x}\\)):\n\ndata &lt;- c(2, 0.4, 0.7, 2, -0.4, 2.2, -1.3, 1.2, 1.1, 2.3)\n\nxbar &lt;- mean(data)\nxbar\n\n[1] 1.02\n\n\nT-statistic:\n\nt = xbar/(sd(data)/sqrt(10))\nt\n\n[1] 2.696689\n\n\np-value:\n\n1-pt(t, df = 9)\n\n[1] 0.01226316\n\n\nIf the probability of Type I error considered is 5%, then we reject the null hypothesis, and conclude that the sweetness loss is indeed greater than 0.\nIf the probability of Type I error considered is 1%, then we fail to reject the null hypothesis, and conclude that the sweetness loss is indeed 0."
   },
   {
     "objectID": "Assignment A.html#instructions",
