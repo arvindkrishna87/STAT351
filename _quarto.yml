@@ -15,6 +15,9 @@ book:
   chapters:
     - index.qmd
     - Rintro.qmd
+  appendices: 
+    - Assignment A.qmd
+    - Datasets.ipynb
 
 bibliography: references.bib
 

@@ -1,0 +1,42 @@
+---
+title: "Assignment A"
+format: html
+editor: visual
+---
+
+## Q1
+
+When asked to state the simple linear regression model, a students wrote it as follows: $E(Y_i) = \beta_0 + \beta_1X_1 + \epsilon_i$. Is this correct? Justify your answer.
+
+Multiple choice: 1.11, 1.18, 1.40
+
+To obtain a point estimate of the regression coefficients, the error term must be assumed to be normally distributed
+
+Short answer 1.5, 1.7, 1.37
+
+application 1.19, 1.43c
+
+Proofs: MLEs of regression coefficients
+
+Properties of fitted regression lines
+
+Derive the Least squares estimator of no-intercept model, and check if it is biased. Assume X to be constant. (1.41)
+
+```{r}
+x = c(1,2,3)
+set.seed(1)
+y = 3*x + rnorm(3)
+data = data.frame(x = x, y = y)
+model = lm(y~x, data = data)
+model$coefficients
+ypred = predict(model,newdata = list(x=1.4))
+data2 = rbind(data, c(1.4, ypred))
+model2 = lm(y~x, data = data)
+model2$coefficients
+library(ggplot2)
+ggplot(data = data, aes(x = x, y = y))+
+  geom_point()+
+  geom_smooth(method = "lm", color = "blue", se = FALSE)+
+  geom_point(data = data2)+
+  geom_smooth(data = data2, method = "lm", color = "red", se = FALSE)
+```
