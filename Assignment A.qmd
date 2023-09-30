@@ -1,13 +1,29 @@
 ---
 title: "Assignment A"
-format: html
-editor: visual
+subtitle: "Simple linear regression"
+format:
+  html:
+    toc: true
+self-contained: true
+link-external-newwindow: true
+editor_options: 
+  chunk_output_type: console
 ---
 
+## Instructions {-}
 
-## Q1
+1. You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity. 
 
-The first step in using the capital asset pricing model (CAPM) is to estimate the stock’s beta $(\beta)$ using the market model. The market model can be written as:
+2. Make R code chunks to insert code and type your answer outside the code chunks. Ensure that the solution is written neatly enough to understand and grade.
+
+3. Render the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.
+
+4. The assignment is worth 100 points, and is due on **7th October 2023 at 11:59 pm**. 
+
+
+## Hypothesis testing
+
+The first step in using the capital asset pricing model (CAPM) is to estimate the stock's beta $(\beta)$ using the market model. The market model can be written as:
 
 $R_{it} = \alpha_i + \beta_iR_{mt} + \epsilon_{it},$
 
@@ -17,11 +33,11 @@ Suppose that you had estimated $\beta$ for a stock as $\hat{\beta}=1.147$. The s
 
 Does your conclusion change if you consider the Type 1 error $(\alpha)$ as $0.1\%$?
 
-## Q2
+## 
 
 When asked to state the simple linear regression model, a students wrote it as follows: $E(Y_i) = \beta_0 + \beta_1X_1 + \epsilon_i$. Is this correct? Justify your answer.
 
-## Q3
+## 
 
 Consider the simple linear regression model below:
 
@@ -31,9 +47,9 @@ where:
 
 $\beta_0 = 100, \beta_1 = 20,$ and $\sigma^2 =5$. The following assumptions are made for the model:
 
-A. $E(\epsilon_i) = 0,$ 
+A. $E(\epsilon_i) = 0,$
 
-B. $Var(\epsilon_i) = \sigma^2,$ 
+B. $Var(\epsilon_i) = \sigma^2,$
 
 C. $Cov(\epsilon_i, \epsilon_j)=0 \ \forall i, j; i\ne j$
 
@@ -41,14 +57,13 @@ An observation $Y$ is made for $X=5$
 
 Can you state the exact probability that $Y$ will fall between 195 and 205? If yes, then compute the probability. If not, then state any reasonable assumption(s) you need to make to compute the probability, and then compute the probability.
 
-## Q4
+## 
 
 The Toluca Company manufactures refrigeration equipment in lots of varying sizes. The dataset `toluca.txt` consists of of two columns - `LotSize` and `WorkHours` required to produce the lot.
 
-When asked for a point estimate of the expected work hours for lot sizes of 30 pieces, a person gave the estimate 202 because that is the mean number of `WorkHours` for the three observations of `LotSize = 30`  pieces in the dataset. Is there an issue with this approach? Explain. If there is an issue, then suggest a better approach and use it to estimate the expected work hours for lot sizes of 30 pieces.
+When asked for a point estimate of the expected work hours for lot sizes of 30 pieces, a person gave the estimate 202 because that is the mean number of `WorkHours` for the three observations of `LotSize = 30` pieces in the dataset. Is there an issue with this approach? Explain. If there is an issue, then suggest a better approach and use it to estimate the expected work hours for lot sizes of 30 pieces.
 
-
-## Q5
+## 
 
 Consider the simple linear regression model below:
 
@@ -58,57 +73,53 @@ Interpret the coefficient $\beta_1$, where you mention the approximate expected 
 
 Use the approximation: $\log(1+x) = x$ if $x<<1$
 
-## Q6
+## 
 
 The dataset `ACT_GPA` consists of the GPA at the end of freshmen year ($Y$) that can be predicted from the ACT score ($X$) of students of a college.
 
-### Q6(a)
+### 
 
 Obtain the least square estimates of the regression coefficients, and error standard deviation, and state the estimated regression function.
 
-### Q6(b)
+### 
 
 Obtain the maximum likelihood estimate of the error standard deviation. Is it the same as that obtained in the previous question? Why or why not? If it isn't same, which estimate will you prefer - the MLE or the one obtained in the previous question?
 
-### Q6(c)
+### 
 
 Interpret the estimates of the regression coefficients and the error standard deviation as obtained in 6(a). What is the increase in expected `GPA` for an increase of 2 points in the `ACT` score?
 
-### Q6(d)
+### 
 
 Does `ACT` have a statistically significant relationship with the `GPA`?
 
-### Q6(e)
+### 
 
 Plot the estimated regression function and the data. Does the estimated regression function appear to fit the data well?
 
-## Q6(f)
+### 
 
 Include the 95% confidence and prediction intervals in the above plot.
 
-
-### Q6(g)
+### 
 
 Obtain a point estimate, and the 95% confidence and prediction intervals of the freshman GPA for students with an ACT score of $30$.
 
-
-### Q6(h)
+### 
 
 The intercept of the model developed in Q4(a) is the expected GPA when the ACT score is zero. However, the ACT score can never be zero as the minimum possible ACT score is 1 *([ref](https://nces.ed.gov/fastfacts/display.asp?id=897#:~:text=In%202021%2C%20some%2035%20percent,and%20maximum%20score%20is%2036.))*. So, should the intercept be removed from the model? Why or why not?
 
-
-## Q7
+## 
 
 Consider the regression model in Q3, where the parameters are estimated using Maximum likelihood estimation. Let $e_i$ denote the $i^{th}$ residual. Prove that:
 
-A) $\sum_{i = 1}^n \hat{Y}_ie_i = 0$
+A)  $\sum_{i = 1}^n \hat{Y}_ie_i = 0$
 
-B) $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$
+B)  $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$
 
-C) The regression line passes through the point ($\bar{X}, \bar{Y}$)
+C)  The regression line passes through the point ($\bar{X}, \bar{Y}$)
 
-
-## Q8
+## 
 
 Consider the regression model:
 
