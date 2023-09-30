@@ -1,3 +1,5 @@
+# Hypothesis testing example
+
 ## Question
 
 Cola manufacturers want to test how much the sweetness of a new cola drink is affected by storage. The sweetness loss due to storage was evaluated by 10 professional tasters (by comparing the sweetness before and after storage):
