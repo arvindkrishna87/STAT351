@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Regression analysis (R notes) - Appendix B — Assignment templates and Datasets</title>
+<title>Regression analysis (R notes) - Appendix A — Assignment A</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Assignment A.html" rel="prev">
+<link href="./Datasets.html" rel="next">
+<link href="./Rintro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -61,6 +62,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -73,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Assignment A.html">Appendices</a></li><li class="breadcrumb-item"><a href="./Datasets.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Assignment templates and Datasets</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Assignment A.html">Appendices</a></li><li class="breadcrumb-item"><a href="./Assignment A.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -124,13 +127,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Assignment A.html" class="sidebar-item-text sidebar-link">
+  <a href="./Assignment A.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Datasets.html" class="sidebar-item-text sidebar-link active">
+  <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Assignment templates and Datasets</span></span></a>
   </div>
 </li>
@@ -142,14 +145,39 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#q1" id="toc-q1" class="nav-link active" data-scroll-target="#q1"><span class="header-section-number">A.1</span> Q1</a></li>
+  <li><a href="#q2" id="toc-q2" class="nav-link" data-scroll-target="#q2"><span class="header-section-number">A.2</span> Q2</a></li>
+  <li><a href="#q3" id="toc-q3" class="nav-link" data-scroll-target="#q3"><span class="header-section-number">A.3</span> Q3</a></li>
+  <li><a href="#q4" id="toc-q4" class="nav-link" data-scroll-target="#q4"><span class="header-section-number">A.4</span> Q4</a></li>
+  <li><a href="#q5" id="toc-q5" class="nav-link" data-scroll-target="#q5"><span class="header-section-number">A.5</span> Q5</a></li>
+  <li><a href="#q6" id="toc-q6" class="nav-link" data-scroll-target="#q6"><span class="header-section-number">A.6</span> Q6</a>
+  <ul class="collapse">
+  <li><a href="#q6a" id="toc-q6a" class="nav-link" data-scroll-target="#q6a"><span class="header-section-number">A.6.1</span> Q6(a)</a></li>
+  <li><a href="#q6b" id="toc-q6b" class="nav-link" data-scroll-target="#q6b"><span class="header-section-number">A.6.2</span> Q6(b)</a></li>
+  <li><a href="#q6c" id="toc-q6c" class="nav-link" data-scroll-target="#q6c"><span class="header-section-number">A.6.3</span> Q6(c)</a></li>
+  <li><a href="#q6d" id="toc-q6d" class="nav-link" data-scroll-target="#q6d"><span class="header-section-number">A.6.4</span> Q6(d)</a></li>
+  <li><a href="#q6e" id="toc-q6e" class="nav-link" data-scroll-target="#q6e"><span class="header-section-number">A.6.5</span> Q6(e)</a></li>
+  </ul></li>
+  <li><a href="#q6f" id="toc-q6f" class="nav-link" data-scroll-target="#q6f"><span class="header-section-number">A.7</span> Q6(f)</a>
+  <ul class="collapse">
+  <li><a href="#q6g" id="toc-q6g" class="nav-link" data-scroll-target="#q6g"><span class="header-section-number">A.7.1</span> Q6(g)</a></li>
+  <li><a href="#q6h" id="toc-q6h" class="nav-link" data-scroll-target="#q6h"><span class="header-section-number">A.7.2</span> Q6(h)</a></li>
+  </ul></li>
+  <li><a href="#q7" id="toc-q7" class="nav-link" data-scroll-target="#q7"><span class="header-section-number">A.8</span> Q7</a></li>
+  <li><a href="#q8" id="toc-q8" class="nav-link" data-scroll-target="#q8"><span class="header-section-number">A.9</span> Q8</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Appendix B — Assignment templates and Datasets</h1>
+<h1 class="title">Appendix A — Assignment A</h1>
 </div>
 
 
@@ -164,9 +192,95 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Assignment templates and datasets used in the book can be found <a href="https://nuwildcat-my.sharepoint.com/:f:/g/personal/akl0407_ads_northwestern_edu/EkQnSWXXMm5Ak8qCCWx2fVgBz3s-ksJ7xNgbzn-mmf0IFw?e=pebtNE">here</a></p>
+<section id="q1" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="q1"><span class="header-section-number">A.1</span> Q1</h2>
+<p>The first step in using the capital asset pricing model (CAPM) is to estimate the stock’s beta <span class="math inline">\((\beta)\)</span> using the market model. The market model can be written as:</p>
+<p><span class="math inline">\(R_{it} = \alpha_i + \beta_iR_{mt} + \epsilon_{it},\)</span></p>
+<p>where <span class="math inline">\(R_{it}\)</span> is the excess return for security <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span>, <span class="math inline">\(R_{mt}\)</span> is the excess return on a proxy for the market portfolio at time <span class="math inline">\(t\)</span>, and <span class="math inline">\(\epsilon_t\)</span> is an iid random disturbance term. The coefficient beta in this case is the CAPM beta for security <span class="math inline">\(i\)</span>.</p>
+<p>Suppose that you had estimated <span class="math inline">\(\beta\)</span> for a stock as <span class="math inline">\(\hat{\beta}=1.147\)</span>. The standard error associated with this coefficient <span class="math inline">\(SE(\hat{\beta})\)</span> is estimated to be 0.0548. A city analyst has told you that this security closely follows the market, but that it is no more risky, on average, than the market. This can be tested by the null hypotheses that the value of beta <span class="math inline">\((\beta)\)</span> is one. The model is estimated over 62 daily observations. Test this hypothesis against a one-sided alternative that the security is more risky than the market <span class="math inline">\((\beta&gt;1)\)</span>. Consider Type 1 error <span class="math inline">\((\alpha)\)</span> as <span class="math inline">\(1\%\)</span>. Write down the null and alternative hypothesis. What do you conclude?</p>
+<p>Does your conclusion change if you consider the Type 1 error <span class="math inline">\((\alpha)\)</span> as <span class="math inline">\(0.1\%\)</span>?</p>
+</section>
+<section id="q2" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="q2"><span class="header-section-number">A.2</span> Q2</h2>
+<p>When asked to state the simple linear regression model, a students wrote it as follows: <span class="math inline">\(E(Y_i) = \beta_0 + \beta_1X_1 + \epsilon_i\)</span>. Is this correct? Justify your answer.</p>
+</section>
+<section id="q3" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="q3"><span class="header-section-number">A.3</span> Q3</h2>
+<p>Consider the simple linear regression model below:</p>
+<p><span class="math inline">\(Y_i = \beta_0 + \beta_1X_1 + \epsilon_i, i = 1,...,n\)</span></p>
+<p>where:</p>
+<p><span class="math inline">\(\beta_0 = 100, \beta_1 = 20,\)</span> and <span class="math inline">\(\sigma^2 =5\)</span>. The following assumptions are made for the model:</p>
+<p>A. <span class="math inline">\(E(\epsilon_i) = 0,\)</span></p>
+<p>B. <span class="math inline">\(Var(\epsilon_i) = \sigma^2,\)</span></p>
+<p>C. <span class="math inline">\(Cov(\epsilon_i, \epsilon_j)=0 \ \forall i, j; i\ne j\)</span></p>
+<p>An observation <span class="math inline">\(Y\)</span> is made for <span class="math inline">\(X=5\)</span></p>
+<p>Can you state the exact probability that <span class="math inline">\(Y\)</span> will fall between 195 and 205? If yes, then compute the probability. If not, then state any reasonable assumption(s) you need to make to compute the probability, and then compute the probability.</p>
+</section>
+<section id="q4" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="q4"><span class="header-section-number">A.4</span> Q4</h2>
+<p>The Toluca Company manufactures refrigeration equipment in lots of varying sizes. The dataset <code>toluca.txt</code> consists of of two columns - <code>LotSize</code> and <code>WorkHours</code> required to produce the lot.</p>
+<p>When asked for a point estimate of the expected work hours for lot sizes of 30 pieces, a person gave the estimate 202 because that is the mean number of <code>WorkHours</code> for the three observations of <code>LotSize = 30</code> pieces in the dataset. Is there an issue with this approach? Explain. If there is an issue, then suggest a better approach and use it to estimate the expected work hours for lot sizes of 30 pieces.</p>
+</section>
+<section id="q5" class="level2" data-number="A.5">
+<h2 data-number="A.5" class="anchored" data-anchor-id="q5"><span class="header-section-number">A.5</span> Q5</h2>
+<p>Consider the simple linear regression model below:</p>
+<p><span class="math inline">\(\log(Y)=\beta_0+\beta_1\log(X)+\epsilon\)</span></p>
+<p>Interpret the coefficient <span class="math inline">\(\beta_1\)</span>, where you mention the approximate expected percentage increase in <span class="math inline">\(Y\)</span> given an increase of <span class="math inline">\(1\%\)</span> in <span class="math inline">\(X\)</span>.</p>
+<p>Use the approximation: <span class="math inline">\(\log(1+x) = x\)</span> if <span class="math inline">\(x&lt;&lt;1\)</span></p>
+</section>
+<section id="q6" class="level2" data-number="A.6">
+<h2 data-number="A.6" class="anchored" data-anchor-id="q6"><span class="header-section-number">A.6</span> Q6</h2>
+<p>The dataset <code>ACT_GPA</code> consists of the GPA at the end of freshmen year (<span class="math inline">\(Y\)</span>) that can be predicted from the ACT score (<span class="math inline">\(X\)</span>) of students of a college.</p>
+<section id="q6a" class="level3" data-number="A.6.1">
+<h3 data-number="A.6.1" class="anchored" data-anchor-id="q6a"><span class="header-section-number">A.6.1</span> Q6(a)</h3>
+<p>Obtain the least square estimates of the regression coefficients, and error standard deviation, and state the estimated regression function.</p>
+</section>
+<section id="q6b" class="level3" data-number="A.6.2">
+<h3 data-number="A.6.2" class="anchored" data-anchor-id="q6b"><span class="header-section-number">A.6.2</span> Q6(b)</h3>
+<p>Obtain the maximum likelihood estimate of the error standard deviation. Is it the same as that obtained in the previous question? Why or why not? If it isn’t same, which estimate will you prefer - the MLE or the one obtained in the previous question?</p>
+</section>
+<section id="q6c" class="level3" data-number="A.6.3">
+<h3 data-number="A.6.3" class="anchored" data-anchor-id="q6c"><span class="header-section-number">A.6.3</span> Q6(c)</h3>
+<p>Interpret the estimates of the regression coefficients and the error standard deviation as obtained in 6(a). What is the increase in expected <code>GPA</code> for an increase of 2 points in the <code>ACT</code> score?</p>
+</section>
+<section id="q6d" class="level3" data-number="A.6.4">
+<h3 data-number="A.6.4" class="anchored" data-anchor-id="q6d"><span class="header-section-number">A.6.4</span> Q6(d)</h3>
+<p>Does <code>ACT</code> have a statistically significant relationship with the <code>GPA</code>?</p>
+</section>
+<section id="q6e" class="level3" data-number="A.6.5">
+<h3 data-number="A.6.5" class="anchored" data-anchor-id="q6e"><span class="header-section-number">A.6.5</span> Q6(e)</h3>
+<p>Plot the estimated regression function and the data. Does the estimated regression function appear to fit the data well?</p>
+</section>
+</section>
+<section id="q6f" class="level2" data-number="A.7">
+<h2 data-number="A.7" class="anchored" data-anchor-id="q6f"><span class="header-section-number">A.7</span> Q6(f)</h2>
+<p>Include the 95% confidence and prediction intervals in the above plot.</p>
+<section id="q6g" class="level3" data-number="A.7.1">
+<h3 data-number="A.7.1" class="anchored" data-anchor-id="q6g"><span class="header-section-number">A.7.1</span> Q6(g)</h3>
+<p>Obtain a point estimate, and the 95% confidence and prediction intervals of the freshman GPA for students with an ACT score of <span class="math inline">\(30\)</span>.</p>
+</section>
+<section id="q6h" class="level3" data-number="A.7.2">
+<h3 data-number="A.7.2" class="anchored" data-anchor-id="q6h"><span class="header-section-number">A.7.2</span> Q6(h)</h3>
+<p>The intercept of the model developed in Q4(a) is the expected GPA when the ACT score is zero. However, the ACT score can never be zero as the minimum possible ACT score is 1 <em>(<a href="https://nces.ed.gov/fastfacts/display.asp?id=897#:~:text=In%202021%2C%20some%2035%20percent,and%20maximum%20score%20is%2036.">ref</a>)</em>. So, should the intercept be removed from the model? Why or why not?</p>
+</section>
+</section>
+<section id="q7" class="level2" data-number="A.8">
+<h2 data-number="A.8" class="anchored" data-anchor-id="q7"><span class="header-section-number">A.8</span> Q7</h2>
+<p>Consider the regression model in Q3, where the parameters are estimated using Maximum likelihood estimation. Let <span class="math inline">\(e_i\)</span> denote the <span class="math inline">\(i^{th}\)</span> residual. Prove that:</p>
+<ol type="A">
+<li><p><span class="math inline">\(\sum_{i = 1}^n \hat{Y}_ie_i = 0\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i\)</span></p></li>
+<li><p>The regression line passes through the point (<span class="math inline">\(\bar{X}, \bar{Y}\)</span>)</p></li>
+</ol>
+</section>
+<section id="q8" class="level2" data-number="A.9">
+<h2 data-number="A.9" class="anchored" data-anchor-id="q8"><span class="header-section-number">A.9</span> Q8</h2>
+<p>Consider the regression model:</p>
+<p><span class="math inline">\(Y_i = \beta_1X_i + \epsilon_i, i = 1,...,n\)</span>, where <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span></p>
+<p>Find the maximum likelihood estimate of <span class="math inline">\(\beta_1\)</span>, and show whether it is a biased or unbiased estimate of <span class="math inline">\(\beta_1\)</span>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -404,11 +518,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Assignment A.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></span>
+      <a href="./Rintro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R: Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./Datasets.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Assignment templates and Datasets</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
