@@ -20,8 +20,13 @@ editor_options:
 
 4. The assignment is worth 100 points, and is due on **7th October 2023 at 11:59 pm**. 
 
+5. **Five points are properly formatting the assignment**. The breakdown is as follows:
+- Must be an HTML file rendered using Quarto (the theory part may be scanned and submitted separately) (2 pts).
+- There aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 pt)
+- Final answers of each question are written clearly (1 pt).
+- There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)
 
-## Hypothesis testing
+## 
 
 The first step in using the capital asset pricing model (CAPM) is to estimate the stock's beta $(\beta)$ using the market model. The market model can be written as:
 
@@ -33,9 +38,13 @@ Suppose that you had estimated $\beta$ for a stock as $\hat{\beta}=1.147$. The s
 
 Does your conclusion change if you consider the Type 1 error $(\alpha)$ as $0.1\%$?
 
+*(4 + 1 = 5 points)*
+
 ## 
 
 When asked to state the simple linear regression model, a students wrote it as follows: $E(Y_i) = \beta_0 + \beta_1X_1 + \epsilon_i$. Is this correct? Justify your answer.
+
+*(2 points)*
 
 ## 
 
@@ -57,11 +66,15 @@ An observation $Y$ is made for $X=5$
 
 Can you state the exact probability that $Y$ will fall between 195 and 205? If yes, then compute the probability. If not, then state any reasonable assumption(s) you need to make to compute the probability, and then compute the probability.
 
+*(1 + 1 + 4 = 6 points)*
+
 ## 
 
 The Toluca Company manufactures refrigeration equipment in lots of varying sizes. The dataset `toluca.txt` consists of of two columns - `LotSize` and `WorkHours` required to produce the lot.
 
 When asked for a point estimate of the expected work hours for lot sizes of 30 pieces, a person gave the estimate 202 because that is the mean number of `WorkHours` for the three observations of `LotSize = 30` pieces in the dataset. Is there an issue with this approach? Explain. If there is an issue, then suggest a better approach and use it to estimate the expected work hours for lot sizes of 30 pieces.
+
+*(2 + 2 + 4 = 8 points)*
 
 ## 
 
@@ -73,6 +86,8 @@ Interpret the coefficient $\beta_1$, where you mention the approximate expected 
 
 Use the approximation: $\log(1+x) = x$ if $x<<1$
 
+*(5 points)*
+
 ## 
 
 The dataset `ACT_GPA` consists of the GPA at the end of freshmen year ($Y$) that can be predicted from the ACT score ($X$) of students of a college.
@@ -81,37 +96,53 @@ The dataset `ACT_GPA` consists of the GPA at the end of freshmen year ($Y$) that
 
 Obtain the least square estimates of the regression coefficients, and error standard deviation, and state the estimated regression function.
 
-### 
-
-Obtain the maximum likelihood estimate of the error standard deviation. Is it the same as that obtained in the previous question? Why or why not? If it isn't same, which estimate will you prefer - the MLE or the one obtained in the previous question?
+*(5 points)*
 
 ### 
 
-Interpret the estimates of the regression coefficients and the error standard deviation as obtained in 6(a). What is the increase in expected `GPA` for an increase of 2 points in the `ACT` score?
+Obtain the maximum likelihood estimate of the error standard deviation. Is it the same as that obtained in the previous question? Why or why not? If it isn't same, which estimate will you prefer - the MLE or the one obtained in the previous question and why?
+
+*(2 + 2 + 4 = 8 points)*
 
 ### 
 
-Does `ACT` have a statistically significant relationship with the `GPA`?
+Interpret the estimates of the regression coefficients and the error standard deviation as obtained in [A.6.1](https://nustat.github.io/STAT350-class-notes/Assignment%20A.html#section-5). What is the increase in expected `GPA` for an increase of 2 points in the `ACT` score?
+
+*(6 + 2 = 8 points)*
+
+### 
+
+Does `ACT` have a statistically significant relationship with the `GPA`? Justify your answer.
+
+*(1 + 2 = 3 points)*
 
 ### 
 
 Plot the estimated regression function and the data. Does the estimated regression function appear to fit the data well?
 
+*(3 + 1 = 4 points)*
+
 ### 
 
 Include the 95% confidence and prediction intervals in the above plot.
+
+*(6 points)*
 
 ### 
 
 Obtain a point estimate, and the 95% confidence and prediction intervals of the freshman GPA for students with an ACT score of $30$.
 
+*(1 + 2 + 2 = 5 points)*
+
 ### 
 
 The intercept of the model developed in Q4(a) is the expected GPA when the ACT score is zero. However, the ACT score can never be zero as the minimum possible ACT score is 1 *([ref](https://nces.ed.gov/fastfacts/display.asp?id=897#:~:text=In%202021%2C%20some%2035%20percent,and%20maximum%20score%20is%2036.))*. So, should the intercept be removed from the model? Why or why not?
 
+*(2 + 4 = 6 points)*
+
 ## 
 
-Consider the regression model in Q3, where the parameters are estimated using Maximum likelihood estimation. Let $e_i$ denote the $i^{th}$ residual. Prove that:
+Consider the regression model in [A.3](https://nustat.github.io/STAT350-class-notes/Assignment%20A.html#section-1), where the parameters are estimated using Maximum likelihood estimation. Let $e_i$ denote the $i^{th}$ residual. Prove that:
 
 A)  $\sum_{i = 1}^n \hat{Y}_ie_i = 0$
 
@@ -119,10 +150,24 @@ B)  $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$
 
 C)  The regression line passes through the point ($\bar{X}, \bar{Y}$)
 
+*(3 + 3 + 3 = 9 points)*
+
+## 
+
+Consider the regression model:
+
+$Y_i = \beta_0 + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2)$
+
+Derive the maximum likelihood estimate of $\beta_0$, and show whether it is a biased or unbiased estimate of $\beta_0$.
+
+*(3 + 3 = 6 points)*
+
 ## 
 
 Consider the regression model:
 
 $Y_i = \beta_1X_i + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2)$
 
-Find the maximum likelihood estimate of $\beta_1$, and show whether it is a biased or unbiased estimate of $\beta_1$.
+Derive the maximum likelihood estimate of $\beta_1$, and show whether it is a biased or unbiased estimate of $\beta_1$.
+
+*(4 + 5 = 9 points)*
