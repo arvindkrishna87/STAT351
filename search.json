@@ -53,63 +53,70 @@
     "href": "Assignment A.html#instructions",
     "title": "Appendix A — Assignment A",
     "section": "Instructions",
-    "text": "Instructions\n\nYou may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nMake R code chunks to insert code and type your answer outside the code chunks. Ensure that the solution is written neatly enough to understand and grade.\nRender the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.\nThe assignment is worth 100 points, and is due on 7th October 2023 at 11:59 pm."
-  },
-  {
-    "objectID": "Assignment A.html#hypothesis-testing",
-    "href": "Assignment A.html#hypothesis-testing",
-    "title": "Appendix A — Assignment A",
-    "section": "A.1 Hypothesis testing",
-    "text": "A.1 Hypothesis testing\nThe first step in using the capital asset pricing model (CAPM) is to estimate the stock’s beta \\((\\beta)\\) using the market model. The market model can be written as:\n\\(R_{it} = \\alpha_i + \\beta_iR_{mt} + \\epsilon_{it},\\)\nwhere \\(R_{it}\\) is the excess return for security \\(i\\) at time \\(t\\), \\(R_{mt}\\) is the excess return on a proxy for the market portfolio at time \\(t\\), and \\(\\epsilon_t\\) is an iid random disturbance term. The coefficient beta in this case is the CAPM beta for security \\(i\\).\nSuppose that you had estimated \\(\\beta\\) for a stock as \\(\\hat{\\beta}=1.147\\). The standard error associated with this coefficient \\(SE(\\hat{\\beta})\\) is estimated to be 0.0548. A city analyst has told you that this security closely follows the market, but that it is no more risky, on average, than the market. This can be tested by the null hypotheses that the value of beta \\((\\beta)\\) is one. The model is estimated over 62 daily observations. Test this hypothesis against a one-sided alternative that the security is more risky than the market \\((\\beta&gt;1)\\). Consider Type 1 error \\((\\alpha)\\) as \\(1\\%\\). Write down the null and alternative hypothesis. What do you conclude?\nDoes your conclusion change if you consider the Type 1 error \\((\\alpha)\\) as \\(0.1\\%\\)?"
+    "text": "Instructions\n\nYou may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nMake R code chunks to insert code and type your answer outside the code chunks. Ensure that the solution is written neatly enough to understand and grade.\nRender the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.\nThe assignment is worth 100 points, and is due on 7th October 2023 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\n\nMust be an HTML file rendered using Quarto (the theory part may be scanned and submitted separately) (2 pts).\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 pt)\nFinal answers of each question are written clearly (1 pt).\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)"
   },
   {
     "objectID": "Assignment A.html#section",
     "href": "Assignment A.html#section",
     "title": "Appendix A — Assignment A",
-    "section": "A.2 ",
-    "text": "A.2 \nWhen asked to state the simple linear regression model, a students wrote it as follows: \\(E(Y_i) = \\beta_0 + \\beta_1X_1 + \\epsilon_i\\). Is this correct? Justify your answer."
+    "section": "A.1 ",
+    "text": "A.1 \nThe first step in using the capital asset pricing model (CAPM) is to estimate the stock’s beta \\((\\beta)\\) using the market model. The market model can be written as:\n\\(R_{it} = \\alpha_i + \\beta_iR_{mt} + \\epsilon_{it},\\)\nwhere \\(R_{it}\\) is the excess return for security \\(i\\) at time \\(t\\), \\(R_{mt}\\) is the excess return on a proxy for the market portfolio at time \\(t\\), and \\(\\epsilon_t\\) is an iid random disturbance term. The coefficient beta in this case is the CAPM beta for security \\(i\\).\nSuppose that you had estimated \\(\\beta\\) for a stock as \\(\\hat{\\beta}=1.147\\). The standard error associated with this coefficient \\(SE(\\hat{\\beta})\\) is estimated to be 0.0548. A city analyst has told you that this security closely follows the market, but that it is no more risky, on average, than the market. This can be tested by the null hypotheses that the value of beta \\((\\beta)\\) is one. The model is estimated over 62 daily observations. Test this hypothesis against a one-sided alternative that the security is more risky than the market \\((\\beta&gt;1)\\). Consider Type 1 error \\((\\alpha)\\) as \\(1\\%\\). Write down the null and alternative hypothesis. What do you conclude?\nDoes your conclusion change if you consider the Type 1 error \\((\\alpha)\\) as \\(0.1\\%\\)?\n(4 + 1 = 5 points)"
   },
   {
     "objectID": "Assignment A.html#section-1",
     "href": "Assignment A.html#section-1",
     "title": "Appendix A — Assignment A",
-    "section": "A.3 ",
-    "text": "A.3 \nConsider the simple linear regression model below:\n\\(Y_i = \\beta_0 + \\beta_1X_1 + \\epsilon_i, i = 1,...,n\\)\nwhere:\n\\(\\beta_0 = 100, \\beta_1 = 20,\\) and \\(\\sigma^2 =5\\). The following assumptions are made for the model:\nA. \\(E(\\epsilon_i) = 0,\\)\nB. \\(Var(\\epsilon_i) = \\sigma^2,\\)\nC. \\(Cov(\\epsilon_i, \\epsilon_j)=0 \\ \\forall i, j; i\\ne j\\)\nAn observation \\(Y\\) is made for \\(X=5\\)\nCan you state the exact probability that \\(Y\\) will fall between 195 and 205? If yes, then compute the probability. If not, then state any reasonable assumption(s) you need to make to compute the probability, and then compute the probability."
+    "section": "A.2 ",
+    "text": "A.2 \nWhen asked to state the simple linear regression model, a students wrote it as follows: \\(E(Y_i) = \\beta_0 + \\beta_1X_1 + \\epsilon_i\\). Is this correct? Justify your answer.\n(2 points)"
   },
   {
     "objectID": "Assignment A.html#section-2",
     "href": "Assignment A.html#section-2",
     "title": "Appendix A — Assignment A",
-    "section": "A.4 ",
-    "text": "A.4 \nThe Toluca Company manufactures refrigeration equipment in lots of varying sizes. The dataset toluca.txt consists of of two columns - LotSize and WorkHours required to produce the lot.\nWhen asked for a point estimate of the expected work hours for lot sizes of 30 pieces, a person gave the estimate 202 because that is the mean number of WorkHours for the three observations of LotSize = 30 pieces in the dataset. Is there an issue with this approach? Explain. If there is an issue, then suggest a better approach and use it to estimate the expected work hours for lot sizes of 30 pieces."
+    "section": "A.3 ",
+    "text": "A.3 \nConsider the simple linear regression model below:\n\\(Y_i = \\beta_0 + \\beta_1X_1 + \\epsilon_i, i = 1,...,n\\)\nwhere:\n\\(\\beta_0 = 100, \\beta_1 = 20,\\) and \\(\\sigma^2 =5\\). The following assumptions are made for the model:\nA. \\(E(\\epsilon_i) = 0,\\)\nB. \\(Var(\\epsilon_i) = \\sigma^2,\\)\nC. \\(Cov(\\epsilon_i, \\epsilon_j)=0 \\ \\forall i, j; i\\ne j\\)\nAn observation \\(Y\\) is made for \\(X=5\\)\nCan you state the exact probability that \\(Y\\) will fall between 195 and 205? If yes, then compute the probability. If not, then state any reasonable assumption(s) you need to make to compute the probability, and then compute the probability.\n(1 + 1 + 4 = 6 points)"
   },
   {
     "objectID": "Assignment A.html#section-3",
     "href": "Assignment A.html#section-3",
     "title": "Appendix A — Assignment A",
-    "section": "A.5 ",
-    "text": "A.5 \nConsider the simple linear regression model below:\n\\(\\log(Y)=\\beta_0+\\beta_1\\log(X)+\\epsilon\\)\nInterpret the coefficient \\(\\beta_1\\), where you mention the approximate expected percentage increase in \\(Y\\) given an increase of \\(1\\%\\) in \\(X\\).\nUse the approximation: \\(\\log(1+x) = x\\) if \\(x&lt;&lt;1\\)"
+    "section": "A.4 ",
+    "text": "A.4 \nThe Toluca Company manufactures refrigeration equipment in lots of varying sizes. The dataset toluca.txt consists of of two columns - LotSize and WorkHours required to produce the lot.\nWhen asked for a point estimate of the expected work hours for lot sizes of 30 pieces, a person gave the estimate 202 because that is the mean number of WorkHours for the three observations of LotSize = 30 pieces in the dataset. Is there an issue with this approach? Explain. If there is an issue, then suggest a better approach and use it to estimate the expected work hours for lot sizes of 30 pieces.\n(2 + 2 + 4 = 8 points)"
   },
   {
     "objectID": "Assignment A.html#section-4",
     "href": "Assignment A.html#section-4",
     "title": "Appendix A — Assignment A",
-    "section": "A.6 ",
-    "text": "A.6 \nThe dataset ACT_GPA consists of the GPA at the end of freshmen year (\\(Y\\)) that can be predicted from the ACT score (\\(X\\)) of students of a college.\n\nA.6.1 \nObtain the least square estimates of the regression coefficients, and error standard deviation, and state the estimated regression function.\n\n\nA.6.2 \nObtain the maximum likelihood estimate of the error standard deviation. Is it the same as that obtained in the previous question? Why or why not? If it isn’t same, which estimate will you prefer - the MLE or the one obtained in the previous question?\n\n\nA.6.3 \nInterpret the estimates of the regression coefficients and the error standard deviation as obtained in 6(a). What is the increase in expected GPA for an increase of 2 points in the ACT score?\n\n\nA.6.4 \nDoes ACT have a statistically significant relationship with the GPA?\n\n\nA.6.5 \nPlot the estimated regression function and the data. Does the estimated regression function appear to fit the data well?\n\n\nA.6.6 \nInclude the 95% confidence and prediction intervals in the above plot.\n\n\nA.6.7 \nObtain a point estimate, and the 95% confidence and prediction intervals of the freshman GPA for students with an ACT score of \\(30\\).\n\n\nA.6.8 \nThe intercept of the model developed in Q4(a) is the expected GPA when the ACT score is zero. However, the ACT score can never be zero as the minimum possible ACT score is 1 (ref). So, should the intercept be removed from the model? Why or why not?"
+    "section": "A.5 ",
+    "text": "A.5 \nConsider the simple linear regression model below:\n\\(\\log(Y)=\\beta_0+\\beta_1\\log(X)+\\epsilon\\)\nInterpret the coefficient \\(\\beta_1\\), where you mention the approximate expected percentage increase in \\(Y\\) given an increase of \\(1\\%\\) in \\(X\\).\nUse the approximation: \\(\\log(1+x) = x\\) if \\(x&lt;&lt;1\\)\n(5 points)"
   },
   {
-    "objectID": "Assignment A.html#section-13",
-    "href": "Assignment A.html#section-13",
+    "objectID": "Assignment A.html#section-5",
+    "href": "Assignment A.html#section-5",
     "title": "Appendix A — Assignment A",
-    "section": "A.7 ",
-    "text": "A.7 \nConsider the regression model in Q3, where the parameters are estimated using Maximum likelihood estimation. Let \\(e_i\\) denote the \\(i^{th}\\) residual. Prove that:\n\n\\(\\sum_{i = 1}^n \\hat{Y}_ie_i = 0\\)\n\\(\\sum_{i=1}^n Y_i = \\sum_{i=1}^n \\hat{Y}_i\\)\nThe regression line passes through the point (\\(\\bar{X}, \\bar{Y}\\))"
+    "section": "A.6 ",
+    "text": "A.6 \nThe dataset ACT_GPA consists of the GPA at the end of freshmen year (\\(Y\\)) that can be predicted from the ACT score (\\(X\\)) of students of a college.\n\nA.6.1 \nObtain the least square estimates of the regression coefficients, and error standard deviation, and state the estimated regression function.\n(5 points)\n\n\nA.6.2 \nObtain the maximum likelihood estimate of the error standard deviation. Is it the same as that obtained in the previous question? Why or why not? If it isn’t same, which estimate will you prefer - the MLE or the one obtained in the previous question and why?\n(2 + 2 + 4 = 8 points)\n\n\nA.6.3 \nInterpret the estimates of the regression coefficients and the error standard deviation as obtained in A.6.1. What is the increase in expected GPA for an increase of 2 points in the ACT score?\n(6 + 2 = 8 points)\n\n\nA.6.4 \nDoes ACT have a statistically significant relationship with the GPA? Justify your answer.\n(1 + 2 = 3 points)\n\n\nA.6.5 \nPlot the estimated regression function and the data. Does the estimated regression function appear to fit the data well?\n(3 + 1 = 4 points)\n\n\nA.6.6 \nInclude the 95% confidence and prediction intervals in the above plot.\n(6 points)\n\n\nA.6.7 \nObtain a point estimate, and the 95% confidence and prediction intervals of the freshman GPA for students with an ACT score of \\(30\\).\n(1 + 2 + 2 = 5 points)\n\n\nA.6.8 \nThe intercept of the model developed in Q4(a) is the expected GPA when the ACT score is zero. However, the ACT score can never be zero as the minimum possible ACT score is 1 (ref). So, should the intercept be removed from the model? Why or why not?\n(2 + 4 = 6 points)"
   },
   {
     "objectID": "Assignment A.html#section-14",
     "href": "Assignment A.html#section-14",
     "title": "Appendix A — Assignment A",
+    "section": "A.7 ",
+    "text": "A.7 \nConsider the regression model in A.3, where the parameters are estimated using Maximum likelihood estimation. Let \\(e_i\\) denote the \\(i^{th}\\) residual. Prove that:\n\n\\(\\sum_{i = 1}^n \\hat{Y}_ie_i = 0\\)\n\\(\\sum_{i=1}^n Y_i = \\sum_{i=1}^n \\hat{Y}_i\\)\nThe regression line passes through the point (\\(\\bar{X}, \\bar{Y}\\))\n\n(3 + 3 + 3 = 9 points)"
+  },
+  {
+    "objectID": "Assignment A.html#section-15",
+    "href": "Assignment A.html#section-15",
+    "title": "Appendix A — Assignment A",
     "section": "A.8 ",
-    "text": "A.8 \nConsider the regression model:\n\\(Y_i = \\beta_1X_i + \\epsilon_i, i = 1,...,n\\), where \\(\\epsilon \\sim N(0, \\sigma^2)\\)\nFind the maximum likelihood estimate of \\(\\beta_1\\), and show whether it is a biased or unbiased estimate of \\(\\beta_1\\)."
+    "text": "A.8 \nConsider the regression model:\n\\(Y_i = \\beta_0 + \\epsilon_i, i = 1,...,n\\), where \\(\\epsilon \\sim N(0, \\sigma^2)\\)\nDerive the maximum likelihood estimate of \\(\\beta_0\\), and show whether it is a biased or unbiased estimate of \\(\\beta_0\\).\n(3 + 3 = 6 points)"
+  },
+  {
+    "objectID": "Assignment A.html#section-16",
+    "href": "Assignment A.html#section-16",
+    "title": "Appendix A — Assignment A",
+    "section": "A.9 ",
+    "text": "A.9 \nConsider the regression model:\n\\(Y_i = \\beta_1X_i + \\epsilon_i, i = 1,...,n\\), where \\(\\epsilon \\sim N(0, \\sigma^2)\\)\nDerive the maximum likelihood estimate of \\(\\beta_1\\), and show whether it is a biased or unbiased estimate of \\(\\beta_1\\).\n(4 + 5 = 9 points)"
   },
   {
     "objectID": "Datasets.html",
