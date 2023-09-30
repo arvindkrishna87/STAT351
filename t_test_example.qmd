@@ -23,9 +23,9 @@ Obviously, we want to test if storage results in a loss of sweetness
 
 Let $\mu$ denote the sweetness loss, thus:
 
-Null hypotheis: H_0: \mu = 0
+Null hypothesis: $H_0: \mu = 0$
 
-Alternate hypotheis: $H_a: \mu > 0$
+Alternate hypothesis: $H_a: \mu > 0$
 
 ## Solution
 
