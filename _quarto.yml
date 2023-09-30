@@ -15,6 +15,7 @@ book:
   chapters:
     - index.qmd
     - Rintro.qmd
+    - t_test_example.qmd
   appendices: 
     - Assignment A.qmd
     - Datasets.ipynb
