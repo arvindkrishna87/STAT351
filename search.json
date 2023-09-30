@@ -53,7 +53,7 @@
     "href": "t_test_example.html#question",
     "title": "2  Hypothesis testing example",
     "section": "2.1 Question",
-    "text": "2.1 Question\nCola manufacturers want to test how much the sweetness of a new cola drink is affected by storage. The sweetness loss due to storage was evaluated by 10 professional tasters (by comparing the sweetness before and after storage):\nTaster          Sweetness loss\n\n 1         2.0\n 2         0.4\n 3         0.7  \n 4         2.0  \n 5       −0.4   \n 6         2.2  \n 7       −1.3   \n 8         1.2  \n 9         1.1\n10         2.3\nObviously, we want to test if storage results in a loss of sweetness\nLet \\(\\mu\\) denote the sweetness loss, thus:\nNull hypotheis: H_0: = 0\nAlternate hypotheis: \\(H_a: \\mu &gt; 0\\)"
+    "text": "2.1 Question\nCola manufacturers want to test how much the sweetness of a new cola drink is affected by storage. The sweetness loss due to storage was evaluated by 10 professional tasters (by comparing the sweetness before and after storage):\nTaster          Sweetness loss\n\n 1         2.0\n 2         0.4\n 3         0.7  \n 4         2.0  \n 5       −0.4   \n 6         2.2  \n 7       −1.3   \n 8         1.2  \n 9         1.1\n10         2.3\nObviously, we want to test if storage results in a loss of sweetness\nLet \\(\\mu\\) denote the sweetness loss, thus:\nNull hypothesis: \\(H_0: \\mu = 0\\)\nAlternate hypothesis: \\(H_a: \\mu &gt; 0\\)"
   },
   {
     "objectID": "t_test_example.html#solution",
