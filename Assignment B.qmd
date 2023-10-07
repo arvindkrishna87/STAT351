@@ -18,7 +18,7 @@ editor_options:
 
 3.  Render the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **7th October 2023 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **14th October 2023 at 11:59 pm**.
 
 5.  **Five points are properly formatting the assignment**. The breakdown is as follows:
 
@@ -38,31 +38,31 @@ The dataset *crime.txt* consists of number of crimes per 100,000 residents and p
 
 ###
 
-Estimate the expected decrease in number of crimes per 100,000 residents when the number of individuals having high school diploma increases by 1\%. Use a 99\% confidence interval. Interpret the interval estimate.
+Estimate the expected decrease in number of crimes per 100,000 residents when the proportion of individuals having high school diploma increases by 1\%. Use a 99\% confidence interval. Interpret the interval estimate.
 
 *(4 + 2 = 6 points)*
 
 ### 
 
-For what percentage of number of individuals having high school diploma will you be the most confident in estimating the crime rate with a confidence interval of a given width?
+For what percentage of individuals having a high school diploma in a county will you be the most confident in estimating the crime rate with a confidence interval of a given width?
 
 *(2 points)*
 
 ### 
 
-For what range of values of the percentage of number of individuals having high school diploma will it be inappropriate to use the developed model to predict the crime rate?
+For what range of values of the percentage of individuals having a high school diploma in a county will it be inappropriate to use the developed model ([in B.1.1](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-1)) to predict the crime rate?
 
 *(2 points)*
 
 ### 
 
-Predict the number of crimes per 100,000 residents of a county using a 90\% prediction interval if 75\% of the individuals have a high school diploma. Interpret the prediction interval.
+Predict the number of crimes per 100,000 residents of a county using a 90\% prediction interval if 75\% of the individuals have a high school diploma in the county. Interpret the prediction interval.
 
 *(2 + 2 = 4 points)*
 
 ###
 
-A consultant had stated that the number of crimes per 100,000 should reduce by at least 1000 for 4\% increase in the proportion of people with high school diplomas. Conduct a hypothesis test using the probability of type 1 error as 5\%. State the null and alternate hypotheses, the test, and conclusion from the test.
+A consultant had stated that the expectd number of crimes per 100,000 should reduce by at least 1000 for 4\% increase in the proportion of people having high school diplomas. Conduct a hypothesis test using the probability of type 1 error as 5\%. State the null and alternate hypotheses, p-value, and conclusion from the test.
 
 *(2 + 2 + 2 = 6 points)*
 
@@ -82,7 +82,7 @@ By how much is the total variation in crime rate reduced when percentage of high
 
 Suppose that the normal error regression model is applicable except that the error variance is not constant; rather the variance is larger, the larger is $X$. Does $\beta_1=0$ still imply that there is no linear association between $X$ and $Y$? Explain.
 
-Does it also imply that there is no association between $X$ and $Y$? Or, does it imply that there is an association between $X$ and $Y$ Explain.
+Does it also imply that there is no association between $X$ and $Y$? Or, does it imply that there is an association between $X$ and $Y$? Explain.
 
 *(2 + 2 + 2 = 6 points)*
 
@@ -110,18 +110,23 @@ For determining whether or not a regression relation exists, would it have been 
 
 ## 
 
-Consider the following data and the developed model. 
+Consider the following code and its output below.
 
 ```{r}
+#Setting seed for reproducibility
 set.seed(10)
+
+#Simulating data
 x = seq(0, 1, 0.01)
 y = 0.5 + 2*x + rnorm(length(x))
 data = data.frame(x = x, y = y)
-model <- lm(y~x-1, data = data)
+
+#Developing linear regression model
+model <- lm(y~x, data = data)
 summary(model)
 ```
 
-Execute the code to obtain the model summary. You will find that the intercept is statistically insignificant. As it is insignificant, a student suggested that it won't matter if it is removed from the developed model, i.e., the developed model is changed to:
+We see that the intercept is statistically insignificant. As it is insignificant, a student suggested that it won't matter if it is removed from the developed model, i.e., the developed model is changed to:
 
 $Y_i = \beta_1X_i + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2) ... (2)$
 
@@ -133,29 +138,32 @@ Given that $\beta_0 \ne 0$, derive the expression for the bias in the estimate o
 
 ### 
 
-Use the data to compute the value of the bias obtained from the expression derived in the previous question.
+Use the data to compute the value of the bias obtained from the expression derived in the previous question ([B.5.1](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-14)).
 
 *(2 points)*
 
 ### 
 
-Now you will use simulations to verify the value of bias computed in the previous question. Simulate the data 1000 times. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. Is it the same as obtained analytically in the previous question?
+Now you will use simulations to verify the value of bias computed in the previous question ([B.5.2](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-14)). Simulate the data 1000 times. Use a unique value of  `seed` to generate a unique dataset in every iteration. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. Is it the same as obtained analytically in the previous question?
+
+Note that:
+$Bias(\hat{\beta}_1) = E(\hat{\beta}_1 - \beta_1)$
 
 *(5 + 1 = 6 points)*
 
 ### 
 
-Plot the 1000 regression lines based on the 1000 simulations over a scatterplot of the data points.
+Plot the 1000 regression lines based on the 1000 coefficient estimates of the no-intercept model (as obtained in [B.5.3](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-15)) over a scatterplot of the data points.
 
 *(2 points)*
 
 ### 
 
-Now consider the usual simple linear regression model with the intercept. Simulate the data 1000 times. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. 
+Now consider the simple linear regression model with the intercept (model 1). Simulate the data 1000 times. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. 
 
 *(4 points)*
 
-Plot the 1000 regression lines based on the 1000 simulations over a scatterplot of the data points.
+Plot the 1000 regression lines based on the 1000 coefficient estimates of the model with intercept (as obtained in [B.5.5](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-18)) over a scatterplot of the data points.
 
 *(2 points)*
 
@@ -165,7 +173,7 @@ Based on the simulations and analytical results, answer the following:
 
 #### 
 
-If the intercept is statistically insignificant, should it be removed from the model, and model (1) considered instead? Explain.
+If the intercept is found to be statistically insignificant in model (1) as shown in the model [summary](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-13), should it be removed from the model, and model (1) considered instead? Explain.
 
 *(3 points)*
 
@@ -177,7 +185,7 @@ Suppose we know that the true model passes through the origin (X = 0, Y = 0). Sh
 
 ### 
 
-In terms of bias and variance, mention an advantage and disadvantage of the estimate of $\beta_1$ from model (2) against that obtained from model (1). The plots developed in earlier questions may also help visualize the advantages and disadvantages.
+In terms of bias and variance, mention an advantage and a disadvantage of the estimate of $\beta_1$ from model (2) as compared to that obtained from model (1), if $\beta_0 \ne 0$. The plots developed in earlier questions may also help visualize the advantage and disadvantage.
 
 *(2 + 2 = 4 points)*
 
@@ -189,13 +197,13 @@ Prove that the estimate of the intercept $\beta_0$, i.e., $\hat{\beta}_0$ for mo
 
 ## 
 
-Derive the variance of the estimators obtained in questions 8 and 9 of Assignment A.
+Derive the variance of the estimators obtained in questions [A.8](https://nustat.github.io/STAT350-class-notes/Assignment%20A.html#section-15) and [A.9](https://nustat.github.io/STAT350-class-notes/Assignment%20A.html#section-16) of Assignment A.
 
 *(2 + 2 = 4 points)*
 
 ## 
 
-Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to selectt the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition when they should choose model (2) instead of model (1). 
+Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to select the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition when they should choose model (2) instead of model (1). 
 
 **Hint:** 
 
@@ -203,6 +211,6 @@ $E(X^2) = [E(X)]^2 + Var(X)$
 
 $\implies E(\hat{\beta}_1 - \beta_1)^2 = [E(\hat{\beta}_1 - \beta_1)]^2 + Var(\hat{\beta}_1 - \beta_1)$
 
-Model 2 should be selected when $E(\hat{\beta}_1 - \beta_1)^2$ for model 2 is lesser than $E(\hat{\beta}_1 - \beta_1)^2$ for model 1.
+Model (2) should be selected when $E(\hat{\beta}_1 - \beta_1)^2$ for model (2) is lesser than $E(\hat{\beta}_1 - \beta_1)^2$ for model (1).
 
 *(6 points)*
