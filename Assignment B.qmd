@@ -70,7 +70,7 @@ A consultant had stated that the expectd number of crimes per 100,000 should red
 
 What is the probability that you will reject the null hypothesis in the previous question if it is actually false, and the true value of $\beta_1$ is $\beta_1 = -200$.
 
-*(8 points)*
+*(7 points)*
 
 ### 
 
@@ -203,7 +203,7 @@ Derive the variance of the estimators obtained in questions [A.8](https://nustat
 
 ## 
 
-Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to select the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition when they should choose model (2) instead of model (1). 
+Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to select the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition (based on the value $\beta_0$) when they should choose model (2) instead of model (1). 
 
 **Hint:** 
 
@@ -213,4 +213,4 @@ $\implies E(\hat{\beta}_1 - \beta_1)^2 = [E(\hat{\beta}_1 - \beta_1)]^2 + Var(\h
 
 Model (2) should be selected when $E(\hat{\beta}_1 - \beta_1)^2$ for model (2) is lesser than $E(\hat{\beta}_1 - \beta_1)^2$ for model (1).
 
-*(6 points)*
+*(7 points)*
