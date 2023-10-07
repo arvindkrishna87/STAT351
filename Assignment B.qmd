@@ -1,0 +1,208 @@
+---
+title: "Assignment B"
+subtitle: "Inference & Correlation"
+format:
+  html:
+    toc: true
+self-contained: true
+link-external-newwindow: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Instructions {.unnumbered}
+
+1.  You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.
+
+2.  Make R code chunks to insert code and type your answer outside the code chunks. Ensure that the solution is written neatly enough to understand and grade.
+
+3.  Render the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.
+
+4.  The assignment is worth 100 points, and is due on **7th October 2023 at 11:59 pm**.
+
+5.  **Five points are properly formatting the assignment**. The breakdown is as follows:
+
+-   Must be an HTML file rendered using Quarto (the theory part may be scanned and submitted separately) (2 pts).
+-   There aren't excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren't long printouts of which iteration a loop is on, there aren't long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)
+-   Final answers of each question are written clearly (1 pt).
+-   The proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (1 pt)
+
+
+All question are based on the normal linear regression model below, unless otherwise stated:
+
+$Y_i = \beta_0 + \beta_1X_i + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2)...(1)$
+
+## 
+
+The dataset *crime.txt* consists of number of crimes per 100,000 residents and percentage of individuals having high school diploma in 84 counties.
+
+###
+
+Estimate the expected decrease in number of crimes per 100,000 residents when the number of individuals having high school diploma increases by 1\%. Use a 99\% confidence interval. Interpret the interval estimate.
+
+*(4 + 2 = 6 points)*
+
+### 
+
+For what percentage of number of individuals having high school diploma will you be the most confident in estimating the crime rate with a confidence interval of a given width?
+
+*(2 points)*
+
+### 
+
+For what range of values of the percentage of number of individuals having high school diploma will it be inappropriate to use the developed model to predict the crime rate?
+
+*(2 points)*
+
+### 
+
+Predict the number of crimes per 100,000 residents of a county using a 90\% prediction interval if 75\% of the individuals have a high school diploma. Interpret the prediction interval.
+
+*(2 + 2 = 4 points)*
+
+###
+
+A consultant had stated that the number of crimes per 100,000 should reduce by at least 1000 for 4\% increase in the proportion of people with high school diplomas. Conduct a hypothesis test using the probability of type 1 error as 5\%. State the null and alternate hypotheses, the test, and conclusion from the test.
+
+*(2 + 2 + 2 = 6 points)*
+
+### 
+
+What is the probability that you will reject the null hypothesis in the previous question if it is actually false, and the true value of $\beta_1$ is $\beta_1 = -200$.
+
+*(8 points)*
+
+### 
+
+By how much is the total variation in crime rate reduced when percentage of high school graduates is introduced into the analysis?
+
+*(2 points)*
+
+## 
+
+Suppose that the normal error regression model is applicable except that the error variance is not constant; rather the variance is larger, the larger is $X$. Does $\beta_1=0$ still imply that there is no linear association between $X$ and $Y$? Explain.
+
+Does it also imply that there is no association between $X$ and $Y$? Or, does it imply that there is an association between $X$ and $Y$ Explain.
+
+*(2 + 2 + 2 = 6 points)*
+
+## 
+
+Show that the regression sum of squares has only one degree of freedom for model (1). You may use the normal equations obtained from minimizing of sum of squared errors.
+
+*(4 points)*
+
+## 
+
+In a small-scale regression study, five observations on $Y$ were obtained corresponding to $X=1, 4, 10, 11,$ and $14$. Assume that $\sigma = 0.6, \beta_0 = 5,$ and $\beta_1=3$.
+
+### 
+
+What are the expected values of MSR and MSE?
+
+*(3 + 2 = 5 points)*
+
+### 
+
+For determining whether or not a regression relation exists, would it have been better or worse to have made the five observations at $X=6,7,8,9,10$? Why? Would the same answer apply if the principal purpose were to estimate the mean response for $X=8$. Explain.
+
+*(3 + 3 = 6 points)*
+
+## 
+
+Consider the following data and the developed model. 
+
+```{r}
+set.seed(10)
+x = seq(0, 1, 0.01)
+y = 0.5 + 2*x + rnorm(length(x))
+data = data.frame(x = x, y = y)
+model <- lm(y~x-1, data = data)
+summary(model)
+```
+
+Execute the code to obtain the model summary. You will find that the intercept is statistically insignificant. As it is insignificant, a student suggested that it won't matter if it is removed from the developed model, i.e., the developed model is changed to:
+
+$Y_i = \beta_1X_i + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2) ... (2)$
+
+### 
+
+Given that $\beta_0 \ne 0$, derive the expression for the bias in the estimate of $\beta_1$ if model (2) is considered. 
+
+*(4 points)*
+
+### 
+
+Use the data to compute the value of the bias obtained from the expression derived in the previous question.
+
+*(2 points)*
+
+### 
+
+Now you will use simulations to verify the value of bias computed in the previous question. Simulate the data 1000 times. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. Is it the same as obtained analytically in the previous question?
+
+*(5 + 1 = 6 points)*
+
+### 
+
+Plot the 1000 regression lines based on the 1000 simulations over a scatterplot of the data points.
+
+*(2 points)*
+
+### 
+
+Now consider the usual simple linear regression model with the intercept. Simulate the data 1000 times. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. 
+
+*(4 points)*
+
+Plot the 1000 regression lines based on the 1000 simulations over a scatterplot of the data points.
+
+*(2 points)*
+
+### 
+
+Based on the simulations and analytical results, answer the following:
+
+#### 
+
+If the intercept is statistically insignificant, should it be removed from the model, and model (1) considered instead? Explain.
+
+*(3 points)*
+
+#### 
+
+Suppose we know that the true model passes through the origin (X = 0, Y = 0). Should we consider model 1 or model 2 in this case? Explain.
+
+*(2 points)*
+
+### 
+
+In terms of bias and variance, mention an advantage and disadvantage of the estimate of $\beta_1$ from model (2) against that obtained from model (1). The plots developed in earlier questions may also help visualize the advantages and disadvantages.
+
+*(2 + 2 = 4 points)*
+
+## 
+
+Prove that the estimate of the intercept $\beta_0$, i.e., $\hat{\beta}_0$ for model (1) has minimum variance among all unbiased linear estimators.
+
+*(5 points)*
+
+## 
+
+Derive the variance of the estimators obtained in questions 8 and 9 of Assignment A.
+
+*(2 + 2 = 4 points)*
+
+## 
+
+Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to selectt the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition when they should choose model (2) instead of model (1). 
+
+**Hint:** 
+
+$E(X^2) = [E(X)]^2 + Var(X)$
+
+$\implies E(\hat{\beta}_1 - \beta_1)^2 = [E(\hat{\beta}_1 - \beta_1)]^2 + Var(\hat{\beta}_1 - \beta_1)$
+
+Model 2 should be selected when $E(\hat{\beta}_1 - \beta_1)^2$ for model 2 is lesser than $E(\hat{\beta}_1 - \beta_1)^2$ for model 1.
+
+*(6 points)*
