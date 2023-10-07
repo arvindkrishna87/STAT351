@@ -62,7 +62,7 @@ Predict the number of crimes per 100,000 residents of a county using a 90\% pred
 
 ###
 
-A consultant had stated that the expectd number of crimes per 100,000 should reduce by at least 1000 for 4\% increase in the proportion of people having high school diplomas. Conduct a hypothesis test using the probability of type 1 error as 5\%. State the null and alternate hypotheses, p-value, and conclusion from the test.
+A consultant had stated that the expected number of crimes per 100,000 should reduce by at least 1000 for a 4\% increase in the proportion of people having high school diplomas. Conduct a hypothesis test to verify the statement. Consider the probability of type 1 error as 5\%. State the null and alternate hypotheses, p-value, and conclusion from the test.
 
 *(2 + 2 + 2 = 6 points)*
 
@@ -82,7 +82,7 @@ By how much is the total variation in crime rate reduced when percentage of high
 
 Suppose that the normal error regression model is applicable except that the error variance is not constant; rather the variance is larger, the larger is $X$. Does $\beta_1=0$ still imply that there is no linear association between $X$ and $Y$? Explain.
 
-Does it also imply that there is no association between $X$ and $Y$? Or, does it imply that there is an association between $X$ and $Y$? Explain.
+Does it also imply that there is **no association** between $X$ and $Y$? Or, does it also imply that there **is an association** between $X$ and $Y$? Explain.
 
 *(2 + 2 + 2 = 6 points)*
 
@@ -117,16 +117,16 @@ Consider the following code and its output below.
 set.seed(10)
 
 #Simulating data
-x = seq(0, 1, 0.01)
-y = 0.5 + 2*x + rnorm(length(x))
-data = data.frame(x = x, y = y)
+x <- seq(0, 1, 0.01)
+y <- 0.5 + 2*x + rnorm(length(x))
+data <- data.frame(x = x, y = y)
 
 #Developing linear regression model
 model <- lm(y~x, data = data)
 summary(model)
 ```
 
-We see that the intercept is statistically insignificant. As it is insignificant, a student suggested that it won't matter if it is removed from the developed model, i.e., the developed model is changed to:
+We see that the intercept is statistically insignificant. As it is insignificant, a student suggested that it won't matter if it is removed from the developed model, i.e., if the developed model is changed to:
 
 $Y_i = \beta_1X_i + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2) ... (2)$
 
@@ -138,13 +138,13 @@ Given that $\beta_0 \ne 0$, derive the expression for the bias in the estimate o
 
 ### 
 
-Use the data to compute the value of the bias obtained from the expression derived in the previous question ([B.5.1](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-14)).
+Use the simulated data to compute the value of the bias obtained from the expression derived in the previous question ([B.5.1](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-14)).
 
 *(2 points)*
 
 ### 
 
-Now you will use simulations to verify the value of bias computed in the previous question ([B.5.2](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-14)). Simulate the data 1000 times. Use a unique value of  `seed` to generate a unique dataset in every iteration. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. Is it the same as obtained analytically in the previous question?
+Use simulations to verify the value of bias computed in the previous question ([B.5.2](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-14)). Simulate the data 1000 times. Set a unique value of  `seed` to generate a unique dataset in every iteration. In each iteration, estimate $\beta_1$. Report the bias in the estimate of $\beta_1$ based on the 1000 simulations. Is it the same as obtained analytically in the previous question ([B.5.2](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-15))?
 
 Note that:
 $Bias(\hat{\beta}_1) = E(\hat{\beta}_1 - \beta_1)$
@@ -163,6 +163,8 @@ Now consider the simple linear regression model with the intercept (model 1). Si
 
 *(4 points)*
 
+### 
+
 Plot the 1000 regression lines based on the 1000 coefficient estimates of the model with intercept (as obtained in [B.5.5](https://nustat.github.io/STAT350-class-notes/Assignment%20B.html#section-18)) over a scatterplot of the data points.
 
 *(2 points)*
@@ -179,7 +181,7 @@ If the intercept is found to be statistically insignificant in model (1) as show
 
 #### 
 
-Suppose we know that the true model passes through the origin (X = 0, Y = 0). Should we consider model 1 or model 2 in this case? Explain.
+Suppose we know that the true model passes through the origin $(X = 0, Y = 0)$. Should we consider model (1) or model (2) in this case? Explain.
 
 *(2 points)*
 
@@ -203,7 +205,7 @@ Derive the variance of the estimators obtained in questions [A.8](https://nustat
 
 ## 
 
-Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to select the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition (based on the value $\beta_0$) when they should choose model (2) instead of model (1). 
+Suppose the true value of $\beta_0$ is known, while that of $\beta_1$ is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of $\beta_1$, is the minimum, i.e., they wish to select the model that has a lesser value of $E(\hat{\beta}_1 - \beta_1)^2$. Derive the condition (based on the value $\beta_0$), which if true will imply that model (2) should be chosen instead of model (1). 
 
 **Hint:** 
 
