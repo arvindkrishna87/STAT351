@@ -20,7 +20,9 @@ editor_options:
 
 4.  The assignment is worth 100 points, and is due on **22nd October 2023 at 11:59 pm**.
 
-5.  **Five points are properly formatting the assignment**. The breakdown is as follows:
+5. There is an extra credit question worth 10 points in the end. You can score 110/100 in the assignment.
+
+6.  **Five points are properly formatting the assignment**. The breakdown is as follows:
 
 -   Must be an HTML file rendered using Quarto (the theory part may be scanned and submitted separately) (2 pts).
 -   There aren't excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren't long printouts of which iteration a loop is on, there aren't long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)
@@ -197,3 +199,20 @@ Given the above equation, show that:
 $\sum_{i=1}^{n_j}\sum_{j=1}^c(Y_{ij}-\hat{Y}_{ij})^2 = \sum_{i=1}^{n_j}\sum_{j=1}^c(Y_{ij}-\bar{Y}_j)^2 + \sum_{i=1}^{n_j}\sum_{j=1}^c(\bar{Y}_j-\hat{Y}_{ij})^2$.
 
 *(6 points)*
+
+## Bonus question
+*(This is extra credit question, you are not required to do it)*
+
+For $\lambda \ne 0$, the Box-Cox transformation is given as:
+
+$y_i^{(\lambda)}=\frac{y_i^\lambda-1}{\lambda}...(1)$
+
+However, typically practitioners transform the response as:
+
+$y_i^{(\lambda)}=y_i^\lambda...(2)$.
+
+Why is (2) acceptable in general even when (1) is the transformation proposed by George Box and David Cox? In which cases will it be detrimental to use (2) instead of (1), and one must use (1)?
+
+Support your arguments with examples based on simulated data to answer this question. You must provide an example when both (1) and (2) are acceptable, and another example when (2) is not effective, and  only (1) must be used.
+
+*(10 points)*
