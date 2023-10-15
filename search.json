@@ -196,9 +196,51 @@
     "text": "B.8 \nSuppose the true value of \\(\\beta_0\\) is known, while that of \\(\\beta_1\\) is unknown and needs to be estimated. The stakeholder wishes to choose the model (from model (1) and model(2)), such that the expected squared error in the estimate of \\(\\beta_1\\), is the minimum, i.e., they wish to select the model that has a lesser value of \\(E(\\hat{\\beta}_1 - \\beta_1)^2\\). Derive the condition (based on the value \\(\\beta_0\\)), which if true will imply that model (2) should be chosen instead of model (1).\nHint:\n\\(E(X^2) = [E(X)]^2 + Var(X)\\)\n\\(\\implies E(\\hat{\\beta}_1 - \\beta_1)^2 = [E(\\hat{\\beta}_1 - \\beta_1)]^2 + Var(\\hat{\\beta}_1 - \\beta_1)\\)\nModel (2) should be selected when \\(E(\\hat{\\beta}_1 - \\beta_1)^2\\) for model (2) is lesser than \\(E(\\hat{\\beta}_1 - \\beta_1)^2\\) for model (1).\n(7 points)"
   },
   {
+    "objectID": "Assignment C.html#instructions",
+    "href": "Assignment C.html#instructions",
+    "title": "Appendix C — Assignment C",
+    "section": "Instructions",
+    "text": "Instructions\n\nYou may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nMake R code chunks to insert code and type your answer outside the code chunks. Ensure that the solution is written neatly enough to understand and grade.\nRender the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.\nThe assignment is worth 100 points, and is due on 22nd October 2023 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\n\nMust be an HTML file rendered using Quarto (the theory part may be scanned and submitted separately) (2 pts).\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)\nFinal answers of each question are written clearly (1 pt).\nThe proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (1 pt)\n\nAll question are based on the normal linear regression model below, unless otherwise stated:\n\\(Y_i = \\beta_0 + \\beta_1X_i + \\epsilon_i, i = 1,...,n\\), where \\(\\epsilon \\sim N(0, \\sigma^2)...(1)\\)"
+  },
+  {
+    "objectID": "Assignment C.html#real-estate-sales",
+    "href": "Assignment C.html#real-estate-sales",
+    "title": "Appendix C — Assignment C",
+    "section": "C.1 Real estate sales",
+    "text": "C.1 Real estate sales\nRead the file real_estate_sales.txt.\n\nC.1.1 \nDevelop a linear regression model to predict price of a house based on square_feet (floor area of the house). Check the following model assumptions using diagnostic plots:\n\nLinear relationship\nHomoscedasticity\nNormal distribution of errors\n\nFor each of the above assumption, comment if it is appears to be satisfied or violated based on the plots.\n(2 + 2 + 2 = 6 points)\n\n\nC.1.2 \nConsider performing the statistical test to check the linear relationship assumption. What condition must be satisfied by the data for the test to be performed? Show that the condition is satisfied by this data.\n(1 + 2 = 3 points)\n\n\nC.1.3 \nPerform the statistical test to check the linear relationship assumption. What is your conclusion?\n(2 points)\n\n\nC.1.4 \nCheck assumptions (2) and (3) in the first question with statistical tests, and mention your conclusion.\n(2 + 2 = 4 points)\n\n\nC.1.5 \nUse the Box-Cox procedure to identify the appropriate transformation of the regression model developed in the first question. Write the transformed model equation.\n(3 + 2 = 5 points)\n\n\nC.1.6 \nCheck all the 3 model assumptions mentioned in the first question for the transformed model. Use both diagnostic plots and statistical tests. Mention your comments based on the plots and conclusions based on the tests.\n(2 + 2 + 2 = 6 points)\n\n\nC.1.7 \nIs the transformed model better than the original model with respect to the model assumptions? Comment based on the tests in the previous question.\n(2 points)\n\n\nC.1.8 \nIf the linearity assumption is still not satisfied in the transformed model,\n\nPropose another transformation based on the diagnostic plot(s) plotted in the previous question.\nWrite the transformed model equation.\nShow that the transformed model satisfied the linearity assumption based on the statistical test, if probability of type I error is considered as 1%.\nAlso make the diagnostic plot for the transformed model to show that it satisfies the linearity assumption\n\n(2 + 2 + 2 + 2 = 8 points)\n\n\nC.1.9 \nDoes the transformed model developed in the previous question satisfy the normality and constant variance assumptions? Verify based on diagnostic plots and statistical tests.\n(2 + 2 = 4 points)\n\n\nC.1.10 \nPlot all the three models - the original model, the boxcox transformed model, and the final model over a scatterplot of price vs square_feet. Which model seems to have the best fit? Also report the R-squared of all the 3 models.\n(1 + 3 + 1 + 3 = 8 points)"
+  },
+  {
+    "objectID": "Assignment C.html#section-10",
+    "href": "Assignment C.html#section-10",
+    "title": "Appendix C — Assignment C",
+    "section": "C.2 ",
+    "text": "C.2 \nThe dataset infmort.csv gives the infant mortality of different countries in the world. The column mortality contains the infant mortality in deaths per 1000 births.\n\nC.2.1 \nRead the dataset. There are 4 observations that have missing values. Remove those observations from the dataset.\nYou may use the R function complete.cases().\n(2 points)\n\n\nC.2.2 \nOver the scatterplot of mortality against income, plot the regression model predicting mortality based on income. Also report the \\(R^2\\) for this model.\n(2 + 1 = 3 points)\n\n\nC.2.3 \nAre there outlying observations in the data with respect to the model developed in the previous question? How many? Consider observations having a magnitude of standardized residual more than 5 as outliers.\n(2 points)\n\n\nC.2.4 \nBased on the plot, propose a transformation for income. Justify the transformations. Write the equation of the transformed model and report the updated \\(R^2\\).\n(2 + 2 + 1 + 1 = 6 points)\nAlmost all the data points are clustered at a corner and most of the regression line is influenced by only a few data points. The regression line doesn’t fit the trend for most of the points. So, we need to shrink the very high values, so that they are closer to the data, and we get model that explains the trend in most of the data.\n\n\nC.2.5 \nPlot the transformed model developed in the previous question over a scatterplot of mortality vs the transformed income. Did the fit improve?\n(2 + 1 = 3 points)\n\n\nC.2.6 \nUse Box-Cox to identify the appropriate transformation for mortality in the transformed model. Write the equation of the transformed model, and report the updated \\(R^2\\)\n(3 points)\n\n\nC.2.7 \nPlot the transformed model developed in the previous question over a scatterplot of the transformed mortality vs the transformed income. Did the fit improve further?\n(2 + 1 = 3 points)\n\n\nC.2.8 \nPlot the transformed model over the scatterplot of mortality vs income.\n(3 points)\n\n\nC.2.9 \nAre there outlying observations in the data with respect to the transformed model developed in the previous question? If not, then how did they disappear given that there were outliers in the model developed in the first question?\n(1 + 3 = 4 points)"
+  },
+  {
+    "objectID": "Assignment C.html#section-20",
+    "href": "Assignment C.html#section-20",
+    "title": "Appendix C — Assignment C",
+    "section": "C.3 ",
+    "text": "C.3 \nSuppose the error terms in the following linear regression model are independent \\(N(0, \\sigma^2)\\):\n\\(Y_i = \\beta_0 + \\beta_1X_i + \\epsilon_i, \\epsilon_i \\sim N(0, \\sigma^2)\\).\n\nC.3.1 \nIf \\(X_i\\) is transformed to \\(X_i'=1/X_i\\), then will the error terms still be independent \\(N(0, \\sigma^2)\\)? If not, then what will change regarding their distribution?\n(4 points)\n\n\nC.3.2 \nInstead of \\(X_i\\), if \\(Y_i\\) is transformed to \\(Y_i'=1/Y_i\\), then will the error terms still be independent \\(N(0, \\sigma^2)\\)? If not, then what will change regarding their distribution?\n(4 points)"
+  },
+  {
+    "objectID": "Assignment C.html#section-23",
+    "href": "Assignment C.html#section-23",
+    "title": "Appendix C — Assignment C",
+    "section": "C.4 ",
+    "text": "C.4 \nA simple linear regression model with intercept \\(\\beta_0 = 0\\) is under consideration. Data have been obtained that contain replications. State the full and reduced models for testing the appropriateness of the regression function under consideration. What are the degrees of freedom associated with the full and reduced model if number of observations \\(n=20\\) and number of distinct values of the predictor \\(c=10\\)?\n(2 + 2 = 4 points)"
+  },
+  {
+    "objectID": "Assignment C.html#section-24",
+    "href": "Assignment C.html#section-24",
+    "title": "Appendix C — Assignment C",
+    "section": "C.5 ",
+    "text": "C.5 \nLet the observed value of the response variable for the \\(i^{th}\\) replicate of the \\(j^{th}\\) level of the predictor \\(X\\) be \\(Y_{ij}\\), where \\(i=1,...,n_j\\), \\(j= 1,...,c\\). Let the number of replica\nThe fitted regression model is:\n\\(\\hat{Y}_{ij} = \\hat{\\beta}_0+\\hat{\\beta}_1X_j\\)\nThe error deviation can be decomposed as the pure error deviation, and the lack of fit deviation as follows:\n\\(Y_{ij}-\\hat{Y}_{ij} = (Y_{ij}-\\bar{Y}_j) + (\\bar{Y}_j-\\hat{Y}_{ij})\\)\nGiven the above equation, show that:\n\\(\\sum_{i=1}^n_j\\sum_{j=1}^c(Y_{ij}-\\hat{Y}_{ij})^2 = \\sum_{i=1}^n_j\\sum_{j=1}^c(Y_{ij}-\\bar{Y}_j)^2 + \\sum_{i=1}^n_j\\sum_{j=1}^c(\\bar{Y}_j-\\hat{Y}_{ij})^2\\).\n(6 points)"
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
-    "title": "Appendix C — Assignment templates and Datasets",
+    "title": "Appendix D — Assignment templates and Datasets",
     "section": "",
     "text": "Assignment templates and datasets used in the class notes can be found here"
   }
