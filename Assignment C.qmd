@@ -27,11 +27,6 @@ editor_options:
 -   Final answers of each question are written clearly (1 pt).
 -   The proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (1 pt)
 
-
-All question are based on the normal linear regression model below, unless otherwise stated:
-
-$Y_i = \beta_0 + \beta_1X_i + \epsilon_i, i = 1,...,n$, where $\epsilon \sim N(0, \sigma^2)...(1)$
-
 ## Real estate sales
 
 Read the file *real_estate_sales.txt*. 
@@ -61,7 +56,7 @@ Perform the statistical test to check the linear relationship assumption. What i
 *(2 points)*
 
 ### 
-Check assumptions (2) and (3) in mentioned in [C.1.1](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section) with statistical tests, and mention your conclusion.
+Check assumptions (2) and (3) as mentioned in [C.1.1](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section) with statistical tests, and mention your conclusion.
 
 *(2 + 2 = 4 points)*
 
@@ -77,7 +72,7 @@ Check all the 3 model assumptions mentioned in [C.1.1](https://nustat.github.io/
 *(2 + 2 + 2 = 6 points)*
 
 ### 
-Is the transformed model better than the original model with respect to the model assumptions? Comment based on the tests/plots in the previous question ([C.1.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-5)).
+Is the transformed model *(developed in [C.1.5](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-4))* better than the original model *(developed in [C.1.1](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section))* with respect to the model assumptions? Comment based on the tests/plots in the previous question ([C.1.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-5)).
 
 *(2 points)*
 
@@ -103,14 +98,14 @@ Plot all the three models - the original model *(developed in [C.1.1](https://nu
 
 *(1 + 3 + 1 + 3 = 8 points)*
 
-## 
+## Mortality vs Income
 
 The dataset *infmort.csv* gives the infant mortality of different countries in the world. The column `mortality` contains the infant mortality in deaths per 1000 births. 
 
 ### 
 Read the dataset. There are 4 observations that have missing values. Remove those observations from the dataset.
 
-Hint: You may use the R function `complete.cases()`.
+*Hint: You may use the R function `complete.cases()`.*
 
 *(2 points)*
 
@@ -121,12 +116,13 @@ Over the scatterplot of `mortality` against `income`, plot the regression model 
 *(2 + 1 = 3 points)*
 
 ###
+
 Are there outlying observations in the data with respect to the model developed in the previous question ([C.2.2](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-12))? How many? Consider observations having a magnitude of standardized residual more than 5 as outliers.
 
 *(2 points)*
 
 ### 
-Based on the plot in [C.2.2](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-12), propose a transformation for `income`. Justify the transformations. Write the equation of the transformed model and report the $R^2$ of the transformed model.  
+Based on the plot in [C.2.2](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-12), propose a transformation for `income`. Justify the proposed transformation. Write the equation of the transformed model and report its $R^2$.
 
 *(2 + 2 + 1 + 1 = 6 points)*
 
