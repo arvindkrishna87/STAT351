@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Regression analysis (R notes)",
     "section": "",
-    "text": "Preface\nThese are coding notes for the course STAT350. If you don’t have a background in R, please use the course material on R from the STAT201 course here: https://nustat.github.io/Intro_to_programming_for_data_sci/Variable_expressions_statements-R.html"
+    "text": "Preface\nThese are coding notes for the course STAT350. If you don’t have a background in R, please use the course material on R from the STAT201 course here."
   },
   {
     "objectID": "Rintro.html#installing-r",
