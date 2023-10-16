@@ -63,6 +63,34 @@
     "text": "2.2 Solution\nSample mean (\\(\\bar{x}\\)):\n\ndata &lt;- c(2, 0.4, 0.7, 2, -0.4, 2.2, -1.3, 1.2, 1.1, 2.3)\n\nxbar &lt;- mean(data)\nxbar\n\n[1] 1.02\n\n\nT-statistic:\n\nt = xbar/(sd(data)/sqrt(10))\nt\n\n[1] 2.696689\n\n\np-value:\n\n1-pt(t, df = 9)\n\n[1] 0.01226316\n\n\nIf the probability of Type I error considered is 5%, then we reject the null hypothesis, and conclude that the sweetness loss is indeed greater than 0.\nIf the probability of Type I error considered is 1%, then we fail to reject the null hypothesis, and conclude that the sweetness loss is indeed 0."
   },
   {
+    "objectID": "SLR_model.html#data-pre-processing",
+    "href": "SLR_model.html#data-pre-processing",
+    "title": "3  Read data",
+    "section": "3.1 Data pre-processing",
+    "text": "3.1 Data pre-processing\n\ncolnames(senic) &lt;- c(\"ID\", \"LOS\", \"AGE\", \"INFRISK\", \"CULT\", \"XRAY\", \"BEDS\", \"MEDSCHL\", \"REGION\", \"CENSUS\", \"NURSE\", \"FACS\")"
+  },
+  {
+    "objectID": "SLR_model.html#model",
+    "href": "SLR_model.html#model",
+    "title": "3  Read data",
+    "section": "3.2 Model",
+    "text": "3.2 Model\nDevelop a linear regression model to Predict the length of stay based on probability of the person getting infected.\n\nmodel &lt;- lm(LOS~INFRISK, data = senic)\nsummary(model)\n\n\nCall:\nlm(formula = LOS ~ INFRISK, data = senic)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-3.0587 -0.7776 -0.1487  0.7159  8.2805 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   6.3368     0.5213  12.156  &lt; 2e-16 ***\nINFRISK       0.7604     0.1144   6.645 1.18e-09 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.624 on 111 degrees of freedom\nMultiple R-squared:  0.2846,    Adjusted R-squared:  0.2781 \nF-statistic: 44.15 on 1 and 111 DF,  p-value: 1.177e-09\n\n\n\nlibrary(ggplot2)\nggplot(data = senic, aes(x = INFRISK, y = LOS))+\n  geom_point()+\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "SLR_model.html#error-variance",
+    "href": "SLR_model.html#error-variance",
+    "title": "3  Read data",
+    "section": "3.3 Error variance",
+    "text": "3.3 Error variance\n\nsum(model$residuals**2)/(111)\n\n[1] 2.637518"
+  },
+  {
+    "objectID": "SLR_model.html#confidence-and-prediction-intervals",
+    "href": "SLR_model.html#confidence-and-prediction-intervals",
+    "title": "3  Read data",
+    "section": "3.4 Confidence and Prediction intervals",
+    "text": "3.4 Confidence and Prediction intervals\n\nlibrary(ggplot2)\n\nci &lt;- predict(model, newdata = senic, interval = \"confidence\", level = 0.95)\n\npi &lt;- predict(model, newdata = senic, interval = \"prediction\", level = 0.95)\n\ndata_ci &lt;- cbind(senic, ci)\ndata_pi &lt;- cbind(senic, pi)\n\nggplot(data = senic, aes(y = LOS, x = INFRISK))+\n  geom_point()+\n  geom_line(data = data_ci, aes(x = INFRISK, y = lwr), color = \"red\")+\n  geom_line(data = data_ci, aes(x = INFRISK, y = upr), color = \"red\")+\n  geom_line(data = data_pi, aes(x = INFRISK, y = lwr), color = \"green\")+\n  geom_line(data = data_pi, aes(x = INFRISK, y = upr), color = \"green\")+\n  geom_smooth(method = \"lm\")+\n  labs(\n    y = \"Length of stay\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
     "objectID": "Assignment A.html#instructions",
     "href": "Assignment A.html#instructions",
     "title": "Appendix A — Assignment A",
