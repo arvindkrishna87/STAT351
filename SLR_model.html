@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Regression analysis (R notes) - 3&nbsp; Read data</title>
+<title>Regression analysis (R notes) - 3&nbsp; Simple linear regression model: Example</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./SLR_model.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Read data</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./SLR_model.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple linear regression model: Example</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SLR_model.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Read data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple linear regression model: Example</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -205,10 +205,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link active" data-scroll-target="#data-pre-processing"><span class="header-section-number">3.1</span> Data pre-processing</a></li>
-  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">3.2</span> Model</a></li>
-  <li><a href="#error-variance" id="toc-error-variance" class="nav-link" data-scroll-target="#error-variance"><span class="header-section-number">3.3</span> Error variance</a></li>
-  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals"><span class="header-section-number">3.4</span> Confidence and Prediction intervals</a></li>
+  <li><a href="#read-data" id="toc-read-data" class="nav-link active" data-scroll-target="#read-data"><span class="header-section-number">3.1</span> Read data</a></li>
+  <li><a href="#data-pre-processing" id="toc-data-pre-processing" class="nav-link" data-scroll-target="#data-pre-processing"><span class="header-section-number">3.2</span> Data pre-processing</a></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">3.3</span> Model</a></li>
+  <li><a href="#error-variance" id="toc-error-variance" class="nav-link" data-scroll-target="#error-variance"><span class="header-section-number">3.4</span> Error variance</a></li>
+  <li><a href="#confidence-and-prediction-intervals" id="toc-confidence-and-prediction-intervals" class="nav-link" data-scroll-target="#confidence-and-prediction-intervals"><span class="header-section-number">3.5</span> Confidence and Prediction intervals</a></li>
   </ul>
 </nav>
     </div>
@@ -217,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Read data</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple linear regression model: Example</span></h1>
 </div>
 
 
@@ -232,17 +233,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="read-data" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="read-data"><span class="header-section-number">3.1</span> Read data</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>senic <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'./Datasets/SENIC_data.txt'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="data-pre-processing" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="data-pre-processing"><span class="header-section-number">3.1</span> Data pre-processing</h2>
+</section>
+<section id="data-pre-processing" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="data-pre-processing"><span class="header-section-number">3.2</span> Data pre-processing</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(senic) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"LOS"</span>, <span class="st">"AGE"</span>, <span class="st">"INFRISK"</span>, <span class="st">"CULT"</span>, <span class="st">"XRAY"</span>, <span class="st">"BEDS"</span>, <span class="st">"MEDSCHL"</span>, <span class="st">"REGION"</span>, <span class="st">"CENSUS"</span>, <span class="st">"NURSE"</span>, <span class="st">"FACS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="model" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="model"><span class="header-section-number">3.2</span> Model</h2>
+<section id="model" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="model"><span class="header-section-number">3.3</span> Model</h2>
 <p>Develop a linear regression model to Predict the length of stay based on probability of the person getting infected.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(LOS<span class="sc">~</span>INFRISK, <span class="at">data =</span> senic)</span>
@@ -281,8 +285,8 @@ F-statistic: 44.15 on 1 and 111 DF,  p-value: 1.177e-09</code></pre>
 </div>
 </div>
 </section>
-<section id="error-variance" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="error-variance"><span class="header-section-number">3.3</span> Error variance</h2>
+<section id="error-variance" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="error-variance"><span class="header-section-number">3.4</span> Error variance</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(model<span class="sc">$</span>residuals<span class="sc">**</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">111</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -290,8 +294,8 @@ F-statistic: 44.15 on 1 and 111 DF,  p-value: 1.177e-09</code></pre>
 </div>
 </div>
 </section>
-<section id="confidence-and-prediction-intervals" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="confidence-and-prediction-intervals"><span class="header-section-number">3.4</span> Confidence and Prediction intervals</h2>
+<section id="confidence-and-prediction-intervals" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="confidence-and-prediction-intervals"><span class="header-section-number">3.5</span> Confidence and Prediction intervals</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
