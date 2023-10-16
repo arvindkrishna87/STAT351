@@ -1,3 +1,5 @@
+# Simple linear regression model: Example
+
 ## Read data
 
 ```{r}
