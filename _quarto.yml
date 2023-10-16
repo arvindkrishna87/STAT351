@@ -16,6 +16,7 @@ book:
     - index.qmd
     - Rintro.qmd
     - t_test_example.qmd
+    - SLR_model.qmd
   appendices: 
     - Assignment A.qmd
     - Assignment B.qmd

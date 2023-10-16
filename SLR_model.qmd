@@ -1,0 +1,58 @@
+## Read data
+
+```{r}
+senic <- read.table('./Datasets/SENIC_data.txt')
+```
+
+## Data pre-processing
+
+```{r}
+colnames(senic) <- c("ID", "LOS", "AGE", "INFRISK", "CULT", "XRAY", "BEDS", "MEDSCHL", "REGION", "CENSUS", "NURSE", "FACS")
+```
+
+## Model
+
+Develop a linear regression model to Predict the length of stay based on probability of the person getting infected.
+
+```{r}
+model <- lm(LOS~INFRISK, data = senic)
+summary(model)
+```
+
+```{r}
+library(ggplot2)
+ggplot(data = senic, aes(x = INFRISK, y = LOS))+
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
+## Error variance
+
+```{r}
+sum(model$residuals**2)/(111)
+```
+
+## Confidence and Prediction intervals
+
+```{r}
+library(ggplot2)
+
+ci <- predict(model, newdata = senic, interval = "confidence", level = 0.95)
+
+pi <- predict(model, newdata = senic, interval = "prediction", level = 0.95)
+
+data_ci <- cbind(senic, ci)
+data_pi <- cbind(senic, pi)
+
+ggplot(data = senic, aes(y = LOS, x = INFRISK))+
+  geom_point()+
+  geom_line(data = data_ci, aes(x = INFRISK, y = lwr), color = "red")+
+  geom_line(data = data_ci, aes(x = INFRISK, y = upr), color = "red")+
+  geom_line(data = data_pi, aes(x = INFRISK, y = lwr), color = "green")+
+  geom_line(data = data_pi, aes(x = INFRISK, y = upr), color = "green")+
+  geom_smooth(method = "lm")+
+  labs(
+    y = "Length of stay"
+  )
+
+```
