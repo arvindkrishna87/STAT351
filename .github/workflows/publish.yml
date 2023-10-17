@@ -41,7 +41,6 @@ jobs:
 
       - name: Install packages
         run:
-          Rscript -e "install.packages('ggplot2')"
           Rscript -e "install.packages('ISLR')"
 
       - name: Render and Publish
