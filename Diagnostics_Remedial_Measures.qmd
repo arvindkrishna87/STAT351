@@ -1,0 +1,95 @@
+# Diagnostics and Remedial measures
+
+Let us consider the `Auto` dataset from the `ISLR` library. The library is related to the book *[Introduction to Statistical Learning](https://hastie.su.domains/ISLR2/ISLRv2_website.pdf)*
+
+## Loading libraries
+
+```{r}
+library(ISLR)
+library(ggplot2)
+library(lmtest)
+```
+
+
+## Reading data
+
+```{r}
+auto_data <- Auto
+```
+
+## Developing model
+
+Suppose we wish to predict `mpg` based on `horsepower`.
+
+```{r}
+linear_model <- lm(mpg~horsepower, data = auto_data)
+```
+
+## Model fit
+
+Let us visualize the model fit to the data.
+
+```{r}
+ggplot(data = auto_data, aes(x = horsepower, y = mpg))+
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
+The plot indicates that a quadratic relationship between `mpg` and `horsepower` may be more appropriate. 
+
+## Diagnostic plots
+
+Let us make diagnostic plots that help us check the model assumptions.
+
+```{r}
+par(mfrow = c(2,2))
+plot(model)
+```
+
+### Linearity assumption
+
+#### Visual check
+
+We can check the linearity assumption visually by analyzing the plot of residuals against fitted values. The plot indicates that a quadratic relationship between the response and the predictor may be more appropriate than a linear one.
+
+#### Statistical test
+
+We'll use the *F* test for lack of fit to check the linearity assumption
+
+```{r}
+#Full model
+full_model <- lm(mpg~as.factor(horsepower), data = auto_data)
+```
+
+```{r}
+# F test for lack of fit
+anova(linear_model, full_model)
+```
+
+As expected based on the visual check, the linear model fails the linearity test with a very low $p$-value of the order of $10^{-14}$. Thus, we conclude that relationship is non-linear.
+
+### Constant variance
+
+#### Visual check
+
+The plot of the residuals against fitted values indicates that the error variance is increaing with increasing values of predicted `mpg` or decreasing `horsepower`. Thus, there seems to be heteroscedasticity.
+
+#### Statistical test
+
+Let us conduct the Breusch-Pagan test for homoscedasticity. This is a large sample test, which assumes that the error terms are independent and normally distruted, and that the variance of of the error term $\epsilon_i$, denoted by $\sigma_i^2$, is related to the level of the predictor $X$ in the following way:
+
+$\log(\sigma_i^2) = \gamma_0 + \gamma_1X_i$.
+
+This implies that $\sigma_i^2$ either increases or decreases with the level of $X$. Constant error variance corresponds to $\gamma_1 = 0$. The hypotheses for the test are:
+
+$H_0: \gamma_1 = 0$
+$H_a: \gamma_1 \ne 0$
+
+```{r}
+bptest(linear_model)
+```
+
+As expected based on the visual check, the model fails the homoscedasticity with a low $p$-value of 0.3\%.
+
+
+
