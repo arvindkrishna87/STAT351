@@ -5,9 +5,11 @@ Let us consider the `Auto` dataset from the `ISLR` library. The library is relat
 ## Loading libraries
 
 ```{r}
-library(ISLR)
-library(ggplot2)
-library(lmtest)
+#| message: false
+library(ISLR) #for the dataset 
+library(ggplot2) #for making plots
+library(lmtest) #for bptest()
+library(MASS) #for boxcox()
 ```
 
 
@@ -206,6 +208,7 @@ We can see from the diagnostic plot of the quadratic model that the error varian
 
 ```{r}
 log_model <- lm(log(mpg)~horsepower+I(horsepower**2), data = auto_data)
+par(mfrow=c(2,2))
 plot(log_model)
 ```
 
@@ -247,5 +250,75 @@ shapiro.test(log_model$residuals)
 ```
 
 The $p$-value is high supporting the claim that the model satisfies the assumption of normality of error terms. The $p$-value would probably be higher if it was not for those three outlying points. The next step could be to analyze those three points to figure out the reason they are outlying values. For example, those three points may correspond to a particular car model that has only three observations in the data.
+
+## Box-Cox transformation
+
+Sometimes it may be difficult to determine the appropriate transformation from diagnostic plots to correct the skewness of the error terms, unequal error variances, and non-linearity of the error function. The Box-Cox procedure automatically identifies a transformation from the family of power transformations on $Y$. The family of power transformations is of the form:
+
+$Y' = Y^{\lambda}$
+
+The normal error regression model with the response variable a member of the family of power transformations becomes:
+
+$Y_i^{\lambda} = \beta_0 + \beta_1X_i$
+
+The Box-Cox procedure uses the method of Maximum likelihood to estimate $\lambda$, as well as other parameters $\beta_0, \beta_1$, and $\sigma^2$.
+
+Let us use the Box-Cox procedure to identify the appropriate transformation for the `linear_model`.
+
+```{r}
+boxcox(linear_model)
+```
+
+A plot of the log-likelihood vs $\lambda$ is returned with a confidence interval for the optimal value of $\lambda$. We can zoom-in the plot to identify the appropriate value of $\lambda$ where the log-likelihood maximizes.
+
+```{r}
+boxcox(linear_model, lambda = seq(-1, 0, 0.1))
+```
+
+A value of $\lambda = -0.5$ seems appropriate. Note that the log-likelihood is based on a sample. Thus, typically we don't select the exact value of $\lambda$ where the log-likeliood maximizes, but any value that is easier to interpret within the confidence interval. Let us consider $\lambda = -0.5$ in this case.
+
+```{r}
+boxcox_model <- lm(mpg^-0.5~horsepower, data = auto_data)
+par(mfrow=c(2,2))
+plot(boxcox_model)
+```
+
+Based on the plots, the model seems to satisfy the normality of errors and homoscedasticity assumption, but there appears to be a quadratic relationship between the response and the predictor. Let us confirm our visual analysis with statistical tests.
+
+```{r}
+bptest(boxcox_model)
+```
+
+The homoscedasticity assumption is violated, but not too severely.
+
+```{r}
+shapiro.test(boxcox_model$residuals)
+```
+
+Box-Cox transformation indeed resulted in the normal distribution of error terms.
+
+```{r}
+power_full_model <- lm(mpg^-0.5~as.factor(horsepower), data = auto_data)
+anova(boxcox_model, power_full_model)
+```
+
+As expected based on the visual analysis, the relationship has a large departure from linearity. 
+
+Note that the Box-Cox transformation can identify the appropriate transformation for the response, but not for the predictors. Thus, we need to figure out the appropriate predictor transformation based on the diagnostic plots and/or trial and error. Let us try the quadratic transformation of the predictor $X$ as the relationship appears to be quadratic based on the residual plot.
+
+```{r}
+quadratic_boxcox_model <- lm(mpg^-0.5~horsepower+I(horsepower**2), data = auto_data)
+par(mfrow = c(2,2))
+plot(quadratic_boxcox_model)
+```
+
+Note that the severity of the linearity assumption violation has been reduced, while the homoscedasticity and normality of errors assumptions seem to be satisfied. Note that transformation of the predictor $X$ doesn't change the distribution of errors. Thus, it was expected that the transformation on $X$ will not deteriorate the model in terms of the assumptions regarding the distribution of error terms.
+
+Let us confirm our intuition based on diagnostic plots with statistical tests.
+
+
+
+
+
 
 
