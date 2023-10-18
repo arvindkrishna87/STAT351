@@ -217,14 +217,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data"><span class="header-section-number">4.2</span> Reading data</a></li>
   <li><a href="#developing-model" id="toc-developing-model" class="nav-link" data-scroll-target="#developing-model"><span class="header-section-number">4.3</span> Developing model</a></li>
   <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="header-section-number">4.4</span> Model fit</a></li>
-  <li><a href="#diagnostic-plots" id="toc-diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"><span class="header-section-number">4.5</span> Diagnostic plots</a>
+  <li><a href="#diagnostic-plots-statistical-tests" id="toc-diagnostic-plots-statistical-tests" class="nav-link" data-scroll-target="#diagnostic-plots-statistical-tests"><span class="header-section-number">4.5</span> Diagnostic plots &amp; statistical tests</a>
   <ul class="collapse">
   <li><a href="#linear-relationship" id="toc-linear-relationship" class="nav-link" data-scroll-target="#linear-relationship"><span class="header-section-number">4.5.1</span> Linear relationship</a></li>
   <li><a href="#constant-variance-homoscedasticity" id="toc-constant-variance-homoscedasticity" class="nav-link" data-scroll-target="#constant-variance-homoscedasticity"><span class="header-section-number">4.5.2</span> Constant variance (Homoscedasticity)</a></li>
   <li><a href="#normality-of-error-terms" id="toc-normality-of-error-terms" class="nav-link" data-scroll-target="#normality-of-error-terms"><span class="header-section-number">4.5.3</span> Normality of error terms</a></li>
   <li><a href="#independence-of-error-terms" id="toc-independence-of-error-terms" class="nav-link" data-scroll-target="#independence-of-error-terms"><span class="header-section-number">4.5.4</span> Independence of error terms</a></li>
   </ul></li>
-  <li><a href="#remedial-measures" id="toc-remedial-measures" class="nav-link" data-scroll-target="#remedial-measures"><span class="header-section-number">4.6</span> Remedial Measures</a></li>
+  <li><a href="#remedial-measures" id="toc-remedial-measures" class="nav-link" data-scroll-target="#remedial-measures"><span class="header-section-number">4.6</span> Remedial Measures</a>
+  <ul class="collapse">
+  <li><a href="#addressing-linear-relationship-assumption-violation" id="toc-addressing-linear-relationship-assumption-violation" class="nav-link" data-scroll-target="#addressing-linear-relationship-assumption-violation"><span class="header-section-number">4.6.1</span> Addressing linear relationship assumption violation</a></li>
+  <li><a href="#addressing-heteroscedasticity" id="toc-addressing-heteroscedasticity" class="nav-link" data-scroll-target="#addressing-heteroscedasticity"><span class="header-section-number">4.6.2</span> Addressing heteroscedasticity</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -298,8 +302,8 @@ Attaching package: 'zoo'</code></pre>
 </div>
 <p>The plot indicates that a quadratic relationship between <code>mpg</code> and <code>horsepower</code> may be more appropriate.</p>
 </section>
-<section id="diagnostic-plots" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">4.5</span> Diagnostic plots</h2>
+<section id="diagnostic-plots-statistical-tests" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="diagnostic-plots-statistical-tests"><span class="header-section-number">4.5</span> Diagnostic plots &amp; statistical tests</h2>
 <p>Let us make diagnostic plots that help us check the model assumptions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
@@ -434,9 +438,146 @@ W = 0.98207, p-value = 8.734e-05</code></pre>
 <p>If the linear relationship assumption violated, it results in biased estimates of the regression coefficients resulting in a biased prediction. As the estimates are biased, their variance estimates may also be inaccurate. Thus, this is a very important assumption as it leads to inaccuracies in both point estimates and statistical inference.</p>
 <p>If the homoscedasticity assumption is violated, but the linear relationship assumption holds, the OLS estimates are still unbiased resulting in an unbiased prediction. However, their standard error estimates are likely to be inaccurate.</p>
 <p>If the assumption regarding the normal distribution of errors is violated, the OLS estimates are still BLUE (Best linear unbiased estimates). The confidence interval for a point estimate, though effected, is robust to departures from normality for large sample sizes. However, the prediction interval is sensitive to the same.</p>
-<p>Depending on the application, one assumption may be more important for the stakeholder than the other.</p>
+<p>Our model above (<code>linear_model</code>) violates all the three assumptions.</p>
+<p>Note that there is no one unique way of fixing all the model assumption violations. Its an iterative process, and there is some trial and error involved. Two different approaches may lead to two different models, and both models may be more or less similar <em>(in terms of point estimates / inference)</em></p>
+<section id="addressing-linear-relationship-assumption-violation" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="addressing-linear-relationship-assumption-violation"><span class="header-section-number">4.6.1</span> Addressing linear relationship assumption violation</h3>
+<p>Let us address the linear relationship assumption first.</p>
+<p>As indicated in the diagnostic plots, the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> seemed to be quadratic. We’ll change the simple linear regression model to the following linear regression model, where <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> have a quadratic relationship:</p>
+<p><span class="math inline">\(Y_i = \beta_0 + \beta_1X_i + \beta_2X_i^2\)</span></p>
+<p>Let us fit the above model to the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>quadratic_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">~</span>horsepower <span class="sc">+</span> <span class="fu">I</span>(horsepower<span class="sc">**</span><span class="dv">2</span>), <span class="at">data =</span> auto_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that in the formula specified within the <code>lm()</code> function, the <code>I()</code> operator isolates or insulates the contents within <code>I(…)</code> from the regular formula operators. Without the <code>I()</code> operator, <code>horsepower**2</code> will be treated as the interaction of horsepower with itself, which is horsepower. Thus, to add the square of horsepower as a separate predictor, we need to use the <code>I()</code> operator.</p>
+<p>After every transformation or remedial measure, we should diagnoze the model to check the model assumptions are satisfied.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(quadratic_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We observe that the departure from the linear relationship assumption has been reduced. However, there still seems to be heteroscedasticity and non-normal error terms. Let us verify this with statistical tests.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#F test for lack of fit</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(quadratic_model, full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: mpg ~ horsepower + I(horsepower^2)
+Model 2: mpg ~ as.factor(horsepower)
+  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+1    389 7442.0                                  
+2    299 4702.8 90    2739.3 1.9351 1.897e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Even though the model still fails the linearity test, the extent of violation is reduced as the <span class="math inline">\(p\)</span>-value is now of the order of <span class="math inline">\(10^{-5}\)</span> instead of <span class="math inline">\(10^{-14}\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Breusch-Pagan test</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(quadratic_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  quadratic_model
+BP = 34.528, df = 2, p-value = 3.179e-08</code></pre>
+</div>
+</div>
+<p>The quadratic model has a more severe heteroscedasticity as compared to the linear model based on the <span class="math inline">\(p\)</span>-value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(quadratic_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  quadratic_model$residuals
+W = 0.98268, p-value = 0.0001214</code></pre>
+</div>
+</div>
+<p>The severity of departure from normality has been reduced in the quadratic model.</p>
+</section>
+<section id="addressing-heteroscedasticity" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="addressing-heteroscedasticity"><span class="header-section-number">4.6.2</span> Addressing heteroscedasticity</h3>
+<p>Let us address the heteroscedasticity assumption.</p>
+<p>We can see from the diagnostic plot of the quadratic model that the error variance is higher for higher fitted values. A possible way to resolve this is to transform the response <span class="math inline">\(Y\)</span> using a concave function such as log(<span class="math inline">\(Y\)</span>) or <span class="math inline">\(\sqrt{Y}\)</span>. Such a transformation results in a greater amount of shrinkage of the larger responses, leading to a reduction in heteroscedasticity. Let us try the log(<span class="math inline">\(Y\)</span>) transformation to address heteroscedasticity.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>log_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mpg)<span class="sc">~</span>horsepower<span class="sc">+</span><span class="fu">I</span>(horsepower<span class="sc">**</span><span class="dv">2</span>), <span class="at">data =</span> auto_data)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-19-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Based on the plot of residuals against fitted values, heteroscedasticity seems to be mitigated to some extent. Let us confirm with the statistical test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(log_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  log_model
+BP = 5.2023, df = 2, p-value = 0.07419</code></pre>
+</div>
+</div>
+<p>Assuming a significance level of <span class="math inline">\(5\%\)</span>, we do not reject the null hypothesis that the error variance is constant. Thus, the homoscedasticity assumption holds on the log transformed model.</p>
+<p>The linear relationship assumptions seems to be satisfied. Let us check it via the <span class="math inline">\(F\)</span> lack of fit test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>log_full_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mpg)<span class="sc">~</span><span class="fu">as.factor</span>(horsepower), <span class="at">data =</span> auto_data)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(log_model, log_full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: log(mpg) ~ horsepower + I(horsepower^2)
+Model 2: log(mpg) ~ as.factor(horsepower)
+  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+1    389 12.100                                  
+2    299  7.586 90    4.5138 1.9768 1.032e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Although the <span class="math inline">\(p\)</span>-value is higher than both the previous models indicating that the departure from linear relationship has been reduced, the model fails the <span class="math inline">\(F\)</span> lack of fit test. However, from the residual plot, there didn’t seem to be a strong departure from the linear relationship assumption. The failure in the statistical test may be due to the presence of outliers in the data. Let us visualize the model full model along with the</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Full log model"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Log linear model"</span> <span class="ot">=</span> <span class="st">"blue"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> auto_data, <span class="fu">aes</span>(<span class="at">x =</span> horsepower, <span class="at">y =</span> <span class="fu">log</span>(mpg)))<span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">col =</span> <span class="st">"orange"</span>)<span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> log_full_model<span class="sc">$</span>fitted.values, <span class="at">color =</span> <span class="st">"Full log model"</span>))<span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> log_model<span class="sc">$</span>fitted.values, <span class="at">color =</span> <span class="st">"Log linear model"</span>))<span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> colors)<span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.85</span>,<span class="fl">0.9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We observe that the full log model seems to be effected by outlying observations and explaining some of the noise. With the addition of more replicates at the <span class="math inline">\(X\)</span> values corresponding to the outlying observations, the model may have passed the <span class="math inline">\(F\)</span> lack of fit test. Thus, in this case, it appears that the relationship is indeed linear, but the failure in the statistical test is due to the full model over-fitting the data and explaining some noise as well. Another option is to bin the <code>horsepower</code> variable such that each bin has several replicates, and then do the <span class="math inline">\(F\)</span> lack of fit test.</p>
+<p>From the QQ plot, it appears that the error distribution is normal, except for three outlying values. Let us confirm the same from the normality test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(log_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  log_model$residuals
+W = 0.99154, p-value = 0.02458</code></pre>
+</div>
+</div>
+<p>The <span class="math inline">\(p\)</span>-value is high supporting the claim that the model satisfies the assumption of normality of error terms. The <span class="math inline">\(p\)</span>-value would probably be higher if it was not for those three outlying points. The next step could be to analyze those three points to figure out the reason they are outlying values. For example, those three points may correspond to a particular car model that has only three observations in the data.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
