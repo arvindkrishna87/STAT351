@@ -37,7 +37,7 @@ ggplot(data = auto_data, aes(x = horsepower, y = mpg))+
 
 The plot indicates that a quadratic relationship between `mpg` and `horsepower` may be more appropriate. 
 
-## Diagnostic plots
+## Diagnostic plots & statistical tests
 
 Let us make diagnostic plots that help us check the model assumptions.
 
@@ -149,6 +149,103 @@ If the homoscedasticity assumption is violated, but the linear relationship assu
 
 If the assumption regarding the normal distribution of errors is violated, the OLS estimates are still BLUE (Best linear unbiased estimates). The confidence interval for a point estimate, though effected, is robust to departures from normality for large sample sizes. However, the prediction interval is sensitive to the same.
 
-Depending on the application, one assumption may be more important for the stakeholder than the other. 
+Our model above (`linear_model`) violates all the three assumptions. 
+
+Note that there is no one unique way of fixing all the model assumption violations. Its an iterative process, and there is some trial and error involved. Two different approaches may lead to two different models, and both models may be more or less similar *(in terms of point estimates / inference)*
+
+### Addressing linear relationship assumption violation
+
+Let us address the linear relationship assumption first. 
+
+As indicated in the diagnostic plots, the relationship between $X$ and $Y$ seemed to be quadratic. We'll change the simple linear regression model to the following linear regression model, where $Y$ and $X$ have a quadratic relationship:
+
+$Y_i = \beta_0 + \beta_1X_i + \beta_2X_i^2$
+
+Let us fit the above model to the data:
+
+```{r}
+quadratic_model <- lm(mpg~horsepower + I(horsepower**2), data = auto_data)
+```
+
+Note that in the formula specified within the `lm()` function, the `I()` operator isolates or insulates the contents within `I(…)` from the regular formula operators. Without the `I()` operator, `horsepower**2` will be treated as the interaction of horsepower with itself, which is horsepower. Thus, to add the square of horsepower as a separate predictor, we need to use the `I()` operator.
+
+After every transformation or remedial measure, we should diagnoze the model to check the model assumptions are satisfied.
+
+```{r}
+par(mfrow=c(2,2))
+plot(quadratic_model)
+```
+
+We observe that the departure from the linear relationship assumption has been reduced. However, there still seems to be heteroscedasticity and non-normal error terms. Let us verify this with statistical tests.
+
+```{r}
+#F test for lack of fit
+anova(quadratic_model, full_model)
+```
+
+Even though the model still fails the linearity test, the extent of violation is reduced as the $p$-value is now of the order of $10^{-5}$ instead of $10^{-14}$.
+
+```{r}
+# Breusch-Pagan test
+bptest(quadratic_model)
+```
+
+The quadratic model has a more severe heteroscedasticity as compared to the linear model based on the $p$-value.
+
+```{r}
+shapiro.test(quadratic_model$residuals)
+```
+
+The severity of departure from normality has been reduced in the quadratic model.
+
+### Addressing heteroscedasticity
+
+Let us address the heteroscedasticity assumption. 
+
+We can see from the diagnostic plot of the quadratic model that the error variance is higher for higher fitted values. A possible way to resolve this is to transform the response $Y$ using a concave function such as log($Y$) or $\sqrt{Y}$. Such a transformation results in a greater amount of shrinkage of the larger responses, leading to a reduction in heteroscedasticity. Let us try the log($Y$) transformation to address heteroscedasticity. 
+
+```{r}
+log_model <- lm(log(mpg)~horsepower+I(horsepower**2), data = auto_data)
+plot(log_model)
+```
+
+Based on the plot of residuals against fitted values, heteroscedasticity seems to be mitigated to some extent. Let us confirm with the statistical test.
+
+```{r}
+bptest(log_model)
+```
+
+Assuming a significance level of $5\%$, we do not reject the null hypothesis that the error variance is constant. Thus, the homoscedasticity assumption holds on the log transformed model.
+
+The linear relationship assumptions seems to be satisfied. Let us check it via the $F$ lack of fit test.
+
+```{r}
+log_full_model <- lm(log(mpg)~as.factor(horsepower), data = auto_data)
+anova(log_model, log_full_model)
+```
+
+Although the $p$-value is higher than both the previous models indicating that the departure from linear relationship has been reduced, the model fails the $F$ lack of fit test. However, from the residual plot, there didn't seem to be a strong departure from the linear relationship assumption. The failure in the statistical test may be due to the presence of outliers in the data. Let us visualize the model full model along with the 
+
+```{r}
+colors <- c("Full log model" = "red", "Log linear model" = "blue")
+
+ggplot(data = auto_data, aes(x = horsepower, y = log(mpg)))+
+  geom_point(col = "orange")+
+  geom_line(aes(y = log_full_model$fitted.values, color = "Full log model"))+
+  geom_line(aes(y = log_model$fitted.values, color = "Log linear model"))+
+    scale_color_manual(values = colors)+
+  theme(legend.title = element_blank(),
+        legend.position = c(0.85,0.9))
+```
+
+We observe that the full log model seems to be effected by outlying observations and explaining some of the noise. With the addition of more replicates at the $X$ values corresponding to the outlying observations, the model may have passed the $F$ lack of fit test. Thus, in this case, it appears that the relationship is indeed linear, but the failure in the statistical test is due to the full model over-fitting the data and explaining some noise as well. Another option is to bin the `horsepower` variable such that each bin has several replicates, and then do the $F$ lack of fit test.
+
+From the QQ plot, it appears that the error distribution is normal, except for three outlying values. Let us confirm the same from the normality test.
+
+```{r}
+shapiro.test(log_model$residuals)
+```
+
+The $p$-value is high supporting the claim that the model satisfies the assumption of normality of error terms. The $p$-value would probably be higher if it was not for those three outlying points. The next step could be to analyze those three points to figure out the reason they are outlying values. For example, those three points may correspond to a particular car model that has only three observations in the data.
 
 
