@@ -639,6 +639,43 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Note that the severity of the linearity assumption violation has been reduced, while the homoscedasticity and normality of errors assumptions seem to be satisfied. Note that transformation of the predictor <span class="math inline">\(X\)</span> doesn’t change the distribution of errors. Thus, it was expected that the transformation on <span class="math inline">\(X\)</span> will not deteriorate the model in terms of the assumptions regarding the distribution of error terms.</p>
 <p>Let us confirm our intuition based on diagnostic plots with statistical tests.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(quadratic_boxcox_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  quadratic_boxcox_model
+BP = 0.96746, df = 2, p-value = 0.6165</code></pre>
+</div>
+</div>
+<p>As expected, the errors are homoscedastic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(quadratic_boxcox_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  quadratic_boxcox_model$residuals
+W = 0.98943, p-value = 0.006297</code></pre>
+</div>
+</div>
+<p>There is a slight deviation from the normal distribution, but its only due to three points as we saw earlier.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(quadratic_boxcox_model, power_full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: mpg^-0.5 ~ horsepower + I(horsepower^2)
+Model 2: mpg^-0.5 ~ as.factor(horsepower)
+  Res.Df      RSS Df Sum of Sq      F    Pr(&gt;F)    
+1    389 0.138224                                  
+2    299 0.085073 90  0.053151 2.0756 2.372e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The model fails the linearity assumption test. But as noted earlier, this failure is due to the presence of very few or no replicates at some points. This potentially results in the full model explaining the noise, which in turn results in the model failing the linearity test. Again, we can bin the predictor values to have replicates for every bin, and then the model is likely to satisfy the linearity assumption.</p>
 
 
 </section>
