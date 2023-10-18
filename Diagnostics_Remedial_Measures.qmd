@@ -43,10 +43,10 @@ Let us make diagnostic plots that help us check the model assumptions.
 
 ```{r}
 par(mfrow = c(2,2))
-plot(model)
+plot(linear_model)
 ```
 
-### Linearity assumption
+### Linear relationship
 
 #### Visual check
 
@@ -68,13 +68,15 @@ anova(linear_model, full_model)
 
 As expected based on the visual check, the linear model fails the linearity test with a very low $p$-value of the order of $10^{-14}$. Thus, we conclude that relationship is non-linear.
 
-### Constant variance
+### Constant variance (Homoscedasticity)
 
 #### Visual check
 
-The plot of the residuals against fitted values indicates that the error variance is increaing with increasing values of predicted `mpg` or decreasing `horsepower`. Thus, there seems to be heteroscedasticity.
+The plot of the residuals against fitted values indicates that the error variance is increasing with increasing values of predicted `mpg` or decreasing `horsepower`. Thus, there seems to be heteroscedasticity.
 
 #### Statistical test
+
+**Breusch-Pagan test**
 
 Let us conduct the Breusch-Pagan test for homoscedasticity. This is a large sample test, which assumes that the error terms are independent and normally distruted, and that the variance of of the error term $\epsilon_i$, denoted by $\sigma_i^2$, is related to the level of the predictor $X$ in the following way:
 
@@ -91,5 +93,62 @@ bptest(linear_model)
 
 As expected based on the visual check, the model fails the homoscedasticity with a low $p$-value of 0.3\%.
 
+
+**Brown-Forsythe test**
+
+To conduct the Brown-Forsythe test, we divide the data into two groups, based on the predictor $X$. If the error variance is not constant, the residuals in one group will tend to be more variable than those in the other group. The test consists of a two-sample $t$-test to determine whether the mean of the absolute deviations from the median residual of one group differs significantly from the mean of the absolute deviations from the median residual of the other group.
+
+```{r}
+#Break the residuals into 2 groups
+residuals_group1 <- linear_model$residuals[auto_data$horsepower<=100]
+residuals_group2 <- linear_model$residuals[auto_data$horsepower>100]
+```
+
+```{r}
+#Obtain the median of each group
+median_group1 <- median(residuals_group1)
+median_group2 <- median(residuals_group2)
+```
+
+```{r}
+#Two-sample t-test
+t.test(abs(residuals_group1-median_group1), abs(residuals_group2-median_group2), var.equal = TRUE)
+```
+
+Brown-Forsythe test also shows that there is heteroscedasticity.
+
+### Normality of error terms
+
+#### Visual check
+
+The QQ plot indicates that the distribution of the residuals is slightly right-skewed. This right-skew can be visualized by making a histogram or a density plot of residuals:
+
+```{r}
+par(mfrow = c(1,1))
+hist(linear_model$residuals, breaks = 20, prob = TRUE)
+lines(density(linear_model$residuals), col = 'blue')
+```
+
+#### Statistical test
+
+```{r}
+shapiro.test(linear_model$residuals)
+```
+
+As expected based on the visual check, the model fails the test for normal distribution of error terms with a low $p$-value of the order of $10^{-5}$.
+
+### Independence of error terms
+
+This test is relevant if there is an order in the data, i.e., if the observations can be arranged based on time, space, etc. In the current example, there is no order, and so this test is not relevant.
+
+## Remedial Measures
+
+If the linear relationship assumption violated, it results in biased estimates of the regression coefficients resulting in a biased prediction. As the estimates are biased, their variance estimates may also be inaccurate. Thus, this is a very important assumption as it leads to inaccuracies in both point estimates and statistical inference. 
+
+If the homoscedasticity assumption is violated, but the linear relationship assumption holds, the OLS estimates are still unbiased resulting in an unbiased prediction. However, their standard error estimates are likely to be inaccurate. 
+
+If the assumption regarding the normal distribution of errors is violated, the OLS estimates are still BLUE (Best linear unbiased estimates). The confidence interval for a point estimate, though effected, is robust to departures from normality for large sample sizes. However, the prediction interval is sensitive to the same.
+
+Depending on the application, one assumption may be more important for the stakeholder than the other. 
 
 
