@@ -41,7 +41,7 @@ jobs:
 
       - name: Install packages
         run:
-          Rscript -e "install.packages('ISLR')"
+          Rscript -e "install.packages(c('ISLR','ggplot2','lmtest'))"
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
