@@ -316,6 +316,25 @@ Note that the severity of the linearity assumption violation has been reduced, w
 
 Let us confirm our intuition based on diagnostic plots with statistical tests.
 
+```{r}
+bptest(quadratic_boxcox_model)
+```
+
+As expected, the errors are homoscedastic.
+
+```{r}
+shapiro.test(quadratic_boxcox_model$residuals)
+```
+
+There is a slight deviation from the normal distribution, but its only due to three points as we saw earlier.
+
+```{r}
+anova(quadratic_boxcox_model, power_full_model)
+```
+
+The model fails the linearity assumption test. But as noted earlier, this failure is due to the presence of very few or no replicates at some points. This potentially results in the full model explaining the noise, which in turn results in the model failing the linearity test. Again, we can bin the predictor values to have replicates for every bin, and then the model is likely to satisfy the linearity assumption.
+
+
 
 
 
