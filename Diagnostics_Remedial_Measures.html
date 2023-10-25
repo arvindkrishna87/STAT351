@@ -676,6 +676,51 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>The model fails the linearity assumption test. But as noted earlier, this failure is due to the presence of very few or no replicates at some points. This potentially results in the full model explaining the noise, which in turn results in the model failing the linearity test. Again, we can bin the predictor values to have replicates for every bin, and then the model is likely to satisfy the linearity assumption.</p>
+<p>As shown in the plot below, the full model is overfitting the data, and explaining some noise due to the absence of replicates for some values of horsepower.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> auto_data, <span class="fu">aes</span>(<span class="at">x =</span> horsepower, <span class="at">y =</span> mpg))<span class="sc">+</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> power_full_model<span class="sc">$</span>fitted.values<span class="sc">^-</span><span class="dv">2</span>), <span class="at">color =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>To resolve this issue, we will bin the predictor values, so that we have replicates for each distinct value of the predictor, and get a better fit for the full model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Binning horsepower into 20 equal width bins</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>horsepower_bins <span class="ot">&lt;-</span> <span class="fu">cut</span>(auto_data<span class="sc">$</span>horsepower, <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full model based on binned horsepower</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>power_full_model_binned_hp <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg<span class="sc">^-</span><span class="fl">0.5</span><span class="sc">~</span>horsepower_bins, <span class="at">data =</span> auto_data)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(quadratic_boxcox_model, power_full_model_binned_hp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: mpg^-0.5 ~ horsepower + I(horsepower^2)
+Model 2: mpg^-0.5 ~ horsepower_bins
+  Res.Df     RSS Df Sum of Sq      F  Pr(&gt;F)  
+1    389 0.13822                              
+2    372 0.12912 17 0.0091085 1.5437 0.07696 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Note that now the <code>quadratic_boxcox_model</code> model saitisfies the linearity assumption <em>(assuming a significance level of 5%)</em>.</p>
+<p>Note that our full model based on the binned <code>horsepower</code> values seems to better fit the data as shown in the plot below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Full model (binned predictor)"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Quadratic Box-Cox model"</span> <span class="ot">=</span> <span class="st">"blue"</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> auto_data, <span class="fu">aes</span>(<span class="at">x =</span> horsepower, <span class="at">y =</span> mpg))<span class="sc">+</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> quadratic_boxcox_model<span class="sc">$</span>fitted.values<span class="sc">^-</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">"Quadratic Box-Cox model"</span>))<span class="sc">+</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> power_full_model_binned_hp<span class="sc">$</span>fitted.values<span class="sc">^-</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">"Full model (binned predictor)"</span>))<span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> colors)<span class="sc">+</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.75</span>,<span class="fl">0.85</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>
