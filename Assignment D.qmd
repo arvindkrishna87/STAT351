@@ -57,9 +57,9 @@ What is the Hat matrix?
 
 *(6 + 2 = 8 points)*
 
-## 
+## General Linear Regression model
 
-For each of the following regression models, indicate if it can be transformed to a general linear regression model. Assume $\epsilon_i \sim N(0, \sigma^2)$Justify your answer.
+For each of the following regression models, indicate if it can be transformed to a general linear regression model. Assume $\epsilon_i \sim N(0, \sigma^2)$. Justify your answer, i.e., mention the appropriate transformation(s).
 
 a. $Y_i = \beta_0 + \beta_1X_{i1}+\beta_2\log(X_{i2})+\beta_3X_{i1}^2+\epsilon_i$
 
@@ -136,7 +136,7 @@ Plot the residuals against each predictor. For each predictor, comment if it see
 
 ### 
 
-Given the analysis in the previous plots, will it be appropriate to transform the predictors or the response or both? Why? If both, then which should you transform first?
+Given the analysis in the previous plots (in [D.6.4](https://nustat.github.io/STAT350-class-notes/Assignment%20D.html#section-4) and [D.6.5](https://nustat.github.io/STAT350-class-notes/Assignment%20D.html#section-5)), will it be appropriate to transform the predictors or the response or both? Why? If both, then which should you transform first?
 
 *(1+2+1 = 4 points)*
 
@@ -160,7 +160,7 @@ Plot the residuals against each predictor for the Box-Cox model developed in [D.
 
 ### 
 
-Based on the above plots, transform two predictors of your choice to improve the model on the linear relationship assumption with regard to the predictors. Mention the intuition behind the transformation.
+Based on the above plots, transform two predictors of your choice to improve the model on the linear relationship assumption with regard to the predictors. Mention the intuition behind the transformations.
 
 *(2 + 2 = 4 points)*
 
