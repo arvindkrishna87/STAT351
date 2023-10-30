@@ -39,7 +39,7 @@ Obtain the expression for the variance-covariance matrix of the fitted values $Y
 
 *(3 points)*
 
-## Maximum likelihood estimation
+## Maximum likelihood estimation for Generalized Least Squares
 
 The density of the multivariate normal distribution is:
 
