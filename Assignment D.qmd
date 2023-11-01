@@ -83,7 +83,7 @@ For random variables $a$ and $b$:
 
 $Cov(a, a) = Var(a)$,
 
-$[Cor(a, b)]^2 = \frac{Cov(a,b)}{Var(a)Var(b)}$.
+$[Cor(a, b)]^2 = \frac{[Cov(a,b)]^2}{Var(a)Var(b)}$.
 
 For the linear regression model:
 
