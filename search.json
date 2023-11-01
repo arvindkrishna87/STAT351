@@ -368,7 +368,7 @@
     "href": "Assignment D.html#cory_i-haty_i-sqrtr2",
     "title": "Appendix D — Assignment D",
     "section": "D.5 \\(Cor(Y_i, \\hat{Y}_i) = \\sqrt(R^2)\\)",
-    "text": "D.5 \\(Cor(Y_i, \\hat{Y}_i) = \\sqrt(R^2)\\)\nFor the multiple linear regression model, show that the square of the correlation between the response \\(Y_i\\) and the fitted values \\(\\hat{Y}_i\\) is the coefficient of determination \\(R^2\\)\nHint:\nFor random variables \\(a\\) and \\(b\\):\n\\(Cov(a, a) = Var(a)\\),\n\\([Cor(a, b)]^2 = \\frac{Cov(a,b)}{Var(a)Var(b)}\\).\nFor the linear regression model:\n\\(Y = \\hat{Y}+\\epsilon\\)\n(8 points)"
+    "text": "D.5 \\(Cor(Y_i, \\hat{Y}_i) = \\sqrt(R^2)\\)\nFor the multiple linear regression model, show that the square of the correlation between the response \\(Y_i\\) and the fitted values \\(\\hat{Y}_i\\) is the coefficient of determination \\(R^2\\)\nHint:\nFor random variables \\(a\\) and \\(b\\):\n\\(Cov(a, a) = Var(a)\\),\n\\([Cor(a, b)]^2 = \\frac{[Cov(a,b)]^2}{Var(a)Var(b)}\\).\nFor the linear regression model:\n\\(Y = \\hat{Y}+\\epsilon\\)\n(8 points)"
   },
   {
     "objectID": "Assignment D.html#developing-the-mlr-model",
