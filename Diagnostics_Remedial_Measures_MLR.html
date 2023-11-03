@@ -377,6 +377,69 @@ W = 0.91804, p-value = 4.19e-09</code></pre>
 <section id="remedial-measures" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="remedial-measures"><span class="header-section-number">5.6</span> Remedial measures</h2>
 <p>Based on the diagnostic plots, the linearity assumption and the assumptions regarding error distribution are violated. Since both linearity and error distribution assumptions are violated, we will recommend transforming the response <code>sales</code> instead of the predictors. Transforming <code>sales</code> is likely to change the nature of relationship between the response and the predictors, as well as the error distribution.</p>
+<p>Let us use the Box-Cox procedure to identify the appropriate transformation of the response <code>sales</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxcox</span>(linear_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_MLR_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>From the above plot, we observe that the Box-Cox procedure suggests no transformation of the response. However, as the residual distribution is left-skewed, a convex transformation of the response was expected.</p>
+<p>Note that the Box-Cox procedure does not guarantee the appropriate value of the power transformation <span class="math inline">\(\lambda\)</span> to transform the residual distribution to normal. It estimates the value of <span class="math inline">\(\lamdba\)</span> by maximizing the likelihood of the data based on the assumption of normal distribution of errors. Thus, it is likely to estimate the value of <span class="math inline">\(\lambda\)</span> that pushes the distribution of the residuals closer to the normal distribution. However, since we have finite data, there may exist other distributions that maximize the likelihood of the data by chance, resulting in an inappropriate value of <span class="math inline">\(\lambda\)</span>.</p>
+<p>As we can see that a convex transformation will be appropriate in this case, let us transform <code>sales</code> with one of the most popular and simple convex transformation, which is the polynomial transformation of degree 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transformed_resp_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> TV<span class="sc">+</span>radio, <span class="at">data =</span> sales_data)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(transformed_resp_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sales^2 ~ TV + radio, data = sales_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-150.040  -41.080   -5.875   36.813  177.224 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -112.08467   10.66220  -10.51   &lt;2e-16 ***
+TV             1.30461    0.05034   25.92   &lt;2e-16 ***
+radio          6.18844    0.29109   21.26   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 60.87 on 197 degrees of freedom
+Multiple R-squared:  0.8577,    Adjusted R-squared:  0.8563 
+F-statistic: 593.8 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The transformed model with <span class="math inline">\(R^2_{adj} = 86\%\)</span> seems to have a slightly worse goodness-of-fit as compared to the previous model. Let us make diagnostic plots to check model assumptions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(transformed_resp_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_MLR_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We observe that there is an even stronger departure from the linear relationship assumption as compared to the previous model. However, the error distribution seems to be normal. There may be slight departure from the homoscedasticity assumption. Let us verify the homoscedasticity and normality assumptions with statistical tests.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(transformed_resp_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  transformed_resp_model
+BP = 5.2091, df = 2, p-value = 0.07394</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(transformed_resp_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  transformed_resp_model$residuals
+W = 0.99123, p-value = 0.2681</code></pre>
+</div>
+</div>
 
 
 </section>
