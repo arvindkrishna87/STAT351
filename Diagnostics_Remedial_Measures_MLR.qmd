@@ -1,0 +1,77 @@
+# Diagnostics and Remedial measures (MLR)
+
+Let us consider the *Advertisement.csv* dataset. We will develop a multiple linear regression model to predict `sales` based on expenditure on advertisement via `TV` and `radio`.
+
+## Loading libraries
+
+```{r}
+#| message: false
+library(ggplot2) #for making plots
+library(lmtest) #for bptest()
+library(MASS) #for boxcox()
+library(rgl)
+```
+
+
+## Reading data
+
+```{r}
+sales_data <- read.csv('./Datasets/Advertising.csv')
+```
+
+## Developing model
+
+```{r}
+linear_model <- lm(sales~TV+radio, data = sales_data)
+```
+
+## Model fit
+
+With two predictors, the model fit can be visualized via a 3-dimensional plot *(2 predictors on 2 axes, and the response on the 3rd axis)*. However, with more than 2 predictors it will be impossible to visualize the model fit based on all the predictors and response. Thus, visualizing the response with the predictors is not an effective strategy. We will visualize the model fit via a 3D plot for this example since we have only 2 predictors, but that will be just for seeing the effectiveness of our approach of performing diagnostic tests and using remedial measure to develop a MLR model. We will not use the visualization of the response with the predictors to propose a model development strategy as such a strategy will fail for more than 2 predictors.
+
+Let us check the goodness-of-fit of the model.
+
+```{r}
+summary(linear_model)
+```
+
+The model $R^2_{adj}$ is 90\% indicating a good-fit of the model to the data.
+
+
+```{r}
+#| echo: false
+#| eval: false
+plot3d( 
+  x=sales_data$TV, y=sales_data$radio, z=sales_data$sales, 
+  #col = data$color, 
+  #type = 's', 
+  radius = .1,
+  xlab="TV", ylab="Radio", zlab="Sales")
+plot3d(x=sales_data$TV, y=sales_data$radio, z=linear_model$fitted.values, colvar = linear_model$fitted.values, add = TRUE, col = 'blue')
+```
+
+
+## Diagnostic plots & statistical tests
+
+Let us make diagnostic plots that help us check the model assumptions.
+
+```{r}
+par(mfrow = c(2,2))
+plot(linear_model)
+```
+
+From the plot residuals vs fitted values, we see that the relationship does not seem to be linear. However, the homoscedasticity assumption seems to be only mildly violated.
+
+From the Q-Q plot, we can see that the error distribution is left-skewed, and thus the assumption of normal distribution of errors is also violated.
+
+Let us verify our visual check with statistical tests.
+
+```{r}
+bptest(linear_model)
+shapiro.test(linear_model$residuals)
+```
+
+Considering a significance level of 5\%, the model does not satisfy the assumption of normal distribution of errors, but satisfies the homoscedasticity assumption.
+
+
+

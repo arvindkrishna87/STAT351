@@ -18,6 +18,7 @@ book:
     - t_test_example.qmd
     - SLR_model.qmd
     - Diagnostics_Remedial_Measures.qmd
+    - Diagnostics_Remedial_Measures_MLR.qmd
   appendices: 
     - Assignment A.qmd
     - Assignment B.qmd

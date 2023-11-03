@@ -1,4 +1,4 @@
-# Diagnostics and Remedial measures
+# Diagnostics and Remedial measures (SLR)
 
 Let us consider the `Auto` dataset from the `ISLR` library. The library is related to the book *[Introduction to Statistical Learning](https://hastie.su.domains/ISLR2/ISLRv2_website.pdf)*
 
