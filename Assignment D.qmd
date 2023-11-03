@@ -35,7 +35,7 @@ Show that the least squares estimator $\hat{\beta} = (X^TX)^{-1}X^TY$ is unbiase
 
 ## Variance-covariace of fitted values
 
-Obtain the expression for the variance-covariance matrix of the fitted values $Y_i, i = 1,...,n$ in terms of the hat matrix $H$.
+Obtain the expression for the variance-covariance matrix of the fitted values $\hat{Y}_i, i = 1,...,n$ in terms of the hat matrix $H$.
 
 *(3 points)*
 
