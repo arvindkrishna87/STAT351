@@ -59,7 +59,7 @@ What is the Hat matrix?
 
 ## General Linear Regression model
 
-For each of the following regression models, indicate if it can be transformed to a general linear regression model. Assume $\epsilon_i \sim N(0, \sigma^2)$. Justify your answer, i.e., mention the appropriate transformation(s).
+For each of the following regression models, indicate if it can be transformed to a general linear regression model. Assume $\epsilon_i \sim N(0, \sigma^2)$. Justify your answer, i.e., mention the appropriate transformation(s). Note that the assumption $\epsilon_i \sim N(0, \sigma^2)$ need to hold for a general linear regression model.
 
 a. $Y_i = \beta_0 + \beta_1X_{i1}+\beta_2\log(X_{i2})+\beta_3X_{i1}^2+\epsilon_i$
 
