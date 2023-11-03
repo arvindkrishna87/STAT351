@@ -9,7 +9,7 @@ Let us consider the *Advertisement.csv* dataset. We will develop a multiple line
 library(ggplot2) #for making plots
 library(lmtest) #for bptest()
 library(MASS) #for boxcox()
-library(rgl)
+#library(rgl) #for 3D plots
 ```
 
 
@@ -72,6 +72,40 @@ shapiro.test(linear_model$residuals)
 ```
 
 Considering a significance level of 5\%, the model does not satisfy the assumption of normal distribution of errors, but satisfies the homoscedasticity assumption.
+
+Note that the statistical test for the linearity assumption is not possible since we don't have replicates for the combination of values of `TV` and `radio` expenditures as shown below.
+
+```{r}
+nrow(unique(sales_data[,c('TV', 'radio')]))
+```
+
+The data has 200 observations, and each of them is a unique combination of expenditure on `TV` and `radio`. Thus, we'll only use the diagnostic plots to check the linearity assumption.
+
+In multiple linear regression, we also develop the residual plots against each predictor. These plots may indicate the predictor(s) that may not have linear relationship with the response.
+
+```{r}
+# Residuals vs TV expenditure
+ggplot(data = sales_data, aes(x = TV, y = linear_model$residuals))+
+  geom_point()+
+  geom_smooth()
+```
+
+The relationship between `TV` expenditure and `sales` seems to be slightly non-linear. The constant error variance assumption is also violated.
+
+```{r}
+# Residuals vs radio expenditure
+ggplot(data = sales_data, aes(x = radio, y = linear_model$residuals))+
+  geom_point()+
+  geom_smooth()
+```
+
+The relationship between `radio` expenditure and `sales` seems to be linear. However, the constant error variance assumption is  violated.
+
+
+## Remedial measures
+
+Based on the diagnostic plots, the linearity assumption and the assumptions regarding error distribution are violated. Since both linearity and error distribution assumptions are violated, we will recommend transforming the response `sales` instead of the predictors. Transforming `sales` is likely to change the nature of relationship between the response and the predictors, as well as the error distribution.
+
 
 
 
