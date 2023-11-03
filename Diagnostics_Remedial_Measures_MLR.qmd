@@ -106,6 +106,36 @@ The relationship between `radio` expenditure and `sales` seems to be linear. How
 
 Based on the diagnostic plots, the linearity assumption and the assumptions regarding error distribution are violated. Since both linearity and error distribution assumptions are violated, we will recommend transforming the response `sales` instead of the predictors. Transforming `sales` is likely to change the nature of relationship between the response and the predictors, as well as the error distribution.
 
+Let us use the Box-Cox procedure to identify the appropriate transformation of the response `sales`.
 
+```{r}
+par(mfrow=c(1,1))
+boxcox(linear_model)
+```
+
+From the above plot, we observe that the Box-Cox procedure suggests no transformation of the response. However, as the residual distribution is left-skewed, a convex transformation of the response was expected. 
+
+Note that the Box-Cox procedure does not guarantee the appropriate value of the power transformation $\lambda$ to transform the residual distribution to normal. It estimates the value of $\lamdba$ by maximizing the likelihood of the data based on the assumption of normal distribution of errors. Thus, it is likely to estimate the value of $\lambda$ that pushes the distribution of the residuals closer to the normal distribution. However, since we have finite data, there may exist other distributions that maximize the likelihood of the data by chance, resulting in an inappropriate value of $\lambda$.
+
+As we can see that a convex transformation will be appropriate in this case, let us transform `sales` with one of the most popular and simple convex transformation, which is the polynomial transformation of degree 2.
+
+```{r}
+transformed_resp_model <- lm(sales^2 ~ TV+radio, data = sales_data)
+summary(transformed_resp_model)
+```
+
+The transformed model with $R^2_{adj} = 86\%$ seems to have a slightly worse goodness-of-fit as compared to the previous model. Let us make diagnostic plots to check model assumptions.
+
+```{r}
+par(mfrow=c(2,2))
+plot(transformed_resp_model)
+```
+
+We observe that there is an even stronger departure from the linear relationship assumption as compared to the previous model. However, the error distribution seems to be normal. There may be slight departure from the homoscedasticity assumption. Let us verify the homoscedasticity and normality assumptions with statistical tests.
+
+```{r}
+bptest(transformed_resp_model)
+shapiro.test(transformed_resp_model$residuals)
+```
 
 
