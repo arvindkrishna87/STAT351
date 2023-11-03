@@ -115,7 +115,7 @@ boxcox(linear_model)
 
 From the above plot, we observe that the Box-Cox procedure suggests no transformation of the response. However, as the residual distribution is left-skewed, a convex transformation of the response was expected. 
 
-Note that the Box-Cox procedure does not guarantee the appropriate value of the power transformation $\lambda$ to transform the residual distribution to normal. It estimates the value of $\lamdba$ by maximizing the likelihood of the data based on the assumption of normal distribution of errors. Thus, it is likely to estimate the value of $\lambda$ that pushes the distribution of the residuals closer to the normal distribution. However, since we have finite data, there may exist other distributions that maximize the likelihood of the data by chance, resulting in an inappropriate value of $\lambda$.
+Note that the Box-Cox procedure does not guarantee the appropriate value of the power transformation $\lambda$ to transform the residual distribution to normal. It estimates the value of $\lambda$ by maximizing the likelihood of the data based on the assumption of normal distribution of errors. Thus, it is likely to estimate the value of $\lambda$ that pushes the distribution of the residuals closer to the normal distribution. However, since we have finite data, there may exist other distributions that maximize the likelihood of the data by chance, resulting in an inappropriate value of $\lambda$.
 
 As we can see that a convex transformation will be appropriate in this case, let us transform `sales` with one of the most popular and simple convex transformation, which is the polynomial transformation of degree 2.
 
@@ -137,5 +137,73 @@ We observe that there is an even stronger departure from the linear relationship
 bptest(transformed_resp_model)
 shapiro.test(transformed_resp_model$residuals)
 ```
+
+Based on the above tests, the model satisfies both the homoscedasticity and the assumption of normal distribution of errors.
+
+Transforming the predictors may help make the relationship linear without changing the distribution of errors, which is what we need.
+
+Let us visualize the residuals against each predictor to identify the predictor having a non-linear relationship with the response.
+
+```{r}
+# Residuals vs TV expenditure
+ggplot(data = sales_data, aes(x = TV, y = transformed_resp_model$residuals))+
+  geom_point()+
+  geom_smooth()
+```
+
+The relationship between `TV` expenditure and `sales` seems to be close to linear. Thus, transforming `TV` may not be appropriate.
+
+```{r}
+# Residuals vs radio expenditure
+ggplot(data = sales_data, aes(x = radio, y = transformed_resp_model$residuals))+
+  geom_point()+
+  geom_smooth()
+```
+
+The relationship between `radio` expenditure and `sales` seems to be close to linear. Thus, transforming `radio` may not be appropriate.
+
+Our current model is additive, i.e., the expected change in the response `sales` with a unit change in either predictor is independent of the value of the other predictor. However, this assumption may not be correct. For example, the expected change in the response `sales` with a unit change in `TV` expenditure may depend on the `radio` expenditure. In other words, the predictors `TV` and `radio` may interact to effect the response. If they are indeed interaction, then it can be observed in the plot of residuals against the interaction.
+
+```{r}
+# Residuals vs TV*radio expenditure
+ggplot(data = sales_data, aes(x = radio*TV, y = transformed_resp_model$residuals))+
+  geom_point()+
+  geom_smooth()
+```
+
+We can see that the residuals seem to have a relationship with the interaction of `TV` and `radio` expenditures. There seems to be curvilinear relationship between the residuals and the interaction of `radio` and `TV`. Thus, we will add the `TV*radio` as well as $`(TV*radio)^2`$ in the model. However, note that it will be better to first only add `TV*radio` in the model, check the diagnostic plots, and if it doesn't suffice, then consider addin $`(TV*radio)^2`$. This is because a simpler model, if sufficient, will always be preferred over a more complex model. 
+
+
+```{r}
+interaction_model <- lm(sales^2 ~ TV+radio+TV*radio+I((TV*radio)^2), data = sales_data)
+summary(interaction_model)
+```
+
+Note that $R^2_{adj}$ of the model with interaction terms is 99\%, which indicates a much higher goodness-of-fit as compared to the previous models. However, this need not be a good news as the model may be over-fitting, i.e., fitting on the noise in the data.
+
+Along with testing the model assumptions, we should also test the model accuracy on unseen data, to check for potential overfitting. This can be done by examining the cross-validated error. However, we will defer this topic to a later chapter.
+
+Let us make the diagnostic plots.
+
+```{r}
+par(mfrow=c(2,2))
+plot(interaction_model)
+```
+
+Note that the linearity assumption seems to be satisfied by the model with the interaction terms. There seems to be only a slight departure from the homoscedasticity and the normal distribution of errors assumptions. As we have transformed the predictors, the distribution of errors is not expected to change much.
+
+Let us verify the assumptions based on statistical tests.
+
+```{r}
+bptest(interaction_model)
+shapiro.test(interaction_model$residuals)
+```
+
+Note that there is no strong departure from the homoscedasticity and normal distribution of errors assumptions. If we consider a significance level of 0.1\%, the model satisfies both the assumptions. The linear relationship assumption seems to be satisfied based on the diagnostic plot.
+
+In this example, we have used diagnostic plots and intuition to develop a model that satisfies the assumptions. Note that intuition may not work in all cases, and we'll study more remedial measures in later chapters to address model assumption violations.
+
+
+
 
 
