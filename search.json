@@ -389,7 +389,7 @@
     "href": "Assignment D.html#variance-covariace-of-fitted-values",
     "title": "Appendix D — Assignment D",
     "section": "D.2 Variance-covariace of fitted values",
-    "text": "D.2 Variance-covariace of fitted values\nObtain the expression for the variance-covariance matrix of the fitted values \\(Y_i, i = 1,...,n\\) in terms of the hat matrix \\(H\\).\n(3 points)"
+    "text": "D.2 Variance-covariace of fitted values\nObtain the expression for the variance-covariance matrix of the fitted values \\(\\hat{Y}_i, i = 1,...,n\\) in terms of the hat matrix \\(H\\).\n(3 points)"
   },
   {
     "objectID": "Assignment D.html#maximum-likelihood-estimation-for-generalized-least-squares",
