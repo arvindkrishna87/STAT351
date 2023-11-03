@@ -386,7 +386,7 @@ W = 0.91804, p-value = 4.19e-09</code></pre>
 </div>
 </div>
 <p>From the above plot, we observe that the Box-Cox procedure suggests no transformation of the response. However, as the residual distribution is left-skewed, a convex transformation of the response was expected.</p>
-<p>Note that the Box-Cox procedure does not guarantee the appropriate value of the power transformation <span class="math inline">\(\lambda\)</span> to transform the residual distribution to normal. It estimates the value of <span class="math inline">\(\lamdba\)</span> by maximizing the likelihood of the data based on the assumption of normal distribution of errors. Thus, it is likely to estimate the value of <span class="math inline">\(\lambda\)</span> that pushes the distribution of the residuals closer to the normal distribution. However, since we have finite data, there may exist other distributions that maximize the likelihood of the data by chance, resulting in an inappropriate value of <span class="math inline">\(\lambda\)</span>.</p>
+<p>Note that the Box-Cox procedure does not guarantee the appropriate value of the power transformation <span class="math inline">\(\lambda\)</span> to transform the residual distribution to normal. It estimates the value of <span class="math inline">\(\lambda\)</span> by maximizing the likelihood of the data based on the assumption of normal distribution of errors. Thus, it is likely to estimate the value of <span class="math inline">\(\lambda\)</span> that pushes the distribution of the residuals closer to the normal distribution. However, since we have finite data, there may exist other distributions that maximize the likelihood of the data by chance, resulting in an inappropriate value of <span class="math inline">\(\lambda\)</span>.</p>
 <p>As we can see that a convex transformation will be appropriate in this case, let us transform <code>sales</code> with one of the most popular and simple convex transformation, which is the polynomial transformation of degree 2.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>transformed_resp_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> TV<span class="sc">+</span>radio, <span class="at">data =</span> sales_data)</span>
@@ -440,6 +440,109 @@ data:  transformed_resp_model$residuals
 W = 0.99123, p-value = 0.2681</code></pre>
 </div>
 </div>
+<p>Based on the above tests, the model satisfies both the homoscedasticity and the assumption of normal distribution of errors.</p>
+<p>Transforming the predictors may help make the relationship linear without changing the distribution of errors, which is what we need.</p>
+<p>Let us visualize the residuals against each predictor to identify the predictor having a non-linear relationship with the response.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuals vs TV expenditure</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sales_data, <span class="fu">aes</span>(<span class="at">x =</span> TV, <span class="at">y =</span> transformed_resp_model<span class="sc">$</span>residuals))<span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_MLR_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The relationship between <code>TV</code> expenditure and <code>sales</code> seems to be close to linear. Thus, transforming <code>TV</code> may not be appropriate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuals vs radio expenditure</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sales_data, <span class="fu">aes</span>(<span class="at">x =</span> radio, <span class="at">y =</span> transformed_resp_model<span class="sc">$</span>residuals))<span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_MLR_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The relationship between <code>radio</code> expenditure and <code>sales</code> seems to be close to linear. Thus, transforming <code>radio</code> may not be appropriate.</p>
+<p>Our current model is additive, i.e., the expected change in the response <code>sales</code> with a unit change in either predictor is independent of the value of the other predictor. However, this assumption may not be correct. For example, the expected change in the response <code>sales</code> with a unit change in <code>TV</code> expenditure may depend on the <code>radio</code> expenditure. In other words, the predictors <code>TV</code> and <code>radio</code> may interact to effect the response. If they are indeed interaction, then it can be observed in the plot of residuals against the interaction.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuals vs TV*radio expenditure</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sales_data, <span class="fu">aes</span>(<span class="at">x =</span> radio<span class="sc">*</span>TV, <span class="at">y =</span> transformed_resp_model<span class="sc">$</span>residuals))<span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_MLR_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see that the residuals seem to have a relationship with the interaction of <code>TV</code> and <code>radio</code> expenditures. There seems to be curvilinear relationship between the residuals and the interaction of <code>radio</code> and <code>TV</code>. Thus, we will add the <code>TV*radio</code> as well as <span class="math inline">\(`(TV*radio)^2`\)</span> in the model. However, note that it will be better to first only add <code>TV*radio</code> in the model, check the diagnostic plots, and if it doesn’t suffice, then consider addin <span class="math inline">\(`(TV*radio)^2`\)</span>. This is because a simpler model, if sufficient, will always be preferred over a more complex model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>interaction_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(sales<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> TV<span class="sc">+</span>radio<span class="sc">+</span>TV<span class="sc">*</span>radio<span class="sc">+</span><span class="fu">I</span>((TV<span class="sc">*</span>radio)<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> sales_data)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sales^2 ~ TV + radio + TV * radio + I((TV * radio)^2), 
+    data = sales_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-45.472  -7.057   0.722   8.399  46.748 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)       4.461e+01  3.578e+00  12.466   &lt;2e-16 ***
+TV                2.835e-01  2.395e-02  11.836   &lt;2e-16 ***
+radio             5.850e-02  1.405e-01   0.416    0.678    
+I((TV * radio)^2) 9.155e-07  9.534e-08   9.602   &lt;2e-16 ***
+TV:radio          3.284e-02  1.538e-03  21.347   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 13.5 on 195 degrees of freedom
+Multiple R-squared:  0.9931,    Adjusted R-squared:  0.9929 
+F-statistic:  6987 on 4 and 195 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Note that <span class="math inline">\(R^2_{adj}\)</span> of the model with interaction terms is 99%, which indicates a much higher goodness-of-fit as compared to the previous models. However, this need not be a good news as the model may be over-fitting, i.e., fitting on the noise in the data.</p>
+<p>Along with testing the model assumptions, we should also test the model accuracy on unseen data, to check for potential overfitting. This can be done by examining the cross-validated error. However, we will defer this topic to a later chapter.</p>
+<p>Let us make the diagnostic plots.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Diagnostics_Remedial_Measures_MLR_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note that the linearity assumption seems to be satisfied by the model with the interaction terms. There seems to be only a slight departure from the homoscedasticity and the normal distribution of errors assumptions. As we have transformed the predictors, the distribution of errors is not expected to change much.</p>
+<p>Let us verify the assumptions based on statistical tests.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  interaction_model
+BP = 17.163, df = 4, p-value = 0.001797</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(interaction_model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  interaction_model$residuals
+W = 0.98616, p-value = 0.04772</code></pre>
+</div>
+</div>
+<p>Note that there is no strong departure from the homoscedasticity and normal distribution of errors assumptions. If we consider a significance level of 0.1%, the model satisfies both the assumptions. The linear relationship assumption seems to be satisfied based on the diagnostic plot.</p>
+<p>In this example, we have used diagnostic plots and intuition to develop a model that satisfies the assumptions. Note that intuition may not work in all cases, and we’ll study more remedial measures in later chapters to address model assumption violations.</p>
 
 
 </section>
