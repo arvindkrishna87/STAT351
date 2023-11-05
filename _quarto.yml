@@ -19,6 +19,7 @@ book:
     - SLR_model.qmd
     - Diagnostics_Remedial_Measures.qmd
     - Diagnostics_Remedial_Measures_MLR.qmd
+    - multicollinearity.qmd
     - quant_qual_preds.qmd
   appendices: 
     - Assignment A.qmd

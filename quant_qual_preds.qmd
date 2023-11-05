@@ -118,7 +118,7 @@ ggplot(data = car_data, aes(x = engineSize))+
 
 Based on the developed model, for a given engine size, the car with a semi-automatic transmission is estimated to be the most expensive on average, while the car with a manual transmission is estimated to be the least expensive on average.
 
-### Interaction between qualitative and continuous predictors
+## Interaction between qualitative and continuous predictors
 
 Note that the qualitative predictor leads to fitting 3 parallel lines to the data, as there are 3 categories.
 

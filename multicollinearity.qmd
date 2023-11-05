@@ -1,0 +1,28 @@
+# Multicollinearity
+
+Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems. 
+
+### Why and how is collinearity a problem 
+*(Source:  page 100-101 of [ISLR](https://drive.google.com/file/d/106d-rN7cXpyAkgrUqjcPONNCyO-rX7MQ/view))* 
+
+The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response. 
+
+Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for $\hat \beta_j$ to grow. Recall that the t-statistic for each predictor is calculated by dividing $\hat \beta_j$ by its standard error. Consequently, collinearity results in a decline in the $t$-statistic. As a result, **in the presence of collinearity, we may fail to reject $H_0: \beta_j = 0$. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.**
+
+### How to measure collinearity/multicollinearity
+*(Source: page 102 of [ISLR](https://drive.google.com/file/d/106d-rN7cXpyAkgrUqjcPONNCyO-rX7MQ/view))* 
+
+Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multicollinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of $\hat \beta_j$ when fitting the full model divided by the variance of $\hat \beta_j$ if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a **VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.**
+
+The estimated variance of the coefficient $\beta_j$, of the $j^{th}$ predictor $X_j$, can be expressed as:
+
+$$\hat{var}(\hat{\beta_j}) = \frac{(\hat{\sigma})^2}{(n-1)\hat{var}({X_j})}.\frac{1}{1-R^2_{X_j|X_{-j}}},$$
+
+where $R^2_{X_j|X_{-j}}$ is the $R$-squared for the regression of $X_j$ on the other covariates (a regression that does not involve the response variable $Y$).
+
+In case of simple linear regression, the variance expression in the equation above does not contain the term $\frac{1}{1-R^2_{X_j|X_{-j}}}$, as there is only one predictor. However, in case of multiple linear regression, the variance of the estimate of the $j^{th}$ coefficient ($\hat{\beta_j}$) gets inflated by a factor of $\frac{1}{1-R^2_{X_j|X_{-j}}}$ *(Note that in the complete absence of collinearity, $R^2_{X_j|X_{-j}}=0$, and the value of this factor will be 1).*
+
+Thus, the Variance inflation factor, or the VIF for the estimated coefficient of the $j^{th}$ predictor $X_j$ is:
+
+VIF$(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}$
+
