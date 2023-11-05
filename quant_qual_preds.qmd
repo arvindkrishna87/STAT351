@@ -1,8 +1,8 @@
-# Quantitative & Qualitative predictors
+# Variable interactions
 
 In this chapter, we'll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.
 
-## Variable interactions
+## Interaction model
 
 Let us consider the file *car_data.csv*. 
 
@@ -22,7 +22,7 @@ summary(additive_model)
 
 The above model assumes that the average increase in price associated with a unit increase in `engineSize` is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.
 
-### Variable interaction between continuous predictors
+## Variable interaction between continuous predictors
 
 We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in `price` associated with a one-unit increase in `engineSize` depends on the model `year` of the car. In other words, there is an interaction between `engineSize` and `year`. This interaction can be included as a predictor, which is the product of `engineSize` and `year`. *Note that there are several possible interactions that we can consider. Here the interaction between `engineSize` and `year` is just an example.*
 
@@ -39,7 +39,7 @@ The model equation is:
 `price` = $\beta_0$ + $\beta_1$`year` + $\beta_2$`engineSize` + $\beta_3$(`year` $\times$ `engineSize`) + $\beta_4$`mileage` + $\beta_5$`mpg`,
 or
 
-`price` = $\beta_0$ + $\beta_1$`year` + ($\beta_2+\beta_3$)`year` $\times$ `engineSize` + $\beta_4$`mileage` + $\beta_5$`mpg`,
+`price` = $\beta_0$ + $\beta_1$`year` + ($\beta_2+\beta_3$`year`) $\times$ `engineSize` + $\beta_4$`mileage` + $\beta_5$`mpg`,
 or
 
 `price` = $\beta_0 + \beta_1$`year` + $\tilde \beta$`engineSize` + $\beta_4$`mileage` + $\beta_5$`mpg`,
@@ -51,6 +51,47 @@ Substituting the values of the coefficients:
 
 `price` = 5.606e5 - 275.3833`year` + (-1.796e6+896.7687`year`)`engineSize` -0.1525`mileage` -84.3417`mpg`
 
+Thus, for cars launched in the year 2010, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687 * 2010 $\approx$ \$6,500, assuming all the other predictors are constant. However, for cars launched in the year 2020, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687*2020 $\approx$ \$15,500 , assuming all the other predictors are constant.
+
+Similarly, the equation can be re-arranged as:
+
+`price` = 5.606e5 +(-275.3833+896.7687`engineSize`)`year` -1.796e6`engineSize` -0.1525`mileage` -84.3417`mpg`
+
+Thus, for cars with an engine size of 2 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 2 $\approx$ \$1500, assuming all the other predictors are constant. However, for cars with an engine size of 3 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 3 $\approx$ \$2400, assuming all the other predictors are constant.
+
+## Qualitative predictors
+
+Let us develop a model for predicting `price` based on `engineSize` and the qualitative predictor `transmission`.
+
+```{r}
+#checking the distribution of values of transmission
+table(car_data$transmission)
+```
+
+Note that the `Other` category of the variable `transmission` contains only a single observation, which is likely to be insufficient to train the model. We'll remove that observation from the car data. Another option may be to combine the observation in the `Other` category with the nearest category, and keep it in the data.
+
+```{r}
+car_data = car_data[car_data$transmission!='Other',]
+```
+
+```{r}
+qual_pred_model <- lm(price~engineSize+transmission, data = car_data)
+summary(qual_pred_model)
+```
+
+Note that there is no coefficient for the `Automatic` level of the variable `Transmission`. If a car doesn't have `Manual` or `Semi-Automatic` transmission, then it has an `Automatic` transmission. Thus, the coefficient of `Automatic` will be redundant, and the dummy variable corresponding to `Automatic` transmission is dropped from the model. 
+
+The level of the categorical variable that is dropped from the model is called the baseline level. Here `Automatic` transmission is the baseline level. The coefficients of other levels of `transmission` should be interpreted with respect to the baseline level. 
+
+**Q:** Interpret the intercept term.
+
+**Ans:** For the hypothetical scenario of a car with zero engine size and `Automatic` transmission, the estimated mean car price is $\approx$ \$3042.
+
+**Q:** Interpret the coefficient of `transmissionManual`.
+
+**Ans:** The estimated mean price of a car with manual transmission is $\approx$ \$6770 less than that of a car with *Automatic* transmission.
+
+Let us visualize the developed model.
 
 
 
