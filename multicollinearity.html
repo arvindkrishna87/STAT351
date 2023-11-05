@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -203,8 +237,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link active" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="header-section-number">6.0.1</span> Why and how is collinearity a problem</a></li>
-  <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="header-section-number">6.0.2</span> How to measure collinearity/multicollinearity</a></li>
+  <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link active" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="header-section-number">6.1</span> Why and how is collinearity a problem?</a></li>
+  <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="header-section-number">6.2</span> How to measure collinearity/multicollinearity?</a></li>
+  <li><a href="#addressing-multicollinearity-in-polynomial-models" id="toc-addressing-multicollinearity-in-polynomial-models" class="nav-link" data-scroll-target="#addressing-multicollinearity-in-polynomial-models"><span class="header-section-number">6.3</span> Addressing multicollinearity in polynomial models</a></li>
+  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="header-section-number">6.4</span> When can we overlook multicollinearity?</a></li>
   </ul>
 </nav>
     </div>
@@ -229,14 +265,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems.</p>
-<section id="why-and-how-is-collinearity-a-problem" class="level3" data-number="6.0.1">
-<h3 data-number="6.0.1" class="anchored" data-anchor-id="why-and-how-is-collinearity-a-problem"><span class="header-section-number">6.0.1</span> Why and how is collinearity a problem</h3>
+<section id="why-and-how-is-collinearity-a-problem" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="why-and-how-is-collinearity-a-problem"><span class="header-section-number">6.1</span> Why and how is collinearity a problem?</h2>
 <p><em>(Source: page 100-101 of <a href="https://drive.google.com/file/d/106d-rN7cXpyAkgrUqjcPONNCyO-rX7MQ/view">ISLR</a>)</em></p>
 <p>The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.</p>
 <p>Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for <span class="math inline">\(\hat \beta_j\)</span> to grow. Recall that the t-statistic for each predictor is calculated by dividing <span class="math inline">\(\hat \beta_j\)</span> by its standard error. Consequently, collinearity results in a decline in the <span class="math inline">\(t\)</span>-statistic. As a result, <strong>in the presence of collinearity, we may fail to reject <span class="math inline">\(H_0: \beta_j = 0\)</span>. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.</strong></p>
 </section>
-<section id="how-to-measure-collinearitymulticollinearity" class="level3" data-number="6.0.2">
-<h3 data-number="6.0.2" class="anchored" data-anchor-id="how-to-measure-collinearitymulticollinearity"><span class="header-section-number">6.0.2</span> How to measure collinearity/multicollinearity</h3>
+<section id="how-to-measure-collinearitymulticollinearity" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="how-to-measure-collinearitymulticollinearity"><span class="header-section-number">6.2</span> How to measure collinearity/multicollinearity?</h2>
 <p><em>(Source: page 102 of <a href="https://drive.google.com/file/d/106d-rN7cXpyAkgrUqjcPONNCyO-rX7MQ/view">ISLR</a>)</em></p>
 <p>Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multicollinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of <span class="math inline">\(\hat \beta_j\)</span> when fitting the full model divided by the variance of <span class="math inline">\(\hat \beta_j\)</span> if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a <strong>VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.</strong></p>
 <p>The estimated variance of the coefficient <span class="math inline">\(\beta_j\)</span>, of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span>, can be expressed as:</p>
@@ -245,6 +281,227 @@ ul.task-list li input[type="checkbox"] {
 <p>In case of simple linear regression, the variance expression in the equation above does not contain the term <span class="math inline">\(\frac{1}{1-R^2_{X_j|X_{-j}}}\)</span>, as there is only one predictor. However, in case of multiple linear regression, the variance of the estimate of the <span class="math inline">\(j^{th}\)</span> coefficient (<span class="math inline">\(\hat{\beta_j}\)</span>) gets inflated by a factor of <span class="math inline">\(\frac{1}{1-R^2_{X_j|X_{-j}}}\)</span> <em>(Note that in the complete absence of collinearity, <span class="math inline">\(R^2_{X_j|X_{-j}}=0\)</span>, and the value of this factor will be 1).</em></p>
 <p>Thus, the Variance inflation factor, or the VIF for the estimated coefficient of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span> is:</p>
 <p>VIF<span class="math inline">\((\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}\)</span></p>
+<p>Let us consider the dataset <em>Credit.csv</em>. We’ll compute VIF of the predictors when predicting the credit card balance of customers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#loading library for VIF</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>credit_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'./Datasets/Credit.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                                            
+1 function (..., list = character(), package = NULL, lib.loc = NULL,        
+2     verbose = getOption("verbose"), envir = .GlobalEnv, overwrite = TRUE) 
+3 {                                                                         
+4     fileExt &lt;- function(x) {                                              
+5         db &lt;- grepl("\\\\.[^.]+\\\\.(gz|bz2|xz)$", x)                     
+6         ans &lt;- sub(".*\\\\.", "", x)                                      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Developing model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance<span class="sc">~</span>., <span class="at">data =</span> credit_data)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Balance ~ ., data = credit_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-161.64  -77.70  -13.49   53.98  318.20 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -479.20787   35.77394 -13.395  &lt; 2e-16 ***
+Income        -7.80310    0.23423 -33.314  &lt; 2e-16 ***
+Limit          0.19091    0.03278   5.824 1.21e-08 ***
+Rating         1.13653    0.49089   2.315   0.0211 *  
+Cards         17.72448    4.34103   4.083 5.40e-05 ***
+Age           -0.61391    0.29399  -2.088   0.0374 *  
+Education     -1.09886    1.59795  -0.688   0.4921    
+OwnYes       -10.65325    9.91400  -1.075   0.2832    
+StudentYes   425.74736   16.72258  25.459  &lt; 2e-16 ***
+MarriedYes    -8.53390   10.36287  -0.824   0.4107    
+RegionSouth   10.10703   12.20992   0.828   0.4083    
+RegionWest    16.80418   14.11906   1.190   0.2347    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 98.79 on 388 degrees of freedom
+Multiple R-squared:  0.9551,    Adjusted R-squared:  0.9538 
+F-statistic: 750.3 on 11 and 388 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing VIF</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                GVIF Df GVIF^(1/(2*Df))
+Income      2.786182  1        1.669186
+Limit     234.028100  1       15.297977
+Rating    235.848259  1       15.357352
+Cards       1.448690  1        1.203615
+Age         1.051410  1        1.025383
+Education   1.019588  1        1.009747
+Own         1.005849  1        1.002920
+Student     1.031517  1        1.015636
+Married     1.044638  1        1.022075
+Region      1.032231  2        1.007962</code></pre>
+</div>
+</div>
+<p>Note that the VIF of <code>Income</code> and <code>Rating</code> is very high indicating presence of multicollinearity. This may have lead to a high standard error for the coefficients of these predictors.</p>
+<p>Let us remove <code>Rating</code> from the model as it seems to be redundant based on high VIF.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance<span class="sc">~</span>. <span class="sc">-</span> Rating, <span class="at">data =</span> credit_data)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Balance ~ . - Rating, data = credit_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-177.07  -78.60  -13.84   52.74  325.32 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -4.489e+02  3.349e+01 -13.407  &lt; 2e-16 ***
+Income      -7.768e+00  2.351e-01 -33.049  &lt; 2e-16 ***
+Limit        2.664e-01  3.547e-03  75.100  &lt; 2e-16 ***
+Cards        2.327e+01  3.642e+00   6.388 4.79e-10 ***
+Age         -6.079e-01  2.956e-01  -2.056   0.0404 *  
+Education   -1.385e+00  1.602e+00  -0.864   0.3879    
+OwnYes      -1.055e+01  9.969e+00  -1.058   0.2908    
+StudentYes   4.293e+02  1.674e+01  25.639  &lt; 2e-16 ***
+MarriedYes  -5.907e+00  1.036e+01  -0.570   0.5688    
+RegionSouth  9.890e+00  1.228e+01   0.806   0.4210    
+RegionWest   1.472e+01  1.417e+01   1.039   0.2994    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 99.34 on 389 degrees of freedom
+Multiple R-squared:  0.9545,    Adjusted R-squared:  0.9533 
+F-statistic: 815.7 on 10 and 389 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Note that the <span class="math inline">\(R^2_{adj}\)</span> of the updated model is almost the same as that of the previous model. Also, note that the standard error of the estimated coefficient of <code>Income</code> has reduced resulting in a more precise estimate.</p>
+<p>Let us re-check the VIF of the predictors of the updated model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              GVIF Df GVIF^(1/(2*Df))
+Income    2.774623  1        1.665720
+Limit     2.709488  1        1.646052
+Cards     1.008299  1        1.004141
+Age       1.051328  1        1.025343
+Education 1.013501  1        1.006728
+Own       1.005827  1        1.002909
+Student   1.022750  1        1.011311
+Married   1.032113  1        1.015929
+Region    1.026691  2        1.006607</code></pre>
+</div>
+</div>
+<p>The model no longer suffers from multicollinearity.</p>
+</section>
+<section id="addressing-multicollinearity-in-polynomial-models" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="addressing-multicollinearity-in-polynomial-models"><span class="header-section-number">6.3</span> Addressing multicollinearity in polynomial models</h2>
+<p>In polynomial models, it is likely that <span class="math inline">\(X\)</span> will be highly correlated with <span class="math inline">\(X^p\)</span>, resulting in imprecise estimates of the regression coefficents. Let us consider the following simulation example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulating data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">8</span>,<span class="fl">0.01</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> X <span class="sc">+</span> X<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(X))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>X<span class="sc">+</span><span class="fu">I</span>(X<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ X + I(X^2))
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.84038 -0.74623  0.00128  0.67589  2.58663 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  2.59625    3.58220   0.725    0.469    
+X            0.23875    1.11589   0.214    0.831    
+I(X^2)       1.05499    0.08568  12.312   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.004 on 298 degrees of freedom
+Multiple R-squared:  0.9933,    Adjusted R-squared:  0.9932 
+F-statistic: 2.203e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(X, X<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9982179</code></pre>
+</div>
+</div>
+<p>The high correlation indicates presence of multicollineairty. Multicollinearity can also be observed with the high value of VIF as shown below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X   I(X^2) 
+280.8106 280.8106 </code></pre>
+</div>
+</div>
+<p>Centering the predictors may help reduce multicollinearity as shown below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> X<span class="sc">-</span><span class="fu">mean</span>(X)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.0533e-17</code></pre>
+</div>
+</div>
+<p>The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>, after centering the predictor, is almost 0.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model_centered <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x<span class="sc">+</span><span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_centered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     x I(x^2) 
+     1      1 </code></pre>
+</div>
+</div>
+<p>Note that multicollinearity has been eliminated in the model with centered predictor.</p>
+<p>Also, the coefficients of both <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span> are statistically significant <em>(see model summary below)</em> as they should be as per the true model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_centered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x + I(x^2))
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.84038 -0.74623  0.00128  0.67589  2.58663 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 48.72132    0.08679  561.35   &lt;2e-16 ***
+x           13.95358    0.06659  209.54   &lt;2e-16 ***
+I(x^2)       1.05499    0.08568   12.31   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.004 on 298 degrees of freedom
+Multiple R-squared:  0.9933,    Adjusted R-squared:  0.9932 
+F-statistic: 2.203e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="when-can-we-overlook-multicollinearity" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">6.4</span> When can we overlook multicollinearity?</h2>
+<ul>
+<li><p>The severity of the problems increases with the degree of the multicollinearity. Therefore, if there is only moderate multicollinearity <em>(5 &lt; VIF &lt; 10)</em>, we may overlook it.</p></li>
+<li><p>Multicollinearity affects only the standard errors of the coefficients of collinear predictors. Therefore, if multicollinearity is not present for the predictors that we are particularly interested in, we may not need to resolve it.</p></li>
+<li><p>Multicollinearity affects the standard error of the coefficients and thereby their <span class="math inline">\(p\)</span>-values, but in general, it does not influence the prediction accuracy, except in the case that the coefficients are so unstable that the predictions are outside of the domain space of the response. If our sole aim is prediction, and we don’t wish to infer the statistical significance of predictors, then we may avoid addressing multicollinearity. “<em>The fact that some or all predictor variables are correlated among themselves does not, in general, inhibit our ability to obtain a good fit nor does it tend to affect inferences about mean responses or predictions of new observations, provided these inferences are made within the region of observations” - Neter, John, Michael H. Kutner, Christopher J. Nachtsheim, and William Wasserman. “Applied linear statistical models.” (1996): 318.</em></p></li>
+</ul>
 
 
 </section>
