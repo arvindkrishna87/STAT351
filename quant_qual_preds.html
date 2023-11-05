@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Regression analysis (R notes) - 6&nbsp; Variable interactions</title>
+<title>Regression analysis (R notes) - 6&nbsp; Quantitative &amp; Qualitative predictors</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quant_qual_preds.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quant_qual_preds.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Quantitative &amp; Qualitative predictors</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -177,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./quant_qual_preds.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Quantitative &amp; Qualitative predictors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -227,14 +227,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#variable-interactions" id="toc-variable-interactions" class="nav-link active" data-scroll-target="#variable-interactions"><span class="header-section-number">6.1</span> Variable interactions</a>
+  <ul class="collapse">
+  <li><a href="#variable-interaction-between-continuous-predictors" id="toc-variable-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#variable-interaction-between-continuous-predictors"><span class="header-section-number">6.1.1</span> Variable interaction between continuous predictors</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Quantitative &amp; Qualitative predictors</span></h1>
 </div>
 
 
@@ -249,8 +258,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>#Quantitative &amp; Qualitative predictors</p>
 <p>In this chapter, we’ll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.</p>
+<section id="variable-interactions" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="variable-interactions"><span class="header-section-number">6.1</span> Variable interactions</h2>
 <p>Let us consider the file <em>car_data.csv</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading data</span></span>
@@ -303,8 +313,50 @@ F-statistic:  2410 on 4 and 4955 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>The above model assumes that the average increase in price associated with a unit increase in <code>engineSize</code> is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
+<section id="variable-interaction-between-continuous-predictors" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="variable-interaction-between-continuous-predictors"><span class="header-section-number">6.1.1</span> Variable interaction between continuous predictors</h3>
+<p>We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in <code>price</code> associated with a one-unit increase in <code>engineSize</code> depends on the model <code>year</code> of the car. In other words, there is an interaction between <code>engineSize</code> and <code>year</code>. This interaction can be included as a predictor, which is the product of <code>engineSize</code> and <code>year</code>. <em>Note that there are several possible interactions that we can consider. Here the interaction between <code>engineSize</code> and <code>year</code> is just an example.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>interaction_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>year<span class="sc">*</span>engineSize<span class="sc">+</span>mileage<span class="sc">+</span>mpg, <span class="at">data =</span> car_data)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = price ~ year * engineSize + mileage + mpg, data = car_data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-40479  -4929  -1548   2864  85271 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      5.606e+05  2.737e+05   2.048   0.0406 *  
+year            -2.754e+02  1.357e+02  -2.029   0.0425 *  
+engineSize      -1.796e+06  9.968e+04 -18.019   &lt;2e-16 ***
+mileage         -1.525e-01  8.496e-03 -17.954   &lt;2e-16 ***
+mpg             -8.434e+01  9.048e+00  -9.322   &lt;2e-16 ***
+year:engineSize  8.968e+02  4.943e+01  18.142   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9262 on 4954 degrees of freedom
+Multiple R-squared:  0.6816,    Adjusted R-squared:  0.6813 
+F-statistic:  2121 on 5 and 4954 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Note that the <span class="math inline">\(R^2\)</span> has increased as compared to the additive model, since we added a predictor.</p>
+<p>The model equation is:</p>
+<p><code>price</code> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span><code>year</code> + <span class="math inline">\(\beta_2\)</span><code>engineSize</code> + <span class="math inline">\(\beta_3\)</span>(<code>year</code> <span class="math inline">\(\times\)</span> <code>engineSize</code>) + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>, or</p>
+<p><code>price</code> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span><code>year</code> + (<span class="math inline">\(\beta_2+\beta_3\)</span>)<code>year</code> <span class="math inline">\(\times\)</span> <code>engineSize</code> + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>, or</p>
+<p><code>price</code> = <span class="math inline">\(\beta_0 + \beta_1\)</span><code>year</code> + <span class="math inline">\(\tilde \beta\)</span><code>engineSize</code> + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>,</p>
+<p>Since <span class="math inline">\(\tilde \beta\)</span> is a function of <code>year</code>, the association between <code>engineSize</code> and <code>price</code> is no longer a constant. A change in the value of <code>year</code> will change the association between <code>price</code> and <code>engineSize</code>.</p>
+<p>Substituting the values of the coefficients:</p>
+<p><code>price</code> = 5.606e5 - 275.3833<code>year</code> + (-1.796e6+896.7687<code>year</code>)<code>engineSize</code> -0.1525<code>mileage</code> -84.3417<code>mpg</code></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
