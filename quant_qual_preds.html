@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Arvind Krishna">
-<meta name="dcterms.date" content="2023-09-20">
 
-<title>Regression analysis (R notes)</title>
+<title>Regression analysis (R notes) - 6&nbsp; Variable interactions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Rintro.html" rel="next">
+<link href="./Assignment A.html" rel="next">
+<link href="./Diagnostics_Remedial_Measures_MLR.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -63,6 +96,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -75,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quant_qual_preds.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -105,7 +140,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -141,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quant_qual_preds.html" class="sidebar-item-text sidebar-link">
+  <a href="./quant_qual_preds.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></span></a>
   </div>
 </li>
@@ -192,40 +227,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Regression analysis (R notes)</h1>
-<p class="subtitle lead">STAT 350</p>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Arvind Krishna </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">September 20, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -233,12 +249,62 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>These are coding notes for the course STAT350. If you don’t have a background in R, please use the course material on R from the STAT201 course <a href="https://nustat.github.io/Intro_to_programming_for_data_sci/Variable_expressions_statements-R.html">here</a>.</p>
+<p>#Quantitative &amp; Qualitative predictors</p>
+<p>In this chapter, we’ll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.</p>
+<p>Let us consider the file <em>car_data.csv</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'./Datasets/car_data.csv'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(car_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  carID  brand        model year transmission mileage fuelType tax     mpg
+1 12002 hyundi     Santa Fe 2017    Semi-Auto   32467   Diesel 235 42.9709
+2 12003     vw       Arteon 2019    Automatic    1555   Petrol 145 40.5071
+3 12005 toyota        Verso 2003    Automatic  104000   Petrol 300 34.5227
+4 12006   ford  Grand C-MAX 2018       Manual    5113   Petrol 145 47.6225
+5 12007    bmw           X6 2019    Automatic    9010   Diesel 145 35.2224
+6 12008 toyota        Prius 2016    Automatic   32853   Hybrid  10 63.8371
+  engineSize price
+1        2.2 18991
+2        1.5 22500
+3        1.8  2395
+4        1.0 14000
+5        3.0 58700
+6        1.8 22995</code></pre>
+</div>
+</div>
+<p>In an additive model, we assume that the association between a predictor <span class="math inline">\(X_j\)</span> and response <span class="math inline">\(Y\)</span> does not depend on the value of other predictors. For example, consider the multiple linear regression model below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive model</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>additive_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>year<span class="sc">+</span>engineSize<span class="sc">+</span>mileage<span class="sc">+</span>mpg, <span class="at">data =</span> car_data)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(additive_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = price ~ year + engineSize + mileage + mpg, data = car_data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-35346  -5131  -1605   2854  87509 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -3.661e+06  1.489e+05 -24.593   &lt;2e-16 ***
+year         1.818e+03  7.375e+01  24.647   &lt;2e-16 ***
+engineSize   1.218e+04  1.900e+02  64.107   &lt;2e-16 ***
+mileage     -1.474e-01  8.768e-03 -16.817   &lt;2e-16 ***
+mpg         -7.931e+01  9.338e+00  -8.493   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9564 on 4955 degrees of freedom
+Multiple R-squared:  0.6605,    Adjusted R-squared:  0.6602 
+F-statistic:  2410 on 4 and 4955 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The above model assumes that the average increase in price associated with a unit increase in <code>engineSize</code> is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -476,10 +542,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./Diagnostics_Remedial_Measures_MLR.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diagnostics and Remedial measures (MLR)</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Rintro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R: Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Assignment A.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
