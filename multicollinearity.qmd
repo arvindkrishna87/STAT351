@@ -2,14 +2,14 @@
 
 Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems. 
 
-### Why and how is collinearity a problem 
+## Why and how is collinearity a problem?
 *(Source:  page 100-101 of [ISLR](https://drive.google.com/file/d/106d-rN7cXpyAkgrUqjcPONNCyO-rX7MQ/view))* 
 
 The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response. 
 
 Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for $\hat \beta_j$ to grow. Recall that the t-statistic for each predictor is calculated by dividing $\hat \beta_j$ by its standard error. Consequently, collinearity results in a decline in the $t$-statistic. As a result, **in the presence of collinearity, we may fail to reject $H_0: \beta_j = 0$. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.**
 
-### How to measure collinearity/multicollinearity
+## How to measure collinearity/multicollinearity?
 *(Source: page 102 of [ISLR](https://drive.google.com/file/d/106d-rN7cXpyAkgrUqjcPONNCyO-rX7MQ/view))* 
 
 Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multicollinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of $\hat \beta_j$ when fitting the full model divided by the variance of $\hat \beta_j$ if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a **VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.**
@@ -26,3 +26,101 @@ Thus, the Variance inflation factor, or the VIF for the estimated coefficient of
 
 VIF$(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}$
 
+Let us consider the dataset *Credit.csv*. We'll compute VIF of the predictors when predicting the credit card balance of customers.
+
+```{r}
+#| message: false
+#loading library for VIF
+library(car)
+```
+
+```{r}
+# Reading data
+credit_data <- read.csv('./Datasets/Credit.csv')
+head(data)
+
+# Developing model
+model <- lm(Balance~., data = credit_data)
+summary(model)
+```
+
+```{r}
+#Computing VIF
+vif(model)
+```
+
+Note that the VIF of `Income` and `Rating` is very high indicating presence of multicollinearity. This may have lead to a high standard error for the coefficients of these predictors.
+
+Let us remove `Rating` from the model as it seems to be redundant based on high VIF.
+
+```{r}
+model <- lm(Balance~. - Rating, data = credit_data)
+summary(model)
+```
+
+Note that the $R^2_{adj}$ of the updated model is almost the same as that of the previous model. Also, note that the standard error of the estimated coefficient of `Income` has reduced resulting in a more precise estimate.
+
+Let us re-check the VIF of the predictors of the updated model.
+
+```{r}
+vif(model)
+```
+
+The model no longer suffers from multicollinearity.
+
+## Addressing multicollinearity in polynomial models
+
+In polynomial models, it is likely that $X$ will be highly correlated with $X^p$, resulting in imprecise estimates of the regression coefficents. Let us consider the following simulation example. 
+
+```{r}
+# Simulating data
+X <- seq(5,8,0.01)
+y <- X + X^2 + rnorm(length(X))
+
+model <- lm(y~X+I(X^2))
+summary(model)
+```
+
+Note that the $X$ appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between $X$ and $X^2$.
+
+```{r}
+cor(X, X^2)
+```
+
+The high correlation indicates presence of multicollineairty. Multicollinearity can also be observed with the high value of VIF as shown below.
+
+```{r}
+vif(model)
+```
+
+Centering the predictors may help reduce multicollinearity as shown below
+
+```{r}
+x <- X-mean(X)
+cor(x,x^2)
+```
+
+The correlation between $X$ and $X^2$, after centering the predictor, is almost 0.
+
+```{r}
+model_centered <- lm(y~x+I(x^2))
+vif(model_centered)
+```
+
+Note that multicollinearity has been eliminated in the model with centered predictor.
+
+Also, the coefficients of both $X$ and $X^2$ are statistically significant *(see model summary below)* as they should be as per the true model.
+
+```{r}
+summary(model_centered)
+```
+
+
+
+## When can we overlook multicollinearity?
+
+- The severity of the problems increases with the degree of the multicollinearity. Therefore, if there is only moderate multicollinearity *(5 < VIF < 10)*, we may overlook it.
+
+- Multicollinearity affects only the standard errors of the coefficients of collinear predictors. Therefore, if multicollinearity is not present for the predictors that we are particularly interested in, we may not need to resolve it. 
+
+- Multicollinearity affects the standard error of the coefficients and thereby their $p$-values, but in general, it does not influence the prediction accuracy, except in the case that the coefficients are so unstable that the predictions are outside of the domain space of the response. If our sole aim is prediction, and we don’t wish to infer the statistical significance of predictors, then we may avoid addressing multicollinearity. "*The fact that some or all predictor variables are correlated among themselves does not, in general, inhibit our ability to obtain a good fit nor does it tend to affect inferences about mean responses or predictions of new observations, provided these inferences are made within the region of observations" - Neter, John, Michael H. Kutner, Christopher J. Nachtsheim, and William Wasserman. "Applied linear statistical models." (1996): 318.*
