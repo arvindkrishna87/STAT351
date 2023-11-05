@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Regression analysis (R notes) - 6&nbsp; Quantitative &amp; Qualitative predictors</title>
+<title>Regression analysis (R notes) - 6&nbsp; Variable interactions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quant_qual_preds.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Quantitative &amp; Qualitative predictors</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quant_qual_preds.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -177,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./quant_qual_preds.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Quantitative &amp; Qualitative predictors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -231,10 +231,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#variable-interactions" id="toc-variable-interactions" class="nav-link active" data-scroll-target="#variable-interactions"><span class="header-section-number">6.1</span> Variable interactions</a>
-  <ul class="collapse">
-  <li><a href="#variable-interaction-between-continuous-predictors" id="toc-variable-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#variable-interaction-between-continuous-predictors"><span class="header-section-number">6.1.1</span> Variable interaction between continuous predictors</a></li>
-  </ul></li>
+  <li><a href="#interaction-model" id="toc-interaction-model" class="nav-link active" data-scroll-target="#interaction-model"><span class="header-section-number">6.1</span> Interaction model</a></li>
+  <li><a href="#variable-interaction-between-continuous-predictors" id="toc-variable-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#variable-interaction-between-continuous-predictors"><span class="header-section-number">6.2</span> Variable interaction between continuous predictors</a></li>
+  <li><a href="#qualitative-predictors" id="toc-qualitative-predictors" class="nav-link" data-scroll-target="#qualitative-predictors"><span class="header-section-number">6.3</span> Qualitative predictors</a></li>
   </ul>
 </nav>
     </div>
@@ -243,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Quantitative &amp; Qualitative predictors</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variable interactions</span></h1>
 </div>
 
 
@@ -259,8 +258,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>In this chapter, we’ll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.</p>
-<section id="variable-interactions" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="variable-interactions"><span class="header-section-number">6.1</span> Variable interactions</h2>
+<section id="interaction-model" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="interaction-model"><span class="header-section-number">6.1</span> Interaction model</h2>
 <p>Let us consider the file <em>car_data.csv</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading data</span></span>
@@ -313,8 +312,9 @@ F-statistic:  2410 on 4 and 4955 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>The above model assumes that the average increase in price associated with a unit increase in <code>engineSize</code> is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
-<section id="variable-interaction-between-continuous-predictors" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="variable-interaction-between-continuous-predictors"><span class="header-section-number">6.1.1</span> Variable interaction between continuous predictors</h3>
+</section>
+<section id="variable-interaction-between-continuous-predictors" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="variable-interaction-between-continuous-predictors"><span class="header-section-number">6.2</span> Variable interaction between continuous predictors</h2>
 <p>We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in <code>price</code> associated with a one-unit increase in <code>engineSize</code> depends on the model <code>year</code> of the car. In other words, there is an interaction between <code>engineSize</code> and <code>year</code>. This interaction can be included as a predictor, which is the product of <code>engineSize</code> and <code>year</code>. <em>Note that there are several possible interactions that we can consider. Here the interaction between <code>engineSize</code> and <code>year</code> is just an example.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
@@ -348,14 +348,67 @@ F-statistic:  2121 on 5 and 4954 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Note that the <span class="math inline">\(R^2\)</span> has increased as compared to the additive model, since we added a predictor.</p>
 <p>The model equation is:</p>
 <p><code>price</code> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span><code>year</code> + <span class="math inline">\(\beta_2\)</span><code>engineSize</code> + <span class="math inline">\(\beta_3\)</span>(<code>year</code> <span class="math inline">\(\times\)</span> <code>engineSize</code>) + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>, or</p>
-<p><code>price</code> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span><code>year</code> + (<span class="math inline">\(\beta_2+\beta_3\)</span>)<code>year</code> <span class="math inline">\(\times\)</span> <code>engineSize</code> + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>, or</p>
+<p><code>price</code> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span><code>year</code> + (<span class="math inline">\(\beta_2+\beta_3\)</span><code>year</code>) <span class="math inline">\(\times\)</span> <code>engineSize</code> + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>, or</p>
 <p><code>price</code> = <span class="math inline">\(\beta_0 + \beta_1\)</span><code>year</code> + <span class="math inline">\(\tilde \beta\)</span><code>engineSize</code> + <span class="math inline">\(\beta_4\)</span><code>mileage</code> + <span class="math inline">\(\beta_5\)</span><code>mpg</code>,</p>
 <p>Since <span class="math inline">\(\tilde \beta\)</span> is a function of <code>year</code>, the association between <code>engineSize</code> and <code>price</code> is no longer a constant. A change in the value of <code>year</code> will change the association between <code>price</code> and <code>engineSize</code>.</p>
 <p>Substituting the values of the coefficients:</p>
 <p><code>price</code> = 5.606e5 - 275.3833<code>year</code> + (-1.796e6+896.7687<code>year</code>)<code>engineSize</code> -0.1525<code>mileage</code> -84.3417<code>mpg</code></p>
-
-
+<p>Thus, for cars launched in the year 2010, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687 * 2010 <span class="math inline">\(\approx\)</span> $6,500, assuming all the other predictors are constant. However, for cars launched in the year 2020, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687*2020 <span class="math inline">\(\approx\)</span> $15,500 , assuming all the other predictors are constant.</p>
+<p>Similarly, the equation can be re-arranged as:</p>
+<p><code>price</code> = 5.606e5 +(-275.3833+896.7687<code>engineSize</code>)<code>year</code> -1.796e6<code>engineSize</code> -0.1525<code>mileage</code> -84.3417<code>mpg</code></p>
+<p>Thus, for cars with an engine size of 2 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 2 <span class="math inline">\(\approx\)</span> $1500, assuming all the other predictors are constant. However, for cars with an engine size of 3 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 3 <span class="math inline">\(\approx\)</span> $2400, assuming all the other predictors are constant.</p>
 </section>
+<section id="qualitative-predictors" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="qualitative-predictors"><span class="header-section-number">6.3</span> Qualitative predictors</h2>
+<p>Let us develop a model for predicting <code>price</code> based on <code>engineSize</code> and the qualitative predictor <code>transmission</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checking the distribution of values of transmission</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(car_data<span class="sc">$</span>transmission)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Automatic    Manual     Other Semi-Auto 
+     1660      1948         1      1351 </code></pre>
+</div>
+</div>
+<p>Note that the <code>Other</code> category of the variable <code>transmission</code> contains only a single observation, which is likely to be insufficient to train the model. We’ll remove that observation from the car data. Another option may be to combine the observation in the <code>Other</code> category with the nearest category, and keep it in the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">=</span> car_data[car_data<span class="sc">$</span>transmission<span class="sc">!=</span><span class="st">'Other'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qual_pred_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>engineSize<span class="sc">+</span>transmission, <span class="at">data =</span> car_data)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qual_pred_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = price ~ engineSize + transmission, data = car_data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-47181  -6726  -1145   5204  95998 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)             3042.7      661.2   4.602 4.29e-06 ***
+engineSize             10226.8      247.5  41.323  &lt; 2e-16 ***
+transmissionManual     -6770.6      442.1 -15.314  &lt; 2e-16 ***
+transmissionSemi-Auto   4994.3      443.0  11.274  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 12080 on 4955 degrees of freedom
+Multiple R-squared:  0.4587,    Adjusted R-squared:  0.4584 
+F-statistic:  1400 on 3 and 4955 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Note that there is no coefficient for the <code>Automatic</code> level of the variable <code>Transmission</code>. If a car doesn’t have <code>Manual</code> or <code>Semi-Automatic</code> transmission, then it has an <code>Automatic</code> transmission. Thus, the coefficient of <code>Automatic</code> will be redundant, and the dummy variable corresponding to <code>Automatic</code> transmission is dropped from the model.</p>
+<p>The level of the categorical variable that is dropped from the model is called the baseline level. Here <code>Automatic</code> transmission is the baseline level. The coefficients of other levels of <code>transmission</code> should be interpreted with respect to the baseline level.</p>
+<p><strong>Q:</strong> Interpret the intercept term.</p>
+<p><strong>Ans:</strong> For the hypothetical scenario of a car with zero engine size and <code>Automatic</code> transmission, the estimated mean car price is <span class="math inline">\(\approx\)</span> $3042.</p>
+<p><strong>Q:</strong> Interpret the coefficient of <code>transmissionManual</code>.</p>
+<p><strong>Ans:</strong> The estimated mean price of a car with manual transmission is <span class="math inline">\(\approx\)</span> $6770 less than that of a car with <em>Automatic</em> transmission.</p>
+<p>Let us visualize the developed model.</p>
+
+
 </section>
 
 </main> <!-- /main -->
