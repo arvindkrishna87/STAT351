@@ -232,8 +232,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#interaction-model" id="toc-interaction-model" class="nav-link active" data-scroll-target="#interaction-model"><span class="header-section-number">6.1</span> Interaction model</a></li>
-  <li><a href="#variable-interaction-between-continuous-predictors" id="toc-variable-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#variable-interaction-between-continuous-predictors"><span class="header-section-number">6.2</span> Variable interaction between continuous predictors</a></li>
-  <li><a href="#qualitative-predictors" id="toc-qualitative-predictors" class="nav-link" data-scroll-target="#qualitative-predictors"><span class="header-section-number">6.3</span> Qualitative predictors</a></li>
+  <li><a href="#interaction-between-continuous-predictors" id="toc-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#interaction-between-continuous-predictors"><span class="header-section-number">6.2</span> Interaction between continuous predictors</a></li>
+  <li><a href="#qualitative-predictors" id="toc-qualitative-predictors" class="nav-link" data-scroll-target="#qualitative-predictors"><span class="header-section-number">6.3</span> Qualitative predictors</a>
+  <ul class="collapse">
+  <li><a href="#interaction-between-qualitative-and-continuous-predictors" id="toc-interaction-between-qualitative-and-continuous-predictors" class="nav-link" data-scroll-target="#interaction-between-qualitative-and-continuous-predictors"><span class="header-section-number">6.3.1</span> Interaction between qualitative and continuous predictors</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -258,13 +261,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>In this chapter, we’ll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#loading libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="interaction-model" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="interaction-model"><span class="header-section-number">6.1</span> Interaction model</h2>
 <p>Let us consider the file <em>car_data.csv</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading data</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'./Datasets/car_data.csv'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(car_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'./Datasets/car_data.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(car_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  carID  brand        model year transmission mileage fuelType tax     mpg
 1 12002 hyundi     Santa Fe 2017    Semi-Auto   32467   Diesel 235 42.9709
@@ -284,9 +291,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In an additive model, we assume that the association between a predictor <span class="math inline">\(X_j\)</span> and response <span class="math inline">\(Y\)</span> does not depend on the value of other predictors. For example, consider the multiple linear regression model below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive model</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>additive_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>year<span class="sc">+</span>engineSize<span class="sc">+</span>mileage<span class="sc">+</span>mpg, <span class="at">data =</span> car_data)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(additive_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>additive_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>year<span class="sc">+</span>engineSize<span class="sc">+</span>mileage<span class="sc">+</span>mpg, <span class="at">data =</span> car_data)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(additive_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -313,13 +320,13 @@ F-statistic:  2410 on 4 and 4955 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>The above model assumes that the average increase in price associated with a unit increase in <code>engineSize</code> is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
 </section>
-<section id="variable-interaction-between-continuous-predictors" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="variable-interaction-between-continuous-predictors"><span class="header-section-number">6.2</span> Variable interaction between continuous predictors</h2>
+<section id="interaction-between-continuous-predictors" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="interaction-between-continuous-predictors"><span class="header-section-number">6.2</span> Interaction between continuous predictors</h2>
 <p>We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in <code>price</code> associated with a one-unit increase in <code>engineSize</code> depends on the model <code>year</code> of the car. In other words, there is an interaction between <code>engineSize</code> and <code>year</code>. This interaction can be included as a predictor, which is the product of <code>engineSize</code> and <code>year</code>. <em>Note that there are several possible interactions that we can consider. Here the interaction between <code>engineSize</code> and <code>year</code> is just an example.</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>interaction_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>year<span class="sc">*</span>engineSize<span class="sc">+</span>mileage<span class="sc">+</span>mpg, <span class="at">data =</span> car_data)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction model</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>interaction_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>year<span class="sc">*</span>engineSize<span class="sc">+</span>mileage<span class="sc">+</span>mpg, <span class="at">data =</span> car_data)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -362,8 +369,8 @@ F-statistic:  2121 on 5 and 4954 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2 data-number="6.3" class="anchored" data-anchor-id="qualitative-predictors"><span class="header-section-number">6.3</span> Qualitative predictors</h2>
 <p>Let us develop a model for predicting <code>price</code> based on <code>engineSize</code> and the qualitative predictor <code>transmission</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checking the distribution of values of transmission</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(car_data<span class="sc">$</span>transmission)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checking the distribution of values of transmission</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(car_data<span class="sc">$</span>transmission)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Automatic    Manual     Other Semi-Auto 
@@ -372,11 +379,11 @@ Automatic    Manual     Other Semi-Auto
 </div>
 <p>Note that the <code>Other</code> category of the variable <code>transmission</code> contains only a single observation, which is likely to be insufficient to train the model. We’ll remove that observation from the car data. Another option may be to combine the observation in the <code>Other</code> category with the nearest category, and keep it in the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">=</span> car_data[car_data<span class="sc">$</span>transmission<span class="sc">!=</span><span class="st">'Other'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">=</span> car_data[car_data<span class="sc">$</span>transmission<span class="sc">!=</span><span class="st">'Other'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qual_pred_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>engineSize<span class="sc">+</span>transmission, <span class="at">data =</span> car_data)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qual_pred_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qual_pred_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>engineSize<span class="sc">+</span>transmission, <span class="at">data =</span> car_data)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qual_pred_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -407,8 +414,94 @@ F-statistic:  1400 on 3 and 4955 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><strong>Q:</strong> Interpret the coefficient of <code>transmissionManual</code>.</p>
 <p><strong>Ans:</strong> The estimated mean price of a car with manual transmission is <span class="math inline">\(\approx\)</span> $6770 less than that of a car with <em>Automatic</em> transmission.</p>
 <p>Let us visualize the developed model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Automatic"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Manual"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"Semi-Automatic"</span> <span class="ot">=</span> <span class="st">"green"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>coefs <span class="ot">&lt;-</span> qual_pred_model<span class="sc">$</span>coefficients</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> car_data<span class="sc">$</span>engineSize</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> car_data, <span class="fu">aes</span>(<span class="at">x =</span> engineSize))<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> coefs[<span class="st">'(Intercept)'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize'</span>], <span class="at">color =</span> <span class="st">'Automatic'</span>))<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> coefs[<span class="st">'(Intercept)'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize'</span>]<span class="sc">+</span>coefs[<span class="st">'transmissionManual'</span>], <span class="at">color =</span> <span class="st">'Manual'</span>))<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> coefs[<span class="st">'(Intercept)'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize'</span>]<span class="sc">+</span>coefs[<span class="st">'transmissionSemi-Auto'</span>], <span class="at">color =</span> <span class="st">'Semi-Automatic'</span>))<span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.85</span>))<span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Predicted car price'</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">'Engine size (in litre)'</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="quant_qual_preds_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Based on the developed model, for a given engine size, the car with a semi-automatic transmission is estimated to be the most expensive on average, while the car with a manual transmission is estimated to be the least expensive on average.</p>
+<section id="interaction-between-qualitative-and-continuous-predictors" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="interaction-between-qualitative-and-continuous-predictors"><span class="header-section-number">6.3.1</span> Interaction between qualitative and continuous predictors</h3>
+<p>Note that the qualitative predictor leads to fitting 3 parallel lines to the data, as there are 3 categories.</p>
+<p>However, note that we have made the constant association assumption. The fact that the lines are parallel means that the average increase in car price for one litre increase in engine size does not depend on the type of transmission. This represents a potentially serious limitation of the model, since in fact a change in engine size may have a very different association on the price of an automatic car versus a semi-automatic or manual car.</p>
+<p>This limitation can be addressed by adding an interaction variable, which is the product of <code>engineSize</code> and the dummy variables for semi-automatic and manual transmissions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>qual_pred_int_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(price<span class="sc">~</span>engineSize<span class="sc">*</span>transmission, <span class="at">data =</span> car_data)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qual_pred_int_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = price ~ engineSize * transmission, data = car_data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-56431  -6453  -1033   5184  96479 
+
+Coefficients:
+                                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                        3754.7      895.2   4.194 2.79e-05 ***
+engineSize                         9928.6      354.5  28.006  &lt; 2e-16 ***
+transmissionManual                 1768.6     1294.1   1.367 0.171786    
+transmissionSemi-Auto             -5282.7     1416.5  -3.729 0.000194 ***
+engineSize:transmissionManual     -5285.9      646.2  -8.180 3.57e-16 ***
+engineSize:transmissionSemi-Auto   4162.2      552.6   7.532 5.90e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 11850 on 4953 degrees of freedom
+Multiple R-squared:  0.4788,    Adjusted R-squared:  0.4782 
+F-statistic: 909.9 on 5 and 4953 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The model equation for the model with interactions is:</p>
+<p>Automatic transmission: <code>price</code> = 3754.7238 + 9928.6082<code>engineSize</code>,</p>
+<p>Semi-Automatic transmission: <code>price</code> = 3754.7238 + 9928.6082<code>engineSize</code> + (-5282.7164+4162.2428<code>engineSize</code>),</p>
+<p>Manual transmission: <code>price</code> = 3754.7238 + 9928.6082<code>engineSize</code> +(1768.5856-5285.9059<code>engineSize</code>), or</p>
+<p>Automatic transmission: <code>price</code> = 3754.7238 + 9928.6082<code>engineSize</code>,</p>
+<p>Semi-Automatic transmission: <code>price</code> = -1527 + 7046<code>engineSize</code>,</p>
+<p>Manual transmission: <code>price</code> = 5523 + 4642<code>engineSize</code>.</p>
+<p><strong>Q:</strong> Interpret the coefficient of manual tranmission, i.e., the coefficient of <code>transmissionManual</code>.</p>
+<p><strong>A:</strong> For a given engine size, the estimated mean <code>price</code> of a car with <code>Manual</code> transmission is <span class="math inline">\(\approx\)</span> $1768 more than the estimated mean <code>price</code> of a car with <code>Automatic</code> transmission.</p>
+<p><strong>Q:</strong> Interpret the coefficient of the interaction between engine size and manual transmission, i.e., the coefficient of <code>engineSize:transmissionManual</code>.</p>
+<p><strong>A:</strong> For a unit (or a litre) increase in <code>engineSize</code> , the increase in estimated mean <code>price</code> of a car with <code>Manual</code> transmission is <span class="math inline">\(\approx\)</span> $5285 less than the increase in estimated mean <code>price</code> of a car with <code>Automatic</code> transmission.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Automatic"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Manual"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"Semi-Automatic"</span> <span class="ot">=</span> <span class="st">"green"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>coefs <span class="ot">&lt;-</span> qual_pred_int_model<span class="sc">$</span>coefficients</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> car_data<span class="sc">$</span>engineSize</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> car_data, <span class="fu">aes</span>(<span class="at">x =</span> engineSize))<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> coefs[<span class="st">'(Intercept)'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize'</span>], <span class="at">color =</span> <span class="st">'Automatic'</span>))<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> coefs[<span class="st">'(Intercept)'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize'</span>]<span class="sc">+</span>coefs[<span class="st">'transmissionManual'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize:transmissionManual'</span>], <span class="at">color =</span> <span class="st">'Manual'</span>))<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> coefs[<span class="st">'(Intercept)'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize'</span>]<span class="sc">+</span>coefs[<span class="st">'transmissionSemi-Auto'</span>]<span class="sc">+</span>x<span class="sc">*</span>coefs[<span class="st">'engineSize:transmissionSemi-Auto'</span>], <span class="at">color =</span> <span class="st">'Semi-Automatic'</span>))<span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.85</span>))<span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">'Predicted car price'</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">'Engine size (in litre)'</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="quant_qual_preds_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note the interaction term adds flexibility to the model.</p>
+<p>The slope of the regression line for semi-automatic cars is the largest. This suggests that increase in engine size is associated with a higher increase in car price for semi-automatic cars, as compared to other cars.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
