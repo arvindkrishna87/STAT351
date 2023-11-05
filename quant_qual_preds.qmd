@@ -2,6 +2,12 @@
 
 In this chapter, we'll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.
 
+```{r}
+#loading libraries
+library(ggplot2)
+```
+
+
 ## Interaction model
 
 Let us consider the file *car_data.csv*. 
@@ -22,7 +28,7 @@ summary(additive_model)
 
 The above model assumes that the average increase in price associated with a unit increase in `engineSize` is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.
 
-## Variable interaction between continuous predictors
+## Interaction between continuous predictors
 
 We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in `price` associated with a one-unit increase in `engineSize` depends on the model `year` of the car. In other words, there is an interaction between `engineSize` and `year`. This interaction can be included as a predictor, which is the product of `engineSize` and `year`. *Note that there are several possible interactions that we can consider. Here the interaction between `engineSize` and `year` is just an example.*
 
@@ -93,6 +99,79 @@ The level of the categorical variable that is dropped from the model is called t
 
 Let us visualize the developed model.
 
+```{r}
+colors <- c("Automatic" = "red", "Manual" = "blue", "Semi-Automatic" = "green")
+
+coefs <- qual_pred_model$coefficients
+x <- car_data$engineSize
+ggplot(data = car_data, aes(x = engineSize))+
+  geom_line(aes(y = coefs['(Intercept)']+x*coefs['engineSize'], color = 'Automatic'))+
+  geom_line(aes(y = coefs['(Intercept)']+x*coefs['engineSize']+coefs['transmissionManual'], color = 'Manual'))+
+  geom_line(aes(y = coefs['(Intercept)']+x*coefs['engineSize']+coefs['transmissionSemi-Auto'], color = 'Semi-Automatic'))+
+  theme(legend.title = element_blank(),
+        legend.position = c(0.15,0.85))+
+  labs(
+    y = 'Predicted car price',
+    x = 'Engine size (in litre)'
+  )
+```
+
+Based on the developed model, for a given engine size, the car with a semi-automatic transmission is estimated to be the most expensive on average, while the car with a manual transmission is estimated to be the least expensive on average.
+
+### Interaction between qualitative and continuous predictors
+
+Note that the qualitative predictor leads to fitting 3 parallel lines to the data, as there are 3 categories.
+
+However, note that we have made the constant association assumption. The fact that the lines are parallel means that the average increase in car price for one litre increase in engine size does not depend on the type of transmission. This represents a potentially serious limitation of the model, since in fact a change in engine size may have a very different association on the price of an automatic car versus a semi-automatic or manual car.
+
+This limitation can be addressed by adding an interaction variable, which is the product of `engineSize` and the dummy variables for semi-automatic and manual transmissions. 
+
+```{r}
+qual_pred_int_model <- lm(price~engineSize*transmission, data = car_data)
+summary(qual_pred_int_model)
+```
+
+The model equation for the model with interactions is:
+
+Automatic transmission: `price` = 3754.7238	 + 9928.6082`engineSize`, 
+
+Semi-Automatic transmission: `price` = 3754.7238 + 9928.6082`engineSize` + (-5282.7164+4162.2428`engineSize`), 
+
+Manual transmission: `price` = 3754.7238 + 9928.6082`engineSize` +(1768.5856-5285.9059`engineSize`), or
+
+Automatic transmission: `price` = 3754.7238	+ 9928.6082`engineSize`, 
+
+Semi-Automatic transmission: `price` = -1527 + 7046`engineSize`, 
+
+Manual transmission: `price` = 5523 + 4642`engineSize`.
+
+**Q:** Interpret the coefficient of manual tranmission, i.e., the coefficient of `transmissionManual`.
+
+**A:** For a given engine size, the estimated mean `price` of a car with `Manual` transmission is $\approx$ \$1768 more than the estimated mean `price` of a car with `Automatic` transmission.
+
+**Q:** Interpret the coefficient of the interaction between engine size and manual transmission, i.e., the coefficient of `engineSize:transmissionManual`.
+
+**A:** For a unit (or a litre) increase in `engineSize` , the increase in estimated mean `price` of a car with `Manual` transmission is $\approx$ \$5285 less than the increase in estimated mean `price` of a car with `Automatic` transmission.
 
 
+```{r}
+colors <- c("Automatic" = "red", "Manual" = "blue", "Semi-Automatic" = "green")
 
+coefs <- qual_pred_int_model$coefficients
+x <- car_data$engineSize
+ggplot(data = car_data, aes(x = engineSize))+
+  geom_line(aes(y = coefs['(Intercept)']+x*coefs['engineSize'], color = 'Automatic'))+
+  geom_line(aes(y = coefs['(Intercept)']+x*coefs['engineSize']+coefs['transmissionManual']+x*coefs['engineSize:transmissionManual'], color = 'Manual'))+
+  geom_line(aes(y = coefs['(Intercept)']+x*coefs['engineSize']+coefs['transmissionSemi-Auto']+x*coefs['engineSize:transmissionSemi-Auto'], color = 'Semi-Automatic'))+
+  theme(legend.title = element_blank(),
+        legend.position = c(0.15,0.85))+
+  labs(
+    y = 'Predicted car price',
+    x = 'Engine size (in litre)'
+  )
+```
+
+
+Note the interaction term adds flexibility to the model.
+
+The slope of the regression line for semi-automatic cars is the largest. This suggests that increase in engine size is associated with a higher increase in car price for semi-automatic cars, as compared to other cars.
