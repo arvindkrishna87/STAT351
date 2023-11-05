@@ -1,0 +1,27 @@
+#Quantitative & Qualitative predictors
+
+In this chapter, we'll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.
+
+## Variable interactions
+
+Let us consider the file *car_data.csv*. 
+
+```{r}
+# Reading data
+car_data <- read.csv('./Datasets/car_data.csv')
+head(car_data)
+```
+
+In an additive model, we assume that the association between a predictor $X_j$ and response $Y$ does not depend on the value of other predictors. For example, consider the multiple linear regression model below.
+
+```{r}
+# Additive model
+additive_model <- lm(price~year+engineSize+mileage+mpg, data = car_data)
+summary(additive_model)
+```
+
+The above model assumes that the average increase in price associated with a unit increase in `engineSize` is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.
+
+
+
+
