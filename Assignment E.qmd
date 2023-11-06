@@ -37,14 +37,6 @@ Fit a linear regression model with `lpsa` as the response and the other variable
 
 *(2 points)*
 
-```{r}
-library(ggplot2)
-library(car)
-lpsa <- read.csv('prostate.csv')
-lpsa_model <- lm(lpsa~., data = lpsa)
-summary(lpsa_model)
-```
-
 ### Model significance
 
 Is the overall regression significant at 5% level? Justify your answer.
@@ -215,10 +207,16 @@ The developed model can be used to predict the GDP per Capita for any country, b
 
 Instead of developing a single model, consider that a distinct model is developed for each country, i.e., a distinct model is developed for Asia based on the data only corresponding to Asia, a distinct model is developed for Europe based on the data only corresponding to Europe, and so on. Now answer the following questions with justification:
 
-1) Will the expected GDP per capita of a country for a given female life expectancy from the model developed in  be different from the model developed only based on the country's continent data?
+#### 
 
-2) Will the confidence interval of the GDP per capita of a country for a given female life expectancy from the model developed in  be different from the model developed only based on the country's continent data?
+Will the expected GDP per capita of a country for a given female life expectancy from the model developed in  be different from the model developed only based on the country's continent data?
 
-3) What is the advantage of one approach over the other, and vice-versa? In other words, what is the advantage of the approach of developing a single model in contrast to developing separate models for distinct continents. And, what is the advantage of the approach of developing developing separate models for distinct continents in contrast to developing a single model for all continents.
+#### 
+
+Will the confidence interval of the GDP per capita of a country for a given female life expectancy from the model developed in  be different from the model developed only based on the country's continent data?
+
+#### 
+
+What is the advantage of one approach over the other, and vice-versa? In other words, what is the advantage of the approach of developing a single model in contrast to developing separate models for distinct continents. And, what is the advantage of the approach of developing developing separate models for distinct continents in contrast to developing a single model for all continents.
 
 *(4 + 4 + 6 = 14 points)*
