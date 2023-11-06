@@ -37,36 +37,41 @@ library(car)
 ```{r}
 # Reading data
 credit_data <- read.csv('./Datasets/Credit.csv')
-head(data)
+head(credit_data)
 
 # Developing model
-model <- lm(Balance~., data = credit_data)
+model <- lm(Balance~Limit+Rating+Cards+Age, data = credit_data)
 summary(model)
 ```
+
+Note that the coefficients of `Limit` and `Rating` are statistically insignificant at 5\% significance level. 
 
 ```{r}
 #Computing VIF
 vif(model)
 ```
 
-Note that the VIF of `Income` and `Rating` is very high indicating presence of multicollinearity. This may have lead to a high standard error for the coefficients of these predictors.
+Note that the VIF of `Income` and `Rating` is very high indicating presence of multicollinearity. This may have lead to a high standard error for the coefficients of these predictors, thereby making them appear statistically insignificant.
 
-Let us remove `Rating` from the model as it seems to be redundant based on high VIF.
+Let us remove `Rating` from the model as it seems to be redundant based on its high VIF.
 
 ```{r}
-model <- lm(Balance~. - Rating, data = credit_data)
+model <- lm(Balance~Limit+Cards+Age, data = credit_data)
 summary(model)
 ```
 
-Note that the $R^2_{adj}$ of the updated model is almost the same as that of the previous model. Also, note that the standard error of the estimated coefficient of `Income` has reduced resulting in a more precise estimate.
+Note that now the coefficient of `Limit` is highly statistically significant. This seems to be due to the reduction in standard error of the coefficient, which is potentially due to the reduction in multicollinearity from the model.
 
-Let us re-check the VIF of the predictors of the updated model.
+Let us re-check the VIF of the predictors of the updated model to see if multicollinearity has indeed been reduced.
 
 ```{r}
 vif(model)
 ```
 
-The model no longer suffers from multicollinearity.
+The model no longer suffers from multicollinearity. This is an example that shows that we may make incorrect inference in the presence of multicollinearity.
+
+Note that the $R^2_{adj}$ of the updated model is almost the same as that of the previous model. Thus, the goodness-of-fit of the model seems to be unaffected by multicollinearity. However, this need not always be the case.
+
 
 ## Addressing multicollinearity in polynomial models
 
