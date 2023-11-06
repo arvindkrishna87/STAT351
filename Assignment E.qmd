@@ -18,7 +18,7 @@ editor_options:
 
 3.  Render the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **5th November 2023 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **12th November 2023 at 11:59 pm**.
 
 5.  **Five points are properly formatting the assignment**. The breakdown is as follows:
 
@@ -29,11 +29,11 @@ editor_options:
 
 ## Prostate
 
-A study was conducted on 97 men with prostate cancer who were due to receive a radical prostatectomy. The dataset *prostate.csv* contains data on 9 measurements made on these 97 men. The description of variables can be found here: https://rafalab.github.io/pages/649/prostate.html
+A study was conducted on 97 men with prostate cancer who were due to receive a radical prostatectomy. The dataset *prostate.csv* contains data on 9 measurements made on these 97 men. The description of variables can be found [here](https://rafalab.github.io/pages/649/prostate.html).
 
 ### Fitting the model
 
-Fit a linear regression model with `lpsa` as the response and the other variables as the predictors. Write down the equation to predict `lpsa` based on the other eight variables. When fitting the model in R, do not type the names of all the predictors. 
+Fit a linear regression model with `lpsa` as the response and the other variables as the predictors. Write down the equation to predict `lpsa` based on the other eight variables. When coding the model in R, do not type the names of all the predictors. 
 
 *(2 points)*
 
@@ -53,7 +53,7 @@ Interpret the coefficient of `svi`.
 
 Fit a simple linear regression on `lpsa` against `gleason`. Is the predictor `gleason` statistically significant in this model? 
 
-Was `gleason` statistically significant in the model developed in the first question with multiple predictors?
+Was `gleason` statistically significant in the model developed in the first question ([E.1.1](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#fitting-the-model)) with multiple predictors?
 
 Did the statistical significance of `gleason` change in the absence of other predictors? Why or why not?
 
@@ -61,7 +61,7 @@ Did the statistical significance of `gleason` change in the absence of other pre
 
 ### Relevant subset of predictors
 
-Find the largest subset of predictors in the model developed in the first question, such that their coefficients are zero, i.e., none of the predictors in the subset are statistically significant. Assume a significance level of 5\%.
+Find the largest subset of predictors in the model developed in the first question ([E.1.1](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#fitting-the-model)), such that their coefficients are zero, i.e., none of the predictors in the subset are statistically significant. Assume a significance level of 5\%.
 
 Does the model $R^2_{adj}$ change a lot if you remove the set of predictors identified above from the model in the first question? Why or why not?
 
@@ -73,25 +73,25 @@ The dataset *infmort.csv* gives the infant mortality of different countries in t
 
 ### Data visualisation
 
-Continue with the model developed in [C.2.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-15). Make a boxplot of the transformed response in [C.2.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-15) for each `region`, i.e., each continent. Based on the plots, does `region` seem to have association with infant mortality.
+Continue with the model developed in [C.2.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-15). Visualize the distribution of the transformed response in [C.2.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-15) for each `region`, i.e., each continent. Based on the plots, does `region` seem to be associated with infant mortality.
 
-*Note: You may use the R function `boxplot()`*
+*Note: You may use the R function `boxplot() to visualize the distribution.`*
 
 *(2 + 1 = 3 points)*
 
 ### MLR
 
-Update the model developed in in [C.2.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-15) by adding `region` as a predictor. Use this model to compute `adjusted_mortality` for each observation in the data, where adjusted mortality is the mortality after removing the estimated effect of income. Make a boxplot of log(`adjusted_mortality`) against `region`.
+Update the model developed in in [C.2.6](https://nustat.github.io/STAT350-class-notes/Assignment%20C.html#section-15) by adding `region` as a predictor. Use this model to compute `adjusted_mortality` for each observation in the data, where adjusted mortality is the mortality after removing the estimated effect of `income`. Make a boxplot of log(`adjusted_mortality`) against `region`.
 
 *(2 + 1 = 3 points)*
 
 ### Analysis
 
-From the plot in the previous question: 
+From the plot in the previous question ([E.2.2](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#mlr)): 
 
 (1) Does Europe still seem to have the lowest mortality as compared to other regions after removing the effect of income from mortality? 
 
-(2) After adjusting for income, is there any change in the mortality comparison among different regions. Compare the plot developed in the previous question to the plot of `log(mortality)` against `region` developed earlier to answer this question.
+(2) After adjusting for income, is there any change in the mortality comparison among different regions. Compare the plot developed in the previous question ([E.2.2](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#mlr)) to the plot of `log(mortality)` against `region` developed earlier ([E.2.1](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#data-visualisation)) to answer this question.
 
 **Hint:** Do any African / Asian / American countries seem to do better than all the European countries with regard to mortality after adjusting for income? 
 
@@ -103,13 +103,13 @@ The dataset *soc_ind.csv* contains the GDP per capita of some countries along wi
 
 ### Best predictor
 
-For a simple linear regression model predicting `gdpPerCapita`. Which predictor will provide the best model fit *(ignore categorical predictors)*? Let that predictor be $P$.
+For a simple linear regression model predicting `gdpPerCapita`, justify that `lifeFemale` (female life expectancy) will provide the best model fit *(ignore categorical predictors)*? 
 
 *(1 point)*
 
 ### Polynomial transformation
 
-Develop a linear regression model to predict `gdpPerCapita` based on the appropriate polynomial transformation of $P$. Find the appropriate polynomial transformation using the General Linear test approach. Support your choice of the appropriate polynomial transformation with a plot of the model on the data, showing the model fit.
+Develop a linear regression model to predict `gdpPerCapita` based on the appropriate polynomial transformation of `lifeFemale`. Find the appropriate polynomial transformation using the General Linear test approach. Support your choice of the appropriate polynomial transformation with a plot of the model on the data, showing the model fit.
 
 *(3 + 2 = 5 points)*
 
@@ -121,41 +121,41 @@ Is there multicollinearity in the model? Find the VIF and comment.
 
 ### Centering
 
-Center the predictor $P$ and re-develop the model. Did the severity of multicollinearity reduce in the updated model? If yes, what is the benefit of the reduced multicollinearity. Use the model summary of both the models as an evidence to support your arguments.
+Center the predictor `lifeFemale` and re-develop the model. Did the severity of multicollinearity reduce in the updated model? If yes, what is the benefit of the reduced multicollinearity. Use the model summary of both the models as an evidence to support your arguments.
 
 *(2 + 2 + 2 + 2 = 8 points)*
 
 ### Interpretation
 
-Develop a model to predict `gdpPerCapita` with $P$ and `continent` as predictors. 
+Develop a model to predict `gdpPerCapita` with `lifeFemale` and `continent` as predictors. 
 
 1. Interpret the intercept term. 
 
-2. For a given value of $P$, are there any continents that **do not** have a significant difference between their mean `gdpPerCapita` and that of Africa? If yes, then which ones, and why? If no, then why not? Consider a significance level of 5%.
+2. For a given value of `lifeFemale`, are there any continents that **do not** have a significant difference between their mean `gdpPerCapita` and that of Africa? If yes, then which ones, and why? If no, then why not? Consider a significance level of 5%.
 
 *(2 + 2 = 4 points)*
 
 ### Interaction
 
-The model developed in the previous question has a limitation. It assumes that the increase in mean `gdpPerCapita` with a unit increase in $P$ does not depend on the `continent`. 
+The model developed in the previous question has a limitation. It assumes that the increase in mean `gdpPerCapita` with a unit increase in `lifeFemale` does not depend on the `continent`. 
 
-1. Eliminate this limitation by including interaction of `continent` with $P$ in the model developed in the previous question. Print the model summary of the model with interactions.
+1. Eliminate this limitation by including interaction of `continent` with `lifeFemale` in the model developed in the previous question ([E.3.5](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interpretation-1)). Print the model summary of the model with interactions.
 
 2. Interpret the coefficient of any one of the interaction terms.
 
-*Note: Use the model developed in this question for all the questions below.*
-
 *(1 + 2 = 3 points)*
+
+**Note: Use the model developed in this question ([E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction)) for all the questions below.**
 
 ### Model visualisation
 
-Use the model developed in the previous question to plot regression lines for Africa, Asia, and Europe. Put `gdpPerCapita` on the vertical axis and $P$ on the horizontal axis. Use a legend to distinguish among the regression lines of the three continents.
+Use the model developed in ([E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction)) to plot regression lines for Africa, Asia, and Europe. Put `gdpPerCapita` on the vertical axis and `lifeFemale` on the horizontal axis. Use a legend to distinguish among the regression lines of the three continents.
 
 *(3 points)*
 
 ### Analysing the model
 
-Based on the plot develop in the previous question, which continent has the highest increase in mean `gdpPerCapita` for a unit increase in $P$, and which one has the least? Justify your answer.
+Based on the plot develop in the previous question ([E.3.7](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#model-visualisation)), which continent has the highest increase in mean `gdpPerCapita` for a unit increase in `lifeFemale`, and which one has the least? Justify your answer.
 
 *(1 + 1 + 2 = 4 points)*
 
@@ -197,26 +197,26 @@ $Var(\hat{\beta}) = \sigma^2(X^TX)^{-1}$
 
 ### Statistical significance
 
-Based on the confidence interval obtained in the question, is the GDP per Capita of an Asian country significantly different from the GDP per Capita of a European country, for a female life expectancy of 72 years?
+Based on the confidence interval obtained in the question ([E.3.12](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#uncertainty-of-difference-in-prediction)), is the GDP per Capita of an Asian country significantly different from the GDP per Capita of a European country, for a female life expectancy of 72 years?
 
 *(1 point)*
 
 ### Modeling approach
 
-The developed model can be used to predict the GDP per Capita for any country, based on its female life expectancy and continent.
+The developed model (in [E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction)) can be used to predict the GDP per Capita for any country, based on its female life expectancy and continent.
 
-Instead of developing a single model, consider that a distinct model is developed for each country, i.e., a distinct model is developed for Asia based on the data only corresponding to Asia, a distinct model is developed for Europe based on the data only corresponding to Europe, and so on. Now answer the following questions with justification:
-
-#### 
-
-Will the expected GDP per capita of a country for a given female life expectancy from the model developed in  be different from the model developed only based on the country's continent data?
+Instead of developing a single model, consider the scenario that a distinct model is developed for each country, i.e., a distinct model is developed for Asia based on the data only corresponding to Asia, a distinct model is developed for Europe based on the data only corresponding to Europe, and so on. Now answer the following questions with justification for each:
 
 #### 
 
-Will the confidence interval of the GDP per capita of a country for a given female life expectancy from the model developed in  be different from the model developed only based on the country's continent data?
+Will the expected GDP per capita of a country for a given female life expectancy from the model developed in [E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction) be different from the model developed only based on the country's continent data?
 
 #### 
 
-What is the advantage of one approach over the other, and vice-versa? In other words, what is the advantage of the approach of developing a single model in contrast to developing separate models for distinct continents. And, what is the advantage of the approach of developing developing separate models for distinct continents in contrast to developing a single model for all continents.
+Will the confidence interval of the expected GDP per capita of a country for a given female life expectancy from the model developed in [E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction) be different from the model developed only based on the country's continent data?
+
+#### 
+
+What is the advantage of one approach over the other, and vice-versa? In other words, what is the advantage of the approach of developing a single model for all continents (as in [E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction)) in contrast to developing a separate model for each continent. And, what is the advantage of the approach of developing a separate model for each continent in contrast to developing a single model for all continents.
 
 *(4 + 4 + 6 = 14 points)*
