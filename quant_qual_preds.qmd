@@ -147,7 +147,7 @@ Manual transmission: `price` = 5523 + 4642`engineSize`.
 
 **Q:** Interpret the coefficient of manual tranmission, i.e., the coefficient of `transmissionManual`.
 
-**A:** For a given engine size, the estimated mean `price` of a car with `Manual` transmission is $\approx$ \$1768 more than the estimated mean `price` of a car with `Automatic` transmission.
+**A:** For the hypothetical scenario of a car with zero engine size,the estimated mean `price` of a car with `Manual` transmission is $\approx$ \$1768 more than the estimated mean `price` of a car with `Automatic` transmission. 
 
 **Q:** Interpret the coefficient of the interaction between engine size and manual transmission, i.e., the coefficient of `engineSize:transmissionManual`.
 
