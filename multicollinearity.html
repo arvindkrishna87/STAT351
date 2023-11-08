@@ -398,19 +398,19 @@ lm(formula = y ~ X + I(X^2))
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--3.0079 -0.7192  0.0255  0.6444  3.5660 
+-3.1373 -0.6224  0.0794  0.6475  1.9272 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  0.10617    3.54281   0.030    0.976    
-X            0.94514    1.10362   0.856    0.392    
-I(X^2)       1.00314    0.08474  11.837   &lt;2e-16 ***
+(Intercept)  3.96900    3.50413   1.133    0.258    
+X           -0.24369    1.09157  -0.223    0.823    
+I(X^2)       1.09464    0.08382  13.060   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9928 on 298 degrees of freedom
-Multiple R-squared:  0.9935,    Adjusted R-squared:  0.9934 
-F-statistic: 2.262e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.982 on 298 degrees of freedom
+Multiple R-squared:  0.9936,    Adjusted R-squared:  0.9936 
+F-statistic: 2.314e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
@@ -456,19 +456,19 @@ lm(formula = y ~ x + I(x^2))
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--3.0079 -0.7192  0.0255  0.6444  3.5660 
+-3.1373 -0.6224  0.0794  0.6475  1.9272 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.63213    0.08584  566.56   &lt;2e-16 ***
-x           13.98593    0.06586  212.36   &lt;2e-16 ***
-I(x^2)       1.00314    0.08474   11.84   &lt;2e-16 ***
+(Intercept) 48.63337    0.08490  572.82   &lt;2e-16 ***
+x           13.98658    0.06514  214.72   &lt;2e-16 ***
+I(x^2)       1.09464    0.08382   13.06   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9928 on 298 degrees of freedom
-Multiple R-squared:  0.9935,    Adjusted R-squared:  0.9934 
-F-statistic: 2.262e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.982 on 298 degrees of freedom
+Multiple R-squared:  0.9936,    Adjusted R-squared:  0.9936 
+F-statistic: 2.314e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
