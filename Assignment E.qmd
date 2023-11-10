@@ -205,7 +205,7 @@ Based on the confidence interval obtained in the question ([E.3.12](https://nust
 
 The developed model (in [E.3.6](https://nustat.github.io/STAT350-class-notes/Assignment%20E.html#interaction)) can be used to predict the GDP per Capita for any country, based on its female life expectancy and continent.
 
-Instead of developing a single model, consider the scenario that a distinct model is developed for each country, i.e., a distinct model is developed for Asia based on the data only corresponding to Asia, a distinct model is developed for Europe based on the data only corresponding to Europe, and so on. Now answer the following questions with justification for each:
+Instead of developing a single model, consider the scenario that a distinct model is developed for each continent, i.e., a distinct model is developed for Asia based on the data only corresponding to Asia, a distinct model is developed for Europe based on the data only corresponding to Europe, and so on. Now answer the following questions with justification for each:
 
 #### 
 
