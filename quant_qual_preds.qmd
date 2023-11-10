@@ -1,4 +1,4 @@
-# Variable interactions
+# Variable interactions & Qualitative predictors
 
 In this chapter, we'll introduce interactions, and then develop and interpret models with interactions among quantitative predictors, and interactions between quantitative and qualitative predictors.
 
@@ -117,6 +117,41 @@ ggplot(data = car_data, aes(x = engineSize))+
 ```
 
 Based on the developed model, for a given engine size, the car with a semi-automatic transmission is estimated to be the most expensive on average, while the car with a manual transmission is estimated to be the least expensive on average.
+
+**Q:** What is the expected difference between the price of a car with Manual Transmission and a car with a Semi-Automatic transmission?
+
+**A:** The expected difference is $\hat{\beta}_{I(Tranmission = Manual)} - \hat{\beta}_{I(Tranmission = Semi-Automatic)} = -6770.6 - 4994.3 = -\$11,764.9$
+
+**Q:** Find the 95\% confidence interal for the point estimate obtained in the previous question.
+
+**A:** Let us compute the standard error of the point estimate:
+
+$Var(\hat{\beta}_{I(Tranmission = Manual)} - \hat{\beta}_{I(Tranmission = Semi-Automatic)}) = Var(\hat{\beta}_{I(Tranmission = Manual)}) + Var(\hat{\beta}_{I(Tranmission = Semi-Automatic)}) - 2CoVar(\hat{\beta}_{I(Tranmission = Manual)}, \hat{\beta}_{I(Tranmission = Semi-Automatic)})$
+
+The R function `vcov()` provides the variance-covariance matrix of the regression coefficients, which can be used the evaluate the above expression.
+
+```{r}
+# Variance-covariance matrix of the regression coefficients
+vcov_matrix <- vcov(qual_pred_model)
+```
+
+We'll use the variance-covariance matrix to compute the variance of the point estimate, and use the variance to compute the confidence interval:
+
+```{r}
+# Variance of the point estimate
+variance_point_estimate = vcov_matrix[3,3] + vcov_matrix[4,4] - 2*vcov_matrix[3,4]
+
+# Standard deviation of the point estimate
+std_point_estimate = sqrt(variance_point_estimate)
+
+# Upper bound of the 95% CI of the point estimate
+UB <- -11764.9 + std_point_estimate*qt(0.975, 4959-4)
+print(paste0("Upper bound = ",UB))
+LB <- -11764.9 - std_point_estimate*qt(0.975, 4959-4)
+print(paste0("Lower bound = ", LB))
+```
+
+The 95\% confidence interval is: \[-\$10.8k,-\$12.7k\].
 
 ## Interaction between qualitative and continuous predictors
 
