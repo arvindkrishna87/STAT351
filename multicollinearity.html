@@ -183,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./quant_qual_preds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable interactions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable interactions &amp; Qualitative predictors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -397,20 +397,20 @@ Call:
 lm(formula = y ~ X + I(X^2))
 
 Residuals:
-    Min      1Q  Median      3Q     Max 
--3.1373 -0.6224  0.0794  0.6475  1.9272 
+     Min       1Q   Median       3Q      Max 
+-2.66179 -0.62650  0.01312  0.61596  2.44582 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  3.96900    3.50413   1.133    0.258    
-X           -0.24369    1.09157  -0.223    0.823    
-I(X^2)       1.09464    0.08382  13.060   &lt;2e-16 ***
+(Intercept)  0.82939    3.46736   0.239    0.811    
+X            0.65167    1.08011   0.603    0.547    
+I(X^2)       1.03511    0.08294  12.481   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.982 on 298 degrees of freedom
-Multiple R-squared:  0.9936,    Adjusted R-squared:  0.9936 
-F-statistic: 2.314e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9717 on 298 degrees of freedom
+Multiple R-squared:  0.9938,    Adjusted R-squared:  0.9938 
+F-statistic: 2.403e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
@@ -455,20 +455,20 @@ Call:
 lm(formula = y ~ x + I(x^2))
 
 Residuals:
-    Min      1Q  Median      3Q     Max 
--3.1373 -0.6224  0.0794  0.6475  1.9272 
+     Min       1Q   Median       3Q      Max 
+-2.66179 -0.62650  0.01312  0.61596  2.44582 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.63337    0.08490  572.82   &lt;2e-16 ***
-x           13.98658    0.06514  214.72   &lt;2e-16 ***
-I(x^2)       1.09464    0.08382   13.06   &lt;2e-16 ***
+(Intercept) 48.79856    0.08401  580.87   &lt;2e-16 ***
+x           14.10808    0.06446  218.88   &lt;2e-16 ***
+I(x^2)       1.03511    0.08294   12.48   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.982 on 298 degrees of freedom
-Multiple R-squared:  0.9936,    Adjusted R-squared:  0.9936 
-F-statistic: 2.314e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9717 on 298 degrees of freedom
+Multiple R-squared:  0.9938,    Adjusted R-squared:  0.9938 
+F-statistic: 2.403e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -725,7 +725,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./quant_qual_preds.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable interactions</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable interactions &amp; Qualitative predictors</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
