@@ -1,0 +1,449 @@
+---
+title: "Assignment F"
+subtitle: "Model selection"
+format:
+  html:
+    toc: true
+self-contained: true
+link-external-newwindow: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Instructions {.unnumbered}
+
+1.  You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.
+
+2.  Make R code chunks to insert code and type your answer outside the code chunks. Ensure that the solution is written neatly enough to understand and grade.
+
+3.  Render the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.
+
+4.  The assignment is worth 100 points, and is due on **19th November 2023 at 11:59 pm**.
+
+5.  **Five points are properly formatting the assignment**. The breakdown is as follows:
+
+-   Must be an HTML file rendered using Quarto (the theory part may be scanned and submitted separately) (2 pts).
+-   There aren't excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren't long printouts of which iteration a loop is on, there aren't long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)
+-   Final answers of each question are written clearly (1 pt).
+-   The proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (1 pt)
+
+## Energy model
+
+The datasets *ENB2012_Train.csv* and *ENB2012_Test.csv* provide data on energy analysis using 12 different building shapes simulated in Ecotect. The buildings differ with respect to the glazing area, the glazing area distribution, and the orientation, amongst other parameters. Below is the description of the data columns:
+
+1. `X1`: Relative Compactness
+2. `X2`: Surface Area
+3. `X3`: Wall Area
+4. `X4`: Roof Area
+5. `X5`: Overall Height
+6. `X6`: Orientation
+7. `X7`: Glazing Area
+8. `X8`: Glazing Area Distribution
+9. `Y1`: Heating Load
+
+### Number of models
+
+Suppose that we want to implement the best subset selection algorithm to find the first order predictors (`X1`-`X8`) that can predict heating load (`y1`). How many models for $E$(`y1`) are possible, if the model includes (i) one variable, (ii) three variables, and (iii) eight variables? Show your steps without running any code. 
+
+Note: The notation $E$(`y1`) means the expected value of `y1` or the mean of `y1`.
+
+*(3 points)*
+
+### Resolving perfect multicollinearity
+
+Fit a linear regression model and attempt to find the VIF of each predictor. It will throw an error. This is because of the presence of perfect multicollinearity in the predictors. Identify the perfectly collinear relationship, and discard a predictor to eliminate perfect multicollinearity. Among the collinear predictors, discard the predictor that is the most highly correlated with the one of the predictors not in the set of collinear predictors. State the discarded predictor, and discard it for all the questions in this assignment.
+
+You may use the R function `alias()` to identify the perfectly collinear relationship.
+
+*(4 points)*
+
+```{r}
+rm(list=ls())
+library(leaps)
+library(car)
+library(lmtest)
+ENB_train = read.csv('ENB2012_Train.csv')
+ENB_test = read.csv('ENB2012_Test.csv')
+head(ENB_train)
+```
+
+```{r}
+alias(lm(Y1~., data = ENB_train))
+```
+
+```{r}
+cor(ENB_train)
+```
+
+```{r}
+ENB_train <- ENB_train[,-which(names(ENB_train)=='X2')]
+head(ENB_train)
+```
+
+### Best model
+
+Implement the best subset selection algorithm to find the *best* first-order predictors of heating load `Y1`, with regard to $R^2$, Adj-$R^2$, $C_p$, and the $BIC$ criteria. 
+
+Note: 
+
+1. Use *ENB2012_Train.csv* and consider only the first-order terms. 
+2. Make plots visualizing the $R^2$, Adj-$R^2$, $C_p$, and the $BIC$ criteria for the best model corresponding to each possible value of number of predictors.
+
+Print the coefficients of all the models that are the best based on at least one criteria among Adj-$R^2$, $C_p$, and the $BIC$.
+
+*(2 + 4 + 2 = 8 points)*
+
+```{r}
+regfit_full <- regsubsets(Y1~., data = ENB_train, method = 'exhaustive')
+reg_summary <- summary(regfit_full)
+par(mfrow = c(2,2))
+plot(reg_summary$rsq, xlab = "Number of Variables", ylab = "R-squared", type = "l")
+plot(reg_summary$adjr2, xlab = "Number of Variables", ylab = "Adjusted RSq", type = "l")
+adj_r2_max = which.max(reg_summary$adjr2) 
+points(adj_r2_max, reg_summary$adjr2[adj_r2_max], col ="red", cex = 2, pch = 20)
+plot(reg_summary$cp, xlab = "Number of Variables", ylab = "Cp", type = "l")
+cp_min = which.min(reg_summary$cp) 
+points(cp_min, reg_summary$cp[cp_min], col = "red", cex = 2, pch = 20)
+plot(reg_summary$bic, xlab = "Number of Variables", ylab = "BIC", type = "l")
+bic_min = which.min(reg_summary$bic)
+points(bic_min, reg_summary$bic[bic_min], col = "red", cex = 2, pch = 20)
+```
+
+```{r}
+# Best models
+coef(regfit_full, 5)
+coef(regfit_full, 6)
+```
+
+### Best among best?
+
+We need to choose one among all the best models identified in the previous question. Use the following approach:
+
+1. Compare the coefficients of each model on the training data and test data. If the coefficients are similar, it means that the model is generalizable to unseen data. Otherwise, the model has issues, and you may discard it.
+
+2. Check the prediction error *(root mean square prediction error)* on the test data. If the predictor errors of one model are much lower than the rest, then you may select that model.
+
+3. Check the model assumptions regarding homoscedasticity and normal distribution of error terms. You may select the model if it has much lesser departure from assumptions as compared to the rest of them.
+
+4. If there is no clear choice based on (1), (2), and (3), perform the general linear F test *(with a significance levlel of 5\%)* to choose the most parsimonious model.
+
+*(2x4 = 8 points)*
+
+```{r}
+model1 <- lm(Y1~X1+X4+X5+X7+X8, data = ENB_train)
+model2 <- lm(Y1~X1+X3+X4+X5+X7+X8, data = ENB_train)
+model1_test <- lm(Y1~X1+X4+X5+X7+X8, data = ENB_test)
+model2_test <- lm(Y1~X1+X3+X4+X5+X7+X8, data = ENB_test)
+```
+
+Based on (1), both models are similar.
+
+```{r}
+# Defining a function to compute RMSE
+rmse<-function(x,y)
+  return (sqrt(mean((x-y)^2)))
+p1 = predict(model1, newdata = ENB_test)
+p2 = predict(model2, newdata = ENB_test)
+rmse(p1,ENB_test$Y1)
+rmse(p2,ENB_test$Y1)
+```
+
+Based on (2), both models are similar.
+
+```{r}
+shapiro.test(model1$residuals)
+shapiro.test(model2$residuals)
+bptest(model1)
+bptest(model2)
+```
+
+Based on (3), both models are similar
+
+```{r}
+anova(model1, model2)
+```
+
+Thus, we choose the most parsimonious model with 3 predictors.
+
+### Overfitting
+
+Compute the estimate of the error standard deviation. Compare it with the RMSE on test data, and comment if the chosen model in the previous question seems to overfit the data.
+
+*(2 + 2 = 4 points)*
+
+```{r}
+sqrt(sum((model2$residuals)^2)/(542-6))
+```
+
+As the error standard deviation estimate is similar to the RMSE on test data, the chosen 5-predictor model is not overfitting the data.
+
+### 
+
+Calculate the RMSE of the model selected in E.2. Compare it with the RMSE of the model using all first-order predictors *(except the one dropped to address perfect multicollinearity)*. You will find that the two RMSEs are similar. Seems like the best subset model didn't help improve prediction.
+
+1. Why did the best subset model not help improve prediction accuracy as compared to the model with all the predictors?
+
+2. Does the best subset model provide a more accurate inference as compared to the model with all the predictors? Why or why not? 
+
+*(3 + 3 = 6 points)*
+
+```{r}
+model_all <- lm(Y1~., data = ENB_train)
+summary(model_all)
+summary(model1)
+vif(model_all)
+vif(model1)
+```
+
+### Interactions
+
+Let us consider adding all the 2-factor interactions of the predictors in the model. Answer the following questions without running code.
+
+1. How many predictors do we have in total?
+
+2. Assume best subset selection is used. How many models are fitted in total? 
+
+3. Assume forward selection is used. How many models are fitted in total?
+
+4. Assume backward selection is used. How many models are fitted in total? 
+
+5. How many models will be developed in the iteration that contains exactly 10 predictors in each model – for best subsets, fwd/bwd regression? 
+
+6. What approach would you choose for variable selection (amonst best subset, forward selection, backward selection)?
+
+*(6x2 = 12 points)*
+
+Use best subset selection to find the *best* first-order predictors and 2-factor interactions of the predictors of `y1` (Heating Load). In case different criteria indicate different models as best, choose the most parsimonious model. 
+
+Perform the general linear test to show that the model with interactions should be preferred over the additive model developed earlier.
+
+Find the RMSE of the chosen model on the test data. Is it lower than the RMSE of the additive model?
+
+In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding interaction to eliminate the issue.
+
+*(2 + 2 + 2 + 2 = 8 points)*
+
+```{r}
+alias(lm(Y1~.^2,data = ENB_train))
+```
+
+```{r}
+time_start <- Sys.time()
+regfit_full_inter <- regsubsets(Y1~.^2-X4:X5,data = ENB_train, nvmax = 200, method = 'exhaustive')
+Sys.time()-time_start
+reg_summary <- summary(regfit_full_inter)
+plot(reg_summary$bic, xlab = "Number of Variables", ylab = "bic", type = "l")
+bic_min = which.min(reg_summary$bic) # 13
+# All criteria yield 11
+
+predictors = names(coef(regfit_full_inter, 13))[-1]
+st <- paste0("Y1~",predictors[1])
+for(p in predictors[-1]){st<-paste0(st, "+",p)}
+model_inter <- lm(noquote(st), data = ENB_train)
+anova(model1, model_inter)
+rmse(predict(model_inter, newdata = ENB_test), ENB_test$Y1)
+```
+
+### Polynomial terms
+
+In the model developed in the previous question, consider including the polynomial transformation of degree 2 for each predictor, and then repeat the same procedure:
+
+Use best subset selection to find the *best* first-order & second order predictors including 2-factor interactions of the predictors of `y1` (Heating Load). In case different criteria indicate different models as best, choose the most parsimonious model. 
+
+Perform the general linear test to show that the model with interactions & polynomial terms of degree 2 should be preferred over the model with interactions but no polynomial terms developed earlier.
+
+Find the RMSE of the chosen model on the test data. Is it lower than the RMSE of the model with interactions but no polynomial terms developed earlier?
+
+In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding polynomial term(s) to eliminate the issue.
+
+*(2 + 2 + 2 + 2 = 8 points)*
+
+```{r}
+alias(lm(Y1~.^2-X4:X5+I(X1^2)+I(X3^2)+I(X6^2)+I(X7^2)+I(X8^2),data = ENB_train))
+#X4^2 and X5^2 removed
+```
+
+```{r}
+time_start <- Sys.time()
+regfit_full_inter_poly <- regsubsets(Y1~.^2-X4:X5+I(X1^2)+I(X3^2)+I(X6^2)+I(X7^2)+I(X8^2),data = ENB_train, nvmax = 100, method = 'exhaustive')
+Sys.time()-time_start
+reg_summary <- summary(regfit_full_inter_poly)
+plot(reg_summary$bic, xlab = "Number of Variables", ylab = "bic", type = "l")
+bic_min = which.min(reg_summary$bic) # 11
+# All criteria yield 11
+
+predictors = names(coef(regfit_full_inter_poly, 19))[-1]
+st <- paste0("Y1~",predictors[1])
+for(p in predictors[-1]){st<-paste0(st, "+",p)}
+model_inter_poly <- lm(noquote(st), data = ENB_train)
+anova(model_inter_poly, model_inter)
+rmse(predict(model_inter_poly, newdata = ENB_test), ENB_test$Y1)
+```
+
+### Forward stepwise selection
+
+Repeat the above question, but use forward stepwise selection instead of best subset selection. Compare the time taken in forward stepwise with that taken in best subset selection in the earlier question. Also, compare the RMSE on test data of the model chosen with the best subset selection approach with the model chosen with the forward stepwise selection procedure.
+
+*(2 + 2 = 4 points)*
+
+```{r}
+time_start <- Sys.time()
+regfit_full_inter_poly <- regsubsets(Y1~.^2-X4:X5+I(X1^2)+I(X3^2)+I(X6^2)+I(X7^2)+I(X8^2),data = ENB_train, nvmax = 100, method = 'backward')
+Sys.time()-time_start
+reg_summary <- summary(regfit_full_inter_poly)
+plot(reg_summary$bic, xlab = "Number of Variables", ylab = "bic", type = "l")
+bic_min = which.min(reg_summary$bic) # 11
+# All criteria yield 11
+
+predictors = names(coef(regfit_full_inter_poly, 19))[-1]
+st <- paste0("Y1~",predictors[1])
+for(p in predictors[-1]){st<-paste0(st, "+",p)}
+model_inter_poly <- lm(noquote(st), data = ENB_train)
+anova(model_inter_poly, model_inter)
+rmse(predict(model_inter_poly, newdata = ENB_test), ENB_test$Y1)
+```
+
+### Backward stepwise selection
+
+Repeat the above question, but use backward stepwise selection instead of best subset selection. Compare the time taken in forward stepwise with that taken in best subset selection in the earlier question. Also, compare the RMSE on test data of the model chosen with the best subset selection approach with the model chosen with the forward stepwise selection procedure.
+
+*(2 + 2 = 4 points)*
+
+## Forward vs backward vs best subset approach
+
+Mention one advantage of each of the 3 approaches (forward stepwise selection, backward stepwise selection, best subset selection) over the other 2 approaches.
+
+*(2x3 = 6 points)*
+
+## K-fold cross validation approach
+
+We will use a new approach to develop a model for predicting `Y1`. The approach is based on considering terms based on the effect hierarchy principle and assessing if a considered term should be added based on the K-fold cross-validation error.
+
+In this question, you will use $K$-fold cross validation to find out the relevant interactions of these predictors and the relevant interactions of the polynomial transformations of these predictors for predicting `Y1`. We'll consider quadratic and cubic transfromations of each predictor, and the interactions of these transformed predictors. For example, some of the interaction terms that you will consider are (`X1`$^2$), (`X1`)(`X3`), (`X1`$^2$)(`X3`), (`X1`)(`X3`)(`X4`), (`X1`)(`X3`$^2$)(`X4`), (`X1`)(`X3`$^2$)(`X4`)(`X5`$^3$), etc. The highest degree interaction term will be of degree 21 - (`X1`$^3$)(`X3`$^3$)(`X4`$^3$)(`X5`$^3$)(`X6`$^3$)(`X7`$^3$)(`X8`$^3$), and the lowest degree interaction terms will be of degree two, such as (`X1`$^2$), (`X1`)(`X2`), etc.
+
+The algorithm to find out the relevant interactions using $K$-fold cross validation is as follows. Most of the algorithm is already coded for you. You need to code only part 2 as indicated below.
+
+1. Start with considering interactions of degree `d` = 2:
+
+2. **Find out the 10-fold cross validation RMSE if an interaction of degree `d` is added to the model** *(You need to code only this part)*.
+ 
+3. Repeat step (2) for all possible interactions of degree `d`.
+
+4. Include the interaction of degree `d` in the model that leads to the highest reduction in the 5-fold cross validation error as compared to the previous model *(forward stepwise selection based on K-fold cross validation)*
+
+5. Repeat steps 2-4 until no more reduction is possible in the 5-fold cross validation RMSE.
+    
+6. If `d` = 21, or if no term of a particular degree could be added to the model, then stop, otherwise increment `d` by one, and repeat steps 2-5.
+
+The above algorithm is coded below. The algorithm calls a function `KFoldCV` to compute the 10-fold cross validation RMSE given the interaction terms already selected in the model as `selected_interactions`, and the interaction term to be tested as `interaction_being_tested`. The function must return the 10-fold cross validation RMSE if `interaction_being_tested` is included to the model consisting of `X1`, `X3`, `X4`, `X5`, `X6`, `X7`, and `X8` in addition to the already added interactions in `selected_interactions`. The model equation for which you need to find the $10$-fold cross validation RMSE will be`'price~X1+X3+X4+X5+X6+X7+X8'+selected_interactions+interaction_being_tested`
+
+You need to do the following:
+
+1. Fill out the function `KFoldCV`. 
+
+2. Execute the code to obtain the relevant interactions in `selected_interactions`. Print out the object `selected_interactions`.
+
+3. Fit the model with the seven predictors, the `selected_interactions` and compute the RMSE on test data.
+
+*(15 + 2 + 3 = 20 points)*
+
+```{r}
+#| eval: false
+library(AlgDesign)
+degree <- gen.factorial(4, 7,center = FALSE,
+  varNames=c("X1","X3", "X4","X5","X6", "X7","X8"))
+degree <- degree-1
+degree$sum_degree <- apply(degree,1,sum)
+degree$count_zeros <- apply(degree,1,FUN = function(x) sum(x[1:7]==0))
+degree <- degree[order(degree$sum_degree,-degree$count_zeros ),]
+degree <- degree[-1,]
+degree <- degree[,-9]
+head(degree)
+```
+
+```{r}
+#| eval: false
+k=10
+fold_size = round(nrow(ENB_train)/k)
+KFoldCV <- function(selected_interactions, interaction_being_tested)
+{
+  cv_vals <-rep(0,k)
+  for(i in 1:k)
+  {
+    test_indices <- ((i-1)*fold_size+1):(i*fold_size)
+    train_indices <- (1:nrow(ENB_train))[-test_indices]
+    train_set <- ENB_train[train_indices,]
+    test_set <- ENB_train[test_indices,]
+    formulation <- paste0("Y1~.",selected_interactions,interaction_being_tested)
+    model <- lm(noquote(formulation), data = train_set)
+    pred_Y <- predict(model, test_set)
+    cv_vals[i] <- rmse(pred_Y, test_set$Y1) 
+  }
+  return(mean(cv_vals))
+}
+```
+
+
+```{r}
+#| eval: false
+cv_previous_model = KFoldCV(selected_interactions = '', interaction_being_tested = '')
+pred_names<-colnames(degree)
+interaction_being_tested = '+'
+selected_interactions = ''
+
+for(d in 2:21)
+{
+  d_terms = 0
+  interactions_that_reduce_KfoldCV<-c()
+  cv_degree <- c()
+  degree_set = degree[degree$sum_degree==d,]
+  while(TRUE)  
+  {
+    for(j in 1:nrow(degree_set))
+    {
+      #print(j)
+      row = degree_set[j,1:7]
+      for(m in 1:7)
+      {
+        if(row[m]>1)
+        {
+          interaction_being_tested <- paste0(interaction_being_tested, "I(", pred_names[m],"^",row[m],")*")
+        }else if(row[m]==1)
+        {
+          interaction_being_tested <- paste0(interaction_being_tested, pred_names[m],"*")
+        }
+      }
+      interaction_being_tested<-substr(interaction_being_tested,1,nchar(interaction_being_tested)-1)
+      cv <- KFoldCV(selected_interactions, interaction_being_tested)
+      if(cv<cv_previous_model)
+      {
+        interactions_that_reduce_KfoldCV<-c(interactions_that_reduce_KfoldCV, interaction_being_tested) 
+        cv_degree<-c(cv_degree, cv)
+      }
+      interaction_being_tested = '+'
+    }
+    cv_data = data.frame(interaction = interactions_that_reduce_KfoldCV, cv = cv_degree)
+    if(nrow(cv_data)==0)
+    {
+      print("broken")
+      break
+    }else{d_terms<-1}
+    cv_data <- cv_data[order(cv_data$cv),]
+    selected_interactions = paste0(selected_interactions, cv_data[1,1])
+    cv_previous_model = cv_data[1,2]
+    interactions_that_reduce_KfoldCV<-c()
+    cv_degree <- c()
+    
+    print(paste0("Degree of interactions being considered:",d, ", 5-fold CV RMSE:", cv_previous_model))
+  }
+  if(d_terms==0){break}
+}
+```
+
+```{r}
+model <- lm(Y1~. +X3*X5+I(X3^2)+X4*X7+X1*X5+I(X4^2)+X1*X3+X7*X8+X1*X7+I(X1^2)*X5+I(X7^2)*X8+I(X7^3)+X5*I(X7^2)+X1*X7*X8+I(X6^2)*X7+X5*I(X7^3)+X4*I(X7^3)+X4*I(X8^3)+X1*I(X3^2)*X7+X1*X5*I(X7^2)+I(X6^2)*X7*X8+I(X6^3)*X8+X3*I(X8^3)+I(X6^3)*X7+X1*I(X3^3)+I(X1^3)*X3+X1*I(X6^3)*X8, data = ENB_train)
+vif(model)
+preds <- predict(model, newdata = ENB_test)
+rmse(preds, ENB_test$Y1)
+```
+
