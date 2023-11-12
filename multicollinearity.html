@@ -186,6 +186,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable interactions &amp; Qualitative predictors</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./model_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model selection</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -404,19 +410,19 @@ lm(formula = y ~ X + I(X^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.92754 -0.61726  0.05255  0.68197  2.32002 
+-2.43363 -0.66550 -0.02573  0.69167  2.63598 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  1.95764    3.39165   0.577    0.564    
-X            0.27306    1.05653   0.258    0.796    
-I(X^2)       1.06314    0.08113  13.105   &lt;2e-16 ***
+(Intercept)  4.73089    3.44657   1.373    0.171    
+X           -0.58452    1.07364  -0.544    0.587    
+I(X^2)       1.12924    0.08244  13.698   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9505 on 298 degrees of freedom
-Multiple R-squared:  0.9941,    Adjusted R-squared:  0.9941 
-F-statistic: 2.507e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9658 on 298 degrees of freedom
+Multiple R-squared:  0.9939,    Adjusted R-squared:  0.9939 
+F-statistic: 2.429e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
@@ -462,19 +468,19 @@ lm(formula = y ~ x + I(x^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.92754 -0.61726  0.05255  0.68197  2.32002 
+-2.43363 -0.66550 -0.02573  0.69167  2.63598 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.65001    0.08218  592.02   &lt;2e-16 ***
-x           14.09382    0.06305  223.54   &lt;2e-16 ***
-I(x^2)       1.06314    0.08113   13.11   &lt;2e-16 ***
+(Intercept) 48.64173    0.08351   582.5   &lt;2e-16 ***
+x           14.09555    0.06407   220.0   &lt;2e-16 ***
+I(x^2)       1.12924    0.08244    13.7   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9505 on 298 degrees of freedom
-Multiple R-squared:  0.9941,    Adjusted R-squared:  0.9941 
-F-statistic: 2.507e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9658 on 298 degrees of freedom
+Multiple R-squared:  0.9939,    Adjusted R-squared:  0.9939 
+F-statistic: 2.429e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
