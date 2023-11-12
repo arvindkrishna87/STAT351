@@ -18,7 +18,7 @@ editor_options:
 
 3.  Render the file as HTML to submit. For theoretical questions, you can either type the answer and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **19th November 2023 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **21st November 2023 at 11:59 pm**.
 
 5.  **Five points are properly formatting the assignment**. The breakdown is as follows:
 
@@ -29,7 +29,7 @@ editor_options:
 
 ## Energy model
 
-The datasets *ENB2012_Train.csv* and *ENB2012_Test.csv* provide data on energy analysis using 12 different building shapes simulated in Ecotect. The buildings differ with respect to the glazing area, the glazing area distribution, and the orientation, amongst other parameters. Below is the description of the data columns:
+The datasets *ENB2012_Train.csv* and *ENB2012_Test.csv* provide data on energy analysis using different building shapes simulated in Ecotect. The buildings differ with respect to the glazing area, the glazing area distribution, and the orientation, amongst other parameters. Below is the description of the data columns:
 
 1. `X1`: Relative Compactness
 2. `X2`: Surface Area
@@ -43,9 +43,9 @@ The datasets *ENB2012_Train.csv* and *ENB2012_Test.csv* provide data on energy a
 
 ### Number of models
 
-Suppose that we want to implement the best subset selection algorithm to find the first order predictors (`X1`-`X8`) that can predict heating load (`y1`). How many models for $E$(`y1`) are possible, if the model includes (i) one variable, (ii) three variables, and (iii) eight variables? Show your steps without running any code. 
+Suppose that we want to implement the best subset selection algorithm to find the first order predictors (`X1`-`X8`) that can predict heating load (`y1`). How many models for $E$(`Y1`) are possible, if the model includes (i) one variable, (ii) three variables, and (iii) eight variables? Show your steps without running any code. 
 
-Note: The notation $E$(`y1`) means the expected value of `y1` or the mean of `y1`.
+Note: The notation $E$(`Y1`) means the expected value of `Y1` or the mean of `y1`.
 
 *(3 points)*
 
@@ -55,19 +55,19 @@ Fit a linear regression model and attempt to find the VIF of each predictor. It 
 
 You may use the R function `alias()` to identify the perfectly collinear relationship.
 
-*(4 points)*
+*(2+2 = 4 points)*
 
 
-### Best model
+### Best model(s)
 
-Implement the best subset selection algorithm to find the *best* first-order predictors of heating load `Y1`, with regard to $R^2$, Adj-$R^2$, $C_p$, and the $BIC$ criteria. 
+Implement the best subset selection algorithm to find the *best* first-order predictors of heating load `Y1`, with respect to $R^2$, Adj-$R^2$, $C_p$, and the $BIC$ criteria. 
 
 Note: 
 
 1. Use *ENB2012_Train.csv* and consider only the first-order terms. 
 2. Make plots visualizing the $R^2$, Adj-$R^2$, $C_p$, and the $BIC$ criteria for the best model corresponding to each possible value of number of predictors.
 
-Print the coefficients of all the models that are the best based on at least one criteria among Adj-$R^2$, $C_p$, and the $BIC$.
+Print the coefficients of all the models that are the best based on at least one criteria among Adj-$R^2$, $C_p$, and $BIC$.
 
 *(2 + 4 + 2 = 8 points)*
 
@@ -75,26 +75,28 @@ Print the coefficients of all the models that are the best based on at least one
 
 We need to choose one among all the best models identified in the previous question. Use the following approach:
 
-1. Compare the coefficients of each model on the training data and test data. If the coefficients are similar, it means that the model is generalizable to unseen data. Otherwise, the model has issues, and you may discard it.
+1. Compare the coefficients of each model when fitted on the training data with the coefficients when fitted on the test data. If the coefficients are similar, it means that the model is generalizable to unseen data. Otherwise, the model has issues, and you may discard it.
 
-2. Check the prediction error *(root mean square prediction error)* on the test data. If the predictor errors of one model are much lower than the rest, then you may select that model.
+2. Check the prediction error *(root mean squared prediction error)* on the test data. If the predictor error of one model is much lower than the rest, then you may select that model.
 
-3. Check the model assumptions regarding homoscedasticity and normal distribution of error terms. You may select the model if it has much lesser departure from assumptions as compared to the rest of them.
+3. Check the model assumptions regarding homoscedasticity and normal distribution of error terms using statistical tests. You may select a model if it has much lesser departure from assumptions as compared to the rest of them.
 
 4. If there is no clear choice based on (1), (2), and (3), perform the general linear F test *(with a significance levlel of 5\%)* to choose the most parsimonious model.
+
+Print the coefficients of the chosen model.
 
 *(2x4 = 8 points)*
 
 
 ### Overfitting
 
-Compute the estimate of the error standard deviation. Compare it with the RMSE on test data, and comment if the chosen model in the previous question seems to overfit the data.
+Compute the estimate of the error standard deviation. Compare it with the RMSE on test data, and comment if the chosen model in the previous question ([F.1.4](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#best-among-best)) seems to overfit the data.
 
 *(2 + 2 = 4 points)*
 
 ### Best model vs all-predictor model
 
-Calculate the RMSE of the model selected in F.3. Compare it with the RMSE of the model using all first-order predictors *(except the one dropped to address perfect multicollinearity)*. You will find that the two RMSEs are similar. Seems like the best subset model didn't help improve prediction.
+Calculate the RMSE of the model selected in [F.1.4](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#best-among-best). Compare it with the RMSE of the model using all first-order predictors *(except the one dropped in [F.1.2](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#resolving-perfect-multicollinearity) to address perfect multicollinearity)*. You will find that the two RMSEs are similar. Seems like the best subset model didn't help improve prediction.
 
 1. Why did the best subset model not help improve prediction accuracy as compared to the model with all the predictors?
 
@@ -102,9 +104,9 @@ Calculate the RMSE of the model selected in F.3. Compare it with the RMSE of the
 
 *(3 + 3 = 6 points)*
 
-### Interactions
+### Two-factor Interactions
 
-Let us consider adding all the 2-factor interactions of the predictors in the model. Answer the following questions without running code.
+Let us consider adding all the 2-factor interactions of all the predictors in the model *(except the one dropped in [F.1.2](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#resolving-perfect-multicollinearity) to address perfect multicollinearity)*. Answer the following questions without running code.
 
 1. How many predictors do we have in total?
 
@@ -122,25 +124,25 @@ Let us consider adding all the 2-factor interactions of the predictors in the mo
 
 ### Interaction model
 
-Use best subset selection to find the *best* first-order predictors and 2-factor interactions of the predictors of `y1` (Heating Load). In case different criteria indicate different models as best, choose the most parsimonious model. 
+Use best subset selection to find the *best* first-order predictors and 2-factor interactions of the predictors of `Y1` (Heating Load). In case different criteria indicate different models as best, choose the most parsimonious model. 
 
-Perform the general linear test to show that the model with interactions should be preferred over the additive model developed earlier.
+Perform the general linear test to show that the model with interactions should be preferred over the additive model selected earlier (in [F.1.4](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#best-among-best)).
 
-Find the RMSE of the chosen model on the test data. Is it lower than the RMSE of the additive model?
+Find the RMSE of the best model with interactions on the test data. Is it lower than the RMSE of the additive model (selected earlier in [F.1.4](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#best-among-best))?
 
-In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding interaction to eliminate the issue.
+In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding interaction(s) to eliminate the issue.
 
 *(2 + 2 + 2 + 2 = 8 points)*
 
 ### Polynomial terms
 
-In the model developed in the previous question, consider including the polynomial transformation of degree 2 for each predictor, and then repeat the same procedure:
+In the model developed in the previous question ([F.1.8](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#interaction-model)), consider including the polynomial transformation of degree 2 for each predictor, and then repeat the same procedure:
 
-Use best subset selection to find the *best* first-order & second order predictors including 2-factor interactions of the predictors of `y1` (Heating Load). In case different criteria indicate different models as best, choose the most parsimonious model. 
+Use best subset selection to find the *best* first-order & second order predictors including 2-factor interactions of the predictors to predict `Y1` (Heating Load). In case different criteria indicate different models as best, choose the most parsimonious model. 
 
-Perform the general linear test to show that the model with interactions & polynomial terms of degree 2 should be preferred over the model with interactions but no polynomial terms developed earlier.
+Perform the general linear test to show that the model with interactions & polynomial terms of degree 2 should be preferred over the model with interactions but no polynomial terms developed in the previous question ([F.1.8](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#interaction-model)).
 
-Find the RMSE of the chosen model on the test data. Is it lower than the RMSE of the model with interactions but no polynomial terms developed earlier?
+Find the RMSE of the best model with 2-factor interactions and polynomial terms of degree 2, on the test data. Is it lower than the RMSE of the model with 2-factor interactions but no polynomial terms developed in the previous question ([F.1.8](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#interaction-model))?
 
 In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding polynomial term(s) to eliminate the issue.
 
@@ -148,13 +150,17 @@ In case of numerical issues, check if there is perfect multicollinearity and rem
 
 ### Forward stepwise selection
 
-Repeat the above question, but use forward stepwise selection instead of best subset selection. Compare the time taken in forward stepwise with that taken in best subset selection in the earlier question. Also, compare the RMSE on test data of the model chosen with the best subset selection approach with the model chosen with the forward stepwise selection procedure.
+Repeat the above question, but use forward stepwise selection instead of best subset selection. Compare the time taken in forward stepwise with that taken in best subset selection in the previous question ([F.1.9](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#polynomial-terms)). Which approach is faster, and by what factor? 
+
+Also, compare the RMSE on test data of the model chosen with the best subset selection approach ([F.1.9](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#polynomial-terms) with the model chosen with the forward stepwise selection procedure. Which approach seems to provide a more accurate model?
 
 *(2 + 2 = 4 points)*
 
 ### Backward stepwise selection
 
-Repeat the above question, but use backward stepwise selection instead of best subset selection. Compare the time taken in forward stepwise with that taken in best subset selection in the earlier question. Also, compare the RMSE on test data of the model chosen with the best subset selection approach with the model chosen with the forward stepwise selection procedure.
+Repeat the above question, but use backward stepwise selection instead of best subset selection. Compare the time taken in backward stepwise with that taken in best subset selection in the earlier question ([F.1.9](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#polynomial-terms)). Which approach is faster, and by what factor? 
+
+Also, compare the RMSE on test data of the model chosen with the best subset selection approach ([F.1.9](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#polynomial-terms) with the model chosen with the backward stepwise selection procedure. Which approach seems to provide a more accurate model?
 
 *(2 + 2 = 4 points)*
 
@@ -166,7 +172,7 @@ Mention one advantage of each of the 3 approaches (forward stepwise selection, b
 
 ## K-fold cross validation approach
 
-We will use a new approach to develop a model for predicting `Y1`. The approach is based on considering terms based on the effect hierarchy principle and assessing if a considered term should be added based on the K-fold cross-validation error.
+We will use a new approach to develop a model for predicting `Y1`. The approach is based on considering terms based on the effect hierarchy principle and assessing if a term should be added to the model based on the K-fold cross-validation error.
 
 In this question, you will use $K$-fold cross validation to find out the relevant interactions of these predictors and the relevant interactions of the polynomial transformations of these predictors for predicting `Y1`. We'll consider quadratic and cubic transfromations of each predictor, and the interactions of these transformed predictors. For example, some of the interaction terms that you will consider are (`X1`$^2$), (`X1`)(`X3`), (`X1`$^2$)(`X3`), (`X1`)(`X3`)(`X4`), (`X1`)(`X3`$^2$)(`X4`), (`X1`)(`X3`$^2$)(`X4`)(`X5`$^3$), etc. The highest degree interaction term will be of degree 21 - (`X1`$^3$)(`X3`$^3$)(`X4`$^3$)(`X5`$^3$)(`X6`$^3$)(`X7`$^3$)(`X8`$^3$), and the lowest degree interaction terms will be of degree two, such as (`X1`$^2$), (`X1`)(`X2`), etc.
 
@@ -180,9 +186,9 @@ The algorithm to find out the relevant interactions using $K$-fold cross validat
 
 4. Include the interaction of degree `d` in the model that leads to the highest reduction in the 5-fold cross validation error as compared to the previous model *(forward stepwise selection based on K-fold cross validation)*
 
-5. Repeat steps 2-4 until no more reduction is possible in the 5-fold cross validation RMSE.
+5. Repeat steps 2-4 until no more reduction is possible in the 10-fold cross validation RMSE.
     
-6. If `d` = 21, or if no term of a particular degree could be added to the model, then stop, otherwise increment `d` by one, and repeat steps 2-5.
+6. If `d` = 21, or if no term of a particular degree could reduce the $K$-fold cross-validation error further, then stop, otherwise increment `d` by one, and repeat steps 2-5.
 
 The above algorithm is coded below. The algorithm calls a function `KFoldCV` to compute the 10-fold cross validation RMSE given the interaction terms already selected in the model as `selected_interactions`, and the interaction term to be tested as `interaction_being_tested`. The function must return the 10-fold cross validation RMSE if `interaction_being_tested` is included to the model consisting of `X1`, `X3`, `X4`, `X5`, `X6`, `X7`, and `X8` in addition to the already added interactions in `selected_interactions`. The model equation for which you need to find the $10$-fold cross validation RMSE will be`'price~X1+X3+X4+X5+X6+X7+X8'+selected_interactions+interaction_being_tested`
 
