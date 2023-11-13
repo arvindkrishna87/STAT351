@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model selection</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model selection &amp; validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -429,10 +429,10 @@ x3    0           2 -1/2    0    0</code></pre>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">cbind</span>(x1,x2,x3,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           x1         x2         x3          y
-x1  1.0000000 -0.1039143  0.9756008  0.7508356
-x2 -0.1039143  1.0000000 -0.3197421 -0.1721789
-x3  0.9756008 -0.3197421  1.0000000  0.7533006
-y   0.7508356 -0.1721789  0.7533006  1.0000000</code></pre>
+x1  1.0000000 -0.1537024  0.9713272  0.7479742
+x2 -0.1537024  1.0000000 -0.3842169 -0.2950985
+x3  0.9713272 -0.3842169  1.0000000  0.7698687
+y   0.7479742 -0.2950985  0.7698687  1.0000000</code></pre>
 </div>
 </div>
 <p>Let us remove <code>x1</code> as it is highly correlated with <code>x3</code>. Removing <code>x1</code> will reduce multicollinearity more as compared to removing <code>x2</code>. Among <code>x3</code> and <code>x1</code>, <code>x3</code> has a higher correlation with <code>y</code>, so it is better to remove <code>x1</code>.</p>
@@ -441,7 +441,7 @@ y   0.7508356 -0.1721789  0.7533006  1.0000000</code></pre>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      x2       x3       x4       x5 
-1.158321 1.132001 1.045827 1.078747 </code></pre>
+1.187516 1.223618 1.039846 1.004453 </code></pre>
 </div>
 </div>
 </section>
@@ -462,19 +462,19 @@ lm(formula = y ~ X + I(X^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.93720 -0.66150  0.00122  0.71575  2.65438 
+-2.81701 -0.70950  0.01776  0.69617  2.83818 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  4.57425    3.79567   1.205    0.229    
-X           -0.32517    1.18239  -0.275    0.784    
-I(X^2)       1.09309    0.09079  12.040   &lt;2e-16 ***
+(Intercept) -1.51326    3.74612  -0.404    0.687    
+X            1.48280    1.16695   1.271    0.205    
+I(X^2)       0.95989    0.08961  10.712   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.064 on 298 degrees of freedom
-Multiple R-squared:  0.9924,    Adjusted R-squared:  0.9923 
-F-statistic: 1.943e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.05 on 298 degrees of freedom
+Multiple R-squared:  0.9927,    Adjusted R-squared:  0.9926 
+F-statistic: 2.015e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
@@ -520,19 +520,19 @@ lm(formula = y ~ x + I(x^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.93720 -0.66150  0.00122  0.71575  2.65438 
+-2.81701 -0.70950  0.01776  0.69617  2.83818 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.64367    0.09196  528.94   &lt;2e-16 ***
-x           13.88499    0.07056  196.78   &lt;2e-16 ***
-I(x^2)       1.09309    0.09079   12.04   &lt;2e-16 ***
+(Intercept) 48.68037    0.09076  536.34   &lt;2e-16 ***
+x           13.96139    0.06964  200.49   &lt;2e-16 ***
+I(x^2)       0.95989    0.08961   10.71   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.064 on 298 degrees of freedom
-Multiple R-squared:  0.9924,    Adjusted R-squared:  0.9923 
-F-statistic: 1.943e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.05 on 298 degrees of freedom
+Multiple R-squared:  0.9927,    Adjusted R-squared:  0.9926 
+F-statistic: 2.015e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
