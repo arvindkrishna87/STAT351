@@ -257,8 +257,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link active" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="header-section-number">6.1</span> Why and how is collinearity a problem?</a></li>
   <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="header-section-number">6.2</span> How to measure collinearity/multicollinearity?</a></li>
-  <li><a href="#addressing-multicollinearity-in-polynomial-models" id="toc-addressing-multicollinearity-in-polynomial-models" class="nav-link" data-scroll-target="#addressing-multicollinearity-in-polynomial-models"><span class="header-section-number">6.3</span> Addressing multicollinearity in polynomial models</a></li>
-  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="header-section-number">6.4</span> When can we overlook multicollinearity?</a></li>
+  <li><a href="#perfect-multicollinearity" id="toc-perfect-multicollinearity" class="nav-link" data-scroll-target="#perfect-multicollinearity"><span class="header-section-number">6.3</span> Perfect multicollinearity</a></li>
+  <li><a href="#addressing-multicollinearity-in-polynomial-models" id="toc-addressing-multicollinearity-in-polynomial-models" class="nav-link" data-scroll-target="#addressing-multicollinearity-in-polynomial-models"><span class="header-section-number">6.4</span> Addressing multicollinearity in polynomial models</a></li>
+  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="header-section-number">6.5</span> When can we overlook multicollinearity?</a></li>
   </ul>
 </nav>
     </div>
@@ -393,16 +394,63 @@ F-statistic:   410 on 3 and 396 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>The model no longer suffers from multicollinearity. This is an example that shows that we may make incorrect inference in the presence of multicollinearity.</p>
 <p>Note that the <span class="math inline">\(R^2_{adj}\)</span> of the updated model is almost the same as that of the previous model. Thus, the goodness-of-fit of the model seems to be unaffected by multicollinearity. However, this need not always be the case.</p>
 </section>
-<section id="addressing-multicollinearity-in-polynomial-models" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="addressing-multicollinearity-in-polynomial-models"><span class="header-section-number">6.3</span> Addressing multicollinearity in polynomial models</h2>
+<section id="perfect-multicollinearity" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="perfect-multicollinearity"><span class="header-section-number">6.3</span> Perfect multicollinearity</h2>
+<p>The <code>vif()</code> function fails to compute the variance inflation factor in case of perfect multicollinearity. In such a scenario, one would like to identify the perfectly multicollinear relationship, and remove the associated predictor(s) to eliminate perfect multicollinearity. The <code>alias()</code> function can be used to identify such relationships. Consider the simulated example below.</p>
+<p>Let <code>x1</code>,…,<code>x5</code> be predictor, and <code>y</code> be the response.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulating the data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">101</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">=</span> x1<span class="sc">*</span><span class="dv">2</span> <span class="sc">-</span> <span class="fl">0.5</span><span class="sc">*</span>x2</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>x4 <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">101</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>x5<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">101</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> x1<span class="sc">+</span>x3<span class="sc">**</span><span class="dv">2</span><span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">101</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From the above simulated data, we can see that the <code>x1</code>, <code>x2</code>, and <code>x3</code> are perfectly multicollinear. Let us try to find the VIF of the predictors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x1<span class="sc">+</span>x2<span class="sc">+</span>x3<span class="sc">+</span>x4<span class="sc">+</span>x5)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>On executing the above code, we obtain the error, <em>there are aliased coefficients in the model</em>. This indicates the presence of perfect multicollinearity. The perfectly multicollinear relationship can be identified using the <code>alias()</code> function as shown below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">alias</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model :
+Balance ~ Limit + Cards + Age</code></pre>
+</div>
+</div>
+<p>The above results shows that <span class="math inline">\(x_3 = 2x_1-0.5x_2\)</span>. Thus, we can remove any one of <span class="math inline">\(x_1, x_2, x_3\)</span> from the model to eliminate perfect multicollinearity.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">cbind</span>(x1,x2,x3,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           x1           x2         x3            y
+x1 1.00000000  0.079495412  0.9663620  0.740308845
+x2 0.07949541  1.000000000 -0.1795503 -0.005298406
+x3 0.96636204 -0.179550265  1.0000000  0.731957086
+y  0.74030885 -0.005298406  0.7319571  1.000000000</code></pre>
+</div>
+</div>
+<p>Let us remove <code>x1</code> as it is highly correlated with <code>x3</code>. Removing <code>x1</code> will reduce multicollinearity more as compared to removing <code>x2</code>. Among <code>x3</code> and <code>x1</code>, <code>x3</code> has a higher correlation with <code>y</code>, so it is better to remove <code>x1</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x2<span class="sc">+</span>x3<span class="sc">+</span>x4<span class="sc">+</span>x5)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      x2       x3       x4       x5 
+1.033868 1.033481 1.014673 1.014067 </code></pre>
+</div>
+</div>
+</section>
+<section id="addressing-multicollinearity-in-polynomial-models" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="addressing-multicollinearity-in-polynomial-models"><span class="header-section-number">6.4</span> Addressing multicollinearity in polynomial models</h2>
 <p>In polynomial models, it is likely that <span class="math inline">\(X\)</span> will be highly correlated with <span class="math inline">\(X^p\)</span>, resulting in imprecise estimates of the regression coefficents. Let us consider the following simulation example.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulating data</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">8</span>,<span class="fl">0.01</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> X <span class="sc">+</span> X<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(X))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>X<span class="sc">+</span><span class="fu">I</span>(X<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulating data</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">8</span>,<span class="fl">0.01</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> X <span class="sc">+</span> X<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(X))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>X<span class="sc">+</span><span class="fu">I</span>(X<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -410,31 +458,31 @@ lm(formula = y ~ X + I(X^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.43363 -0.66550 -0.02573  0.69167  2.63598 
+-2.56191 -0.70553  0.00814  0.70727  3.00172 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  4.73089    3.44657   1.373    0.171    
-X           -0.58452    1.07364  -0.544    0.587    
-I(X^2)       1.12924    0.08244  13.698   &lt;2e-16 ***
+(Intercept) -5.83598    3.72824  -1.565   0.1186    
+X            2.86342    1.16138   2.466   0.0142 *  
+I(X^2)       0.85428    0.08918   9.579   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9658 on 298 degrees of freedom
-Multiple R-squared:  0.9939,    Adjusted R-squared:  0.9939 
-F-statistic: 2.429e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.045 on 298 degrees of freedom
+Multiple R-squared:  0.9927,    Adjusted R-squared:  0.9927 
+F-statistic: 2.036e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(X, X<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(X, X<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9982179</code></pre>
 </div>
 </div>
 <p>The high correlation indicates presence of multicollineairty. Multicollinearity can also be observed with the high value of VIF as shown below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       X   I(X^2) 
 280.8106 280.8106 </code></pre>
@@ -442,16 +490,16 @@ F-statistic: 2.429e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Centering the predictors may help reduce multicollinearity as shown below</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> X<span class="sc">-</span><span class="fu">mean</span>(X)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> X<span class="sc">-</span><span class="fu">mean</span>(X)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9.0533e-17</code></pre>
 </div>
 </div>
 <p>The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>, after centering the predictor, is almost 0.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model_centered <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x<span class="sc">+</span><span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_centered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model_centered <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x<span class="sc">+</span><span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_centered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     x I(x^2) 
      1      1 </code></pre>
@@ -460,7 +508,7 @@ F-statistic: 2.429e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Note that multicollinearity has been eliminated in the model with centered predictor.</p>
 <p>Also, the coefficients of both <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span> are statistically significant <em>(see model summary below)</em> as they should be as per the true model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_centered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_centered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -468,24 +516,24 @@ lm(formula = y ~ x + I(x^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.43363 -0.66550 -0.02573  0.69167  2.63598 
+-2.56191 -0.70553  0.00814  0.70727  3.00172 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.64173    0.08351   582.5   &lt;2e-16 ***
-x           14.09555    0.06407   220.0   &lt;2e-16 ***
-I(x^2)       1.12924    0.08244    13.7   &lt;2e-16 ***
+(Intercept) 48.86944    0.09033 541.005   &lt;2e-16 ***
+x           13.96902    0.06931 201.557   &lt;2e-16 ***
+I(x^2)       0.85428    0.08918   9.579   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9658 on 298 degrees of freedom
-Multiple R-squared:  0.9939,    Adjusted R-squared:  0.9939 
-F-statistic: 2.429e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.045 on 298 degrees of freedom
+Multiple R-squared:  0.9927,    Adjusted R-squared:  0.9927 
+F-statistic: 2.036e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="when-can-we-overlook-multicollinearity" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">6.4</span> When can we overlook multicollinearity?</h2>
+<section id="when-can-we-overlook-multicollinearity" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">6.5</span> When can we overlook multicollinearity?</h2>
 <ul>
 <li><p>The severity of the problems increases with the degree of the multicollinearity. Therefore, if there is only moderate multicollinearity <em>(5 &lt; VIF &lt; 10)</em>, we may overlook it.</p></li>
 <li><p>Multicollinearity affects only the standard errors of the coefficients of collinear predictors. Therefore, if multicollinearity is not present for the predictors that we are particularly interested in, we may not need to resolve it.</p></li>
