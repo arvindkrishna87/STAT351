@@ -91,11 +91,12 @@ y = x1+x3**2+rnorm(101)
 From the above simulated data, we can see that the `x1`, `x2`, and `x3` are perfectly multicollinear. Let us try to find the VIF of the predictors.
 
 ```{r}
+#| eval: false
 model <- lm(y~x1+x2+x3+x4+x5)
 vif(model)
 ```
 
-We obtain the error, *there are aliased coefficients in the model*. This indicates the presence of perfect multicollinearity. The perfectly multicollinear relationship can be identified using the `alias()` function as shown below.
+On executing the above code, we obtain the error, *there are aliased coefficients in the model*. This indicates the presence of perfect multicollinearity. The perfectly multicollinear relationship can be identified using the `alias()` function as shown below.
 
 ```{r}
 alias(model)
