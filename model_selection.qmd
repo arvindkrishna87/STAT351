@@ -1,4 +1,4 @@
-# Model selection
+# Model selection & validation
 
 This section is sourced from [ISLR](https://hastie.su.domains/ISLR2/Labs/Rmarkdown_Notebooks/Ch6-varselect-lab.Rmd).
 
@@ -135,7 +135,9 @@ coef(regfit.bwd, 7)
 ```
 
 
-### Choosing Among Models Using the Validation-Set Approach and Cross-Validation
+## Model validation
+
+### Validation-Set Approach 
 
 
 We just saw that it is possible to choose among a set of models of different sizes using $C_p$, $BIC$, and adjusted $R^2$. We will now consider how to do this using the
@@ -209,6 +211,8 @@ coef(regfit.best, 7)
 ```
 
 In fact, we see that the best seven-variable model on the full data set has a different set of variables than the best seven-variable model on the training set.
+
+### K-fold Cross-Validation
 
 We now try to choose among the models of different sizes using cross-validation. This approach is somewhat involved, as we  must perform best subset selection *within each of the $k$ training sets*. Despite this, we see that with its clever subsetting syntax, `R` makes this job quite easy. First, we create a  vector that allocates each observation to one of $k=10$ folds, and we create
 a matrix in which we will store the results.
