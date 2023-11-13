@@ -132,6 +132,22 @@ Find the RMSE of the best model with interactions on the test data. Is it lower 
 
 In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding interaction(s) to eliminate the issue.
 
+**Hint:** The R syntax to include 2 factor interactions for all the predictors in the dataset is:
+
+```{r}
+#| eval: false
+model <- lm(Y~.^2, data = data)
+```
+
+where `Y` is the response, and `data` is the dataset that consists of all the predictors and the response.
+
+If you wish to remove a certain interaction from the above model, say the interaction between `x1` and `x2`, you can use the following syntax:
+
+```{r}
+#| eval: false
+model <- lm(Y~.^2-x1:x2, data = data)
+```
+
 *(2 + 2 + 2 + 2 = 8 points)*
 
 ### Polynomial terms
@@ -145,6 +161,13 @@ Perform the general linear test to show that the model with interactions & polyn
 Find the RMSE of the best model with 2-factor interactions and polynomial terms of degree 2, on the test data. Is it lower than the RMSE of the model with 2-factor interactions but no polynomial terms developed in the previous question ([F.1.8](https://nustat.github.io/STAT350-class-notes/Assignment%20F.html#interaction-model))?
 
 In case of numerical issues, check if there is perfect multicollinearity and remove the corresponding polynomial term(s) to eliminate the issue.
+
+**Hint:** The R syntax to include the polynomial transformation of degree 2 of say, the predictor `x1`, in an additive model is:
+
+```{r}
+#| eval: false
+model <- lm(Y~.+I(x1^2), data = data)
+```
 
 *(2 + 2 + 2 + 2 = 8 points)*
 

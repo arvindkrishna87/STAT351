@@ -72,6 +72,47 @@ The model no longer suffers from multicollinearity. This is an example that show
 
 Note that the $R^2_{adj}$ of the updated model is almost the same as that of the previous model. Thus, the goodness-of-fit of the model seems to be unaffected by multicollinearity. However, this need not always be the case.
 
+## Perfect multicollinearity
+
+The `vif()` function fails to compute the variance inflation factor in case of perfect multicollinearity. In such a scenario, one would like to identify the perfectly multicollinear relationship, and remove the associated predictor(s) to eliminate perfect multicollinearity. The `alias()` function can be used to identify such relationships. Consider the simulated example below.
+
+Let `x1`,...,`x5` be predictor, and `y` be the response.
+
+```{r}
+# Simulating the data
+x1 = seq(0,1,0.01)
+x2 = runif(101)
+x3 = x1*2 - 0.5*x2
+x4 = rnorm(101)
+x5=rnorm(101)
+y = x1+x3**2+rnorm(101)
+```
+
+From the above simulated data, we can see that the `x1`, `x2`, and `x3` are perfectly multicollinear. Let us try to find the VIF of the predictors.
+
+```{r}
+model <- lm(y~x1+x2+x3+x4+x5)
+vif(model)
+```
+
+We obtain the error, *there are aliased coefficients in the model*. This indicates the presence of perfect multicollinearity. The perfectly multicollinear relationship can be identified using the `alias()` function as shown below.
+
+```{r}
+alias(model)
+```
+
+The above results shows that $x_3 = 2x_1-0.5x_2$. Thus, we can remove any one of $x_1, x_2, x_3$ from the model to eliminate perfect multicollinearity.
+
+```{r}
+cor(cbind(x1,x2,x3,y))
+```
+
+Let us remove `x1` as it is highly correlated with `x3`. Removing `x1` will reduce multicollinearity more as compared to removing `x2`. Among `x3` and `x1`, `x3` has a higher correlation with `y`, so it is better to remove `x1`.
+
+```{r}
+model <- lm(y~x2+x3+x4+x5)
+vif(model)
+```
 
 ## Addressing multicollinearity in polynomial models
 
