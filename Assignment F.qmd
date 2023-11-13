@@ -53,7 +53,9 @@ Note: The notation $E$(`Y1`) means the expected value of `Y1` or the mean of `y1
 
 Fit a linear regression model and attempt to find the VIF of each predictor. It will throw an error. This is because of the presence of perfect multicollinearity in the predictors. Identify the perfectly collinear relationship, and discard a predictor to eliminate perfect multicollinearity. Among the collinear predictors, discard the predictor that is the most highly correlated with the one of the predictors not in the set of collinear predictors. State the discarded predictor, and discard it for all the questions in this assignment.
 
-You may use the R function `alias()` to identify the perfectly collinear relationship.
+**Hint:**
+
+You may use the R function `alias()` to identify the perfectly collinear relationship. Check out an example of this function [here](https://nustat.github.io/STAT350-class-notes/multicollinearity.html#perfect-multicollinearity).
 
 *(2+2 = 4 points)*
 

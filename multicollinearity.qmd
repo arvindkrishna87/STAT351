@@ -99,7 +99,7 @@ vif(model)
 On executing the above code, we obtain the error, *there are aliased coefficients in the model*. This indicates the presence of perfect multicollinearity. The perfectly multicollinear relationship can be identified using the `alias()` function as shown below.
 
 ```{r}
-alias(model)
+alias(lm(y~x1+x2+x3+x4+x5))
 ```
 
 The above results shows that $x_3 = 2x_1-0.5x_2$. Thus, we can remove any one of $x_1, x_2, x_3$ from the model to eliminate perfect multicollinearity.
