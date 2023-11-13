@@ -414,21 +414,25 @@ F-statistic:   410 on 3 and 396 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>On executing the above code, we obtain the error, <em>there are aliased coefficients in the model</em>. This indicates the presence of perfect multicollinearity. The perfectly multicollinear relationship can be identified using the <code>alias()</code> function as shown below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">alias</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">alias</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x1<span class="sc">+</span>x2<span class="sc">+</span>x3<span class="sc">+</span>x4<span class="sc">+</span>x5))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model :
-Balance ~ Limit + Cards + Age</code></pre>
+y ~ x1 + x2 + x3 + x4 + x5
+
+Complete :
+   (Intercept) x1   x2   x4   x5  
+x3    0           2 -1/2    0    0</code></pre>
 </div>
 </div>
 <p>The above results shows that <span class="math inline">\(x_3 = 2x_1-0.5x_2\)</span>. Thus, we can remove any one of <span class="math inline">\(x_1, x_2, x_3\)</span> from the model to eliminate perfect multicollinearity.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">cbind</span>(x1,x2,x3,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           x1           x2         x3            y
-x1 1.00000000  0.079495412  0.9663620  0.740308845
-x2 0.07949541  1.000000000 -0.1795503 -0.005298406
-x3 0.96636204 -0.179550265  1.0000000  0.731957086
-y  0.74030885 -0.005298406  0.7319571  1.000000000</code></pre>
+<pre><code>           x1         x2         x3          y
+x1  1.0000000 -0.1039143  0.9756008  0.7508356
+x2 -0.1039143  1.0000000 -0.3197421 -0.1721789
+x3  0.9756008 -0.3197421  1.0000000  0.7533006
+y   0.7508356 -0.1721789  0.7533006  1.0000000</code></pre>
 </div>
 </div>
 <p>Let us remove <code>x1</code> as it is highly correlated with <code>x3</code>. Removing <code>x1</code> will reduce multicollinearity more as compared to removing <code>x2</code>. Among <code>x3</code> and <code>x1</code>, <code>x3</code> has a higher correlation with <code>y</code>, so it is better to remove <code>x1</code>.</p>
@@ -437,7 +441,7 @@ y  0.74030885 -0.005298406  0.7319571  1.000000000</code></pre>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      x2       x3       x4       x5 
-1.033868 1.033481 1.014673 1.014067 </code></pre>
+1.158321 1.132001 1.045827 1.078747 </code></pre>
 </div>
 </div>
 </section>
@@ -458,19 +462,19 @@ lm(formula = y ~ X + I(X^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.56191 -0.70553  0.00814  0.70727  3.00172 
+-2.93720 -0.66150  0.00122  0.71575  2.65438 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) -5.83598    3.72824  -1.565   0.1186    
-X            2.86342    1.16138   2.466   0.0142 *  
-I(X^2)       0.85428    0.08918   9.579   &lt;2e-16 ***
+(Intercept)  4.57425    3.79567   1.205    0.229    
+X           -0.32517    1.18239  -0.275    0.784    
+I(X^2)       1.09309    0.09079  12.040   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.045 on 298 degrees of freedom
-Multiple R-squared:  0.9927,    Adjusted R-squared:  0.9927 
-F-statistic: 2.036e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.064 on 298 degrees of freedom
+Multiple R-squared:  0.9924,    Adjusted R-squared:  0.9923 
+F-statistic: 1.943e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
@@ -516,19 +520,19 @@ lm(formula = y ~ x + I(x^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--2.56191 -0.70553  0.00814  0.70727  3.00172 
+-2.93720 -0.66150  0.00122  0.71575  2.65438 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.86944    0.09033 541.005   &lt;2e-16 ***
-x           13.96902    0.06931 201.557   &lt;2e-16 ***
-I(x^2)       0.85428    0.08918   9.579   &lt;2e-16 ***
+(Intercept) 48.64367    0.09196  528.94   &lt;2e-16 ***
+x           13.88499    0.07056  196.78   &lt;2e-16 ***
+I(x^2)       1.09309    0.09079   12.04   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.045 on 298 degrees of freedom
-Multiple R-squared:  0.9927,    Adjusted R-squared:  0.9927 
-F-statistic: 2.036e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.064 on 298 degrees of freedom
+Multiple R-squared:  0.9924,    Adjusted R-squared:  0.9923 
+F-statistic: 1.943e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
