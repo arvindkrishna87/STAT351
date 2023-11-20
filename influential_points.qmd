@@ -111,7 +111,21 @@ abline(h=2*p/n, col = 'red')
 
 Observations that have a high leverage and are outliers are influential. The degree of influence depends on the leverage and the magnitude of the residual.
 
-Let us visualize 
+Let us visualize influential observations based on Cook's distance.
+
+```{r}
+plot(1:n, cooks.distance(model), type = "l")
+text(1:n, cooks.distance(model))
+abline(h=2*p/n, col = 'red')
+```
+
+If Cook's distance for an observation is at 50th or higher percentile of $F(p,n-p)$ distribution, then the observation is highly influential
+
+```{r}
+#50th percentile value of F(p,n-p) distribution
+qf(0.2, 7, n-7)
+```
+
 
 ```{r}
 plot(hatvalues(model), rstudent(model), cex = 10*cooks.distance(model))
