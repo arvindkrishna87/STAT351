@@ -28,7 +28,7 @@ data <- data[complete.cases(data),]
 
 # Identifying the predictors of the best model based on on the BIC criterion
 regfit.full <- regsubsets(Salary ~ ., data = Hitters,
-    nvmax = 19)
+                          nvmax = 19)
 reg.summary <- summary(regfit.full)
 coef(regfit.full, which.min(reg.summary$bic))
 ```
@@ -76,6 +76,54 @@ plot(1:n, rstudent(model), type = "l",
 text(1:n, rstudent(model))
 abline(h=crit, col = 'red')
 ```
+
+Let us analyze this observation.
+
+```{r}
+data[173,]
+```
+
+This observation is for Mike Schmidt whose salary is \$2127. However, his predicted salary based on the model is \$87 (shown below):
+
+```{r}
+predict(model, newdata = data[173,])
+```
+
+The observation is an outlier because players similar to Mike Schmidt, in terms of `AtBat`, `Hits`, `Walks`, `CRBI`, `Division`, and `PutOuts` have a low salary. Let us see the salary of players similar to Mike Schmidt.
+
+```{r}
+std_data <- data[,c('AtBat','Hits','Walks','CRBI','PutOuts')]
+std_data <- (std_data-apply(std_data,2,mean))/apply(std_data,2,sd)
+distance <- sqrt(apply(((std_data[rep(173,n),c('AtBat','Hits','Walks','CRBI','PutOuts')] - std_data[,c('AtBat','Hits','Walks','CRBI','PutOuts')])^2),1,sum))
+data_distance <- cbind(data, distance)
+data_distance[order(by = distance),][1:10,c('AtBat','Hits','Walks','CRBI','PutOuts','Salary')]
+```
+
+We can see salary of players having the most similar statistics to Mike Schmidt is much lower than him.
+
+Let us see the players for which the predicted salary is more than \$1500
+
+```{r}
+data[model$fitted.values>1500,c('AtBat','Hits','Walks','CRBI','PutOuts','Salary')]
+```
+
+Note that these players have statistics much different than Mike Schmidt. Thus, Mike Schmidt is an outlier with respect to the response.
+
+Note the model coefficients to see the effect of statistics on predicted salary.
+
+```{r}
+model$coefficients
+```
+
+The outlying observation can also be seen clearly if we plot the fitted values against salary.
+
+```{r}
+plot(data$Salary, model$fitted.values, col = 'orange', pch = 16, main = "Fitted vs true values")
+points(data$Salary[173], model$fitted.values[173], col = 'red', pch = 19)
+text(data$Salary[173], model$fitted.values[173], "Mike Schmidt", pos = 3)
+abline(0,1, col = 'blue')
+```
+
 
 ## Leverage
 
@@ -156,14 +204,50 @@ summary(model_minus173)$r.squared
 summary(model_minus173)$adj.r.squared
 ```
 
-We observe that the model fit does seem to improve if we remove the outlier, as the outlier corresponds to a high prediction error.
+As expected, the model fit does seem to improve if we remove the outlier, as the outlier corresponds to a high prediction error, and thereby a high unexplained variation.
+
+However, as the 173rd observations is not influential, the regression function should not change substantially. Let us compute the average percentage change in fitted values if we fit the model without the 173rd observation.
+
+```{r}
+# fitted values using all observations
+pred_all <- model$fitted.values
+# fitted values using all but the 173rd observation
+pred_all_minus173 <- model_minus173$fitted.values
+
+mean(abs((pred_all_minus173-pred_all[-173])/pred_all[-173]*100))
+```
+
+The average change in predictions is 7\%, if the 173rd observation is removed.
 
 ### DFFITS
+
+Let us visualize the influence of an observation on the prediction for that observation.
 
 ```{r}
 plot(1:n, dffits(model), type="l")
 text(1:n, dffits(model))
 ```
 
+For the 173rd observation, $DFFITS$ is more than one indicating a large influence on the prediction (or fitted value) for that observation.
+
+```{r}
+# Prediction on the 173rd observation with model fitted on all data
+predict(model, newdata = data[173,])
+```
+
+```{r}
+# Prediction on the 173rd observation with model fitted on all data except the 173rd observation
+predict(model_minus173, newdata = data[173,])
+```
+
+The change in the predicted value is 89\% if the 173rd observation is removed from the data. Although the 173rd observation doesn't have a high influence overall, it does have a high influence on prediction at the point itself.
+
 ### DFBETAS
+
+Let us observe the influence of each observation on the regression coefficients.
+
+
+```{r}
+
+```
 
