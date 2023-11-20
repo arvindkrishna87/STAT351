@@ -313,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Identifying the predictors of the best model based on on the BIC criterion</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>regfit.full <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(Salary <span class="sc">~</span> ., <span class="at">data =</span> Hitters,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">nvmax =</span> <span class="dv">19</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">nvmax =</span> <span class="dv">19</span>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>reg.summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(regfit.full)</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(regfit.full, <span class="fu">which.min</span>(reg.summary<span class="sc">$</span>bic))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -368,40 +368,113 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="influential_points_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Let us analyze this observation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">173</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              AtBat Hits HmRun Runs RBI Walks Years CAtBat CHits CHmRun CRuns
+-Mike Schmidt    20    1     0    0   0     0     2     41     9      2     6
+              CRBI CWalks League Division PutOuts Assists Errors   Salary
+-Mike Schmidt    7      4      N        E      78     220      6 2127.333
+              NewLeague
+-Mike Schmidt         N</code></pre>
+</div>
+</div>
+<p>This observation is for Mike Schmidt whose salary is $2127. However, his predicted salary based on the model is $87 (shown below):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model, <span class="at">newdata =</span> data[<span class="dv">173</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-Mike Schmidt 
+     86.86152 </code></pre>
+</div>
+</div>
+<p>The observation is an outlier because players similar to Mike Schmidt, in terms of <code>AtBat</code>, <code>Hits</code>, <code>Walks</code>, <code>CRBI</code>, <code>Division</code>, and <code>PutOuts</code> have a low salary. Let us see the salary of players similar to Mike Schmidt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>std_data <span class="ot">&lt;-</span> data[,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>)]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>std_data <span class="ot">&lt;-</span> (std_data<span class="sc">-</span><span class="fu">apply</span>(std_data,<span class="dv">2</span>,mean))<span class="sc">/</span><span class="fu">apply</span>(std_data,<span class="dv">2</span>,sd)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">apply</span>(((std_data[<span class="fu">rep</span>(<span class="dv">173</span>,n),<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>)] <span class="sc">-</span> std_data[,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>)])<span class="sc">^</span><span class="dv">2</span>),<span class="dv">1</span>,sum))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>data_distance <span class="ot">&lt;-</span> <span class="fu">cbind</span>(data, distance)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data_distance[<span class="fu">order</span>(<span class="at">by =</span> distance),][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>,<span class="st">'Salary'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 AtBat Hits Walks CRBI PutOuts   Salary
+-Mike Schmidt       20    1     0    7      78 2127.333
+-Bruce Bochy       127   32    14   82     202  135.000
+-Dale Sveum        317   78    32   35      45   70.000
+-Curt Ford         214   53    23   32     109   70.000
+-Kurt Stillwell    279   64    30   26     107   75.000
+-Howard Johnson    220   54    31  154      50  297.500
+-Wayne Tolleson    475  126    52   93      37  385.000
+-Mike LaValliere   303   71    36   36     468  100.000
+-Carmen Castillo   205   57     9  107      58  247.500
+-Kal Daniels       181   58    22   23      88   86.500</code></pre>
+</div>
+</div>
+<p>We can see salary of players having the most similar statistics to Mike Schmidt is much lower than him.</p>
+<p>Let us see the players for which the predicted salary is more than $1500</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data[model<span class="sc">$</span>fitted.values<span class="sc">&gt;</span><span class="dv">1500</span>,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>,<span class="st">'Salary'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 AtBat Hits Walks CRBI PutOuts Salary
+-Eddie Murray      495  151    78 1015    1045 2460.0
+-Jim Rice          618  200    62 1289     330 2412.5
+-Keith Hernandez   551  171    94  900    1199 1800.0</code></pre>
+</div>
+</div>
+<p>Note that these players have statistics much different than Mike Schmidt. Thus, Mike Schmidt is an outlier with respect to the response.</p>
+<p>Note the model coefficients to see the effect of statistics on predicted salary.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> (Intercept)        AtBat         Hits        Walks         CRBI    DivisionW 
+  91.5117981   -1.8685892    7.6043976    3.6976468    0.6430169 -122.9515338 
+     PutOuts 
+   0.2643076 </code></pre>
+</div>
+</div>
+<p>The outlying observation can also be seen clearly if we plot the fitted values against salary.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data<span class="sc">$</span>Salary, model<span class="sc">$</span>fitted.values, <span class="at">col =</span> <span class="st">'orange'</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"Fitted vs true values"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(data<span class="sc">$</span>Salary[<span class="dv">173</span>], model<span class="sc">$</span>fitted.values[<span class="dv">173</span>], <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(data<span class="sc">$</span>Salary[<span class="dv">173</span>], model<span class="sc">$</span>fitted.values[<span class="dv">173</span>], <span class="st">"Mike Schmidt"</span>, <span class="at">pos =</span> <span class="dv">3</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="at">col =</span> <span class="st">'blue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="influential_points_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="leverage" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="leverage"><span class="header-section-number">9.2</span> Leverage</h2>
 <p>Let us visualize the leverage of all observations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leverage</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model), <span class="at">type =</span> <span class="st">"l"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leverage</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model), <span class="at">type =</span> <span class="st">"l"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="influential_points_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="influential_points_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average leverage</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p<span class="sc">/</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average leverage</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p<span class="sc">/</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02661597</code></pre>
 </div>
 </div>
 <p>Observations whose leverage is more than twice as large as the mean leverage can be considered as high leverage.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">hatvalues</span>(model)<span class="sc">&gt;</span><span class="dv">2</span><span class="sc">*</span>p<span class="sc">/</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">hatvalues</span>(model)<span class="sc">&gt;</span><span class="dv">2</span><span class="sc">*</span>p<span class="sc">/</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 24</code></pre>
 </div>
 </div>
 <p>We have 24 observations that can be considered to have a high leverage (visualized below).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># High leverage</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model), <span class="at">type =</span> <span class="st">"l"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">2</span><span class="sc">*</span>p<span class="sc">/</span>n, <span class="at">col =</span> <span class="st">'red'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># High leverage</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model), <span class="at">type =</span> <span class="st">"l"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">hatvalues</span>(model))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">2</span><span class="sc">*</span>p<span class="sc">/</span>n, <span class="at">col =</span> <span class="st">'red'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="influential_points_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="influential_points_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -412,21 +485,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="9.3.1" class="anchored" data-anchor-id="cooks-distance"><span class="header-section-number">9.3.1</span> Cook’s distance</h3>
 <p>Let us visualize influential observations based on Cook’s distance.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">cooks.distance</span>(model), <span class="at">type =</span> <span class="st">"l"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">cooks.distance</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">cooks.distance</span>(model), <span class="at">type =</span> <span class="st">"l"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">cooks.distance</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="influential_points_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="influential_points_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>If Cook’s distance for an observation is at 50th or higher percentile of <span class="math inline">\(F(p,n-p)\)</span> distribution, then the observation is highly influential, while if it is less than 20th percentile, then it is not influential.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#50th percentile value of F(p,n-p) distribution</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.5</span>, <span class="dv">7</span>, n<span class="dv">-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#50th percentile value of F(p,n-p) distribution</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.5</span>, <span class="dv">7</span>, n<span class="dv">-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9089314</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#20th percentile value of F(p,n-p) distribution</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.2</span>, <span class="dv">7</span>, n<span class="dv">-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#20th percentile value of F(p,n-p) distribution</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.2</span>, <span class="dv">7</span>, n<span class="dv">-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5448048</code></pre>
 </div>
@@ -434,50 +507,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As the highest Cook’s distance in our observations is 0.2, we don’t have any influential observations. However, the 173rd observation is relatively more influential than the rest.</p>
 <p>As the influence of an observation depends on its residual, and leverage, a plot of residual against leverage also indicates influence of observations. In the plot below, the size of the points is proportional to the influence.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">hatvalues</span>(model), <span class="fu">rstudent</span>(model), <span class="at">cex =</span> <span class="dv">10</span><span class="sc">*</span><span class="fu">cooks.distance</span>(model), <span class="at">ylab =</span> <span class="st">"Deleted studentized residual"</span>, <span class="at">xlab =</span> <span class="st">"Leverage"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">col=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">hatvalues</span>(model), <span class="fu">rstudent</span>(model), <span class="at">cex =</span> <span class="dv">10</span><span class="sc">*</span><span class="fu">cooks.distance</span>(model), <span class="at">ylab =</span> <span class="st">"Deleted studentized residual"</span>, <span class="at">xlab =</span> <span class="st">"Leverage"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">col=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="influential_points_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="influential_points_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can see that the observation with the deleted studentized residual of more than 6 is the most influential. Let us compare the model fit with and without this observation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>model_minus173 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Salary<span class="sc">~</span>AtBat<span class="sc">+</span>Hits<span class="sc">+</span>Walks<span class="sc">+</span>CRBI<span class="sc">+</span>Division<span class="sc">+</span>PutOuts, <span class="at">data =</span> data[<span class="sc">-</span><span class="dv">173</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model_minus173 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Salary<span class="sc">~</span>AtBat<span class="sc">+</span>Hits<span class="sc">+</span>Walks<span class="sc">+</span>CRBI<span class="sc">+</span>Division<span class="sc">+</span>PutOuts, <span class="at">data =</span> data[<span class="sc">-</span><span class="dv">173</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original model</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Original model</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5087146</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4972001</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model after removing the 173rd observation</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_minus173)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model after removing the 173rd observation</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_minus173)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.569231</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_minus173)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_minus173)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5590953</code></pre>
 </div>
 </div>
-<p>We observe that the model fit does seem to improve if we remove the outlier, as the outlier corresponds to a high prediction error.</p>
+<p>As expected, the model fit does seem to improve if we remove the outlier, as the outlier corresponds to a high prediction error, and thereby a high unexplained variation.</p>
+<p>However, as the 173rd observations is not influential, the regression function should not change substantially. Let us compute the average percentage change in fitted values if we fit the model without the 173rd observation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fitted values using all observations</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>pred_all <span class="ot">&lt;-</span> model<span class="sc">$</span>fitted.values</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fitted values using all but the 173rd observation</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>pred_all_minus173 <span class="ot">&lt;-</span> model_minus173<span class="sc">$</span>fitted.values</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>((pred_all_minus173<span class="sc">-</span>pred_all[<span class="sc">-</span><span class="dv">173</span>])<span class="sc">/</span>pred_all[<span class="sc">-</span><span class="dv">173</span>]<span class="sc">*</span><span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.999187</code></pre>
+</div>
+</div>
+<p>The average change in predictions is 7%, if the 173rd observation is removed.</p>
 </section>
 <section id="dffits" class="level3" data-number="9.3.2">
 <h3 data-number="9.3.2" class="anchored" data-anchor-id="dffits"><span class="header-section-number">9.3.2</span> DFFITS</h3>
+<p>Let us visualize the influence of an observation on the prediction for that observation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">dffits</span>(model), <span class="at">type=</span><span class="st">"l"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">dffits</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">dffits</span>(model), <span class="at">type=</span><span class="st">"l"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="fu">dffits</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="influential_points_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="influential_points_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>For the 173rd observation, <span class="math inline">\(DFFITS\)</span> is more than one indicating a large influence on the prediction (or fitted value) for that observation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction on the 173rd observation with model fitted on all data</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model, <span class="at">newdata =</span> data[<span class="dv">173</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-Mike Schmidt 
+     86.86152 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction on the 173rd observation with model fitted on all data except the 173rd observation</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_minus173, <span class="at">newdata =</span> data[<span class="dv">173</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-Mike Schmidt 
+     9.292043 </code></pre>
+</div>
+</div>
+<p>The change in the predicted value is 89% if the 173rd observation is removed from the data. Although the 173rd observation doesn’t have a high influence overall, it does have a high influence on prediction at the point itself.</p>
 </section>
 <section id="dfbetas" class="level3" data-number="9.3.3">
 <h3 data-number="9.3.3" class="anchored" data-anchor-id="dfbetas"><span class="header-section-number">9.3.3</span> DFBETAS</h3>
+<p>Let us observe the influence of each observation on the regression coefficients.</p>
 
 
 </section>
