@@ -434,11 +434,11 @@ x3    0           2 -1/2    0    0</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">cbind</span>(x1,x2,x3,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           x1         x2         x3          y
-x1  1.0000000 -0.0379440  0.9730985  0.7638568
-x2 -0.0379440  1.0000000 -0.2671466 -0.1920332
-x3  0.9730985 -0.2671466  1.0000000  0.7808998
-y   0.7638568 -0.1920332  0.7808998  1.0000000</code></pre>
+<pre><code>            x1          x2         x3          y
+x1  1.00000000 -0.08664664  0.9735928  0.7136237
+x2 -0.08664664  1.00000000 -0.3117917 -0.1903929
+x3  0.97359277 -0.31179171  1.0000000  0.7242388
+y   0.71362368 -0.19039293  0.7242388  1.0000000</code></pre>
 </div>
 </div>
 <p>Let us remove <code>x1</code> as it is highly correlated with <code>x3</code>. Removing <code>x1</code> will reduce multicollinearity more as compared to removing <code>x2</code>. Among <code>x3</code> and <code>x1</code>, <code>x3</code> has a higher correlation with <code>y</code>, so it is better to remove <code>x1</code>.</p>
@@ -447,7 +447,7 @@ y   0.7638568 -0.1920332  0.7808998  1.0000000</code></pre>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      x2       x3       x4       x5 
-1.103016 1.084670 1.011503 1.017971 </code></pre>
+1.170021 1.209183 1.110004 1.034063 </code></pre>
 </div>
 </div>
 </section>
@@ -468,19 +468,19 @@ lm(formula = y ~ X + I(X^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--3.01418 -0.69134 -0.02077  0.77630  2.52497 
+-2.92040 -0.68113  0.01439  0.77354  2.64064 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  5.62733    3.73517   1.507    0.133    
-X           -0.84112    1.16354  -0.723    0.470    
-I(X^2)       1.14705    0.08934  12.839   &lt;2e-16 ***
+(Intercept)  1.51071    3.66115   0.413    0.680    
+X            0.50350    1.14048   0.441    0.659    
+I(X^2)       1.03872    0.08757  11.861   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.047 on 298 degrees of freedom
-Multiple R-squared:  0.9928,    Adjusted R-squared:  0.9928 
-F-statistic: 2.061e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.026 on 298 degrees of freedom
+Multiple R-squared:  0.993, Adjusted R-squared:  0.993 
+F-statistic: 2.125e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Note that the <span class="math inline">\(X\)</span> appears to be statistically insignificant in the model. This may be due to the presence of multicollinearity. Let us compute the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(X^2\)</span>.</p>
@@ -526,19 +526,19 @@ lm(formula = y ~ x + I(x^2))
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--3.01418 -0.69134 -0.02077  0.77630  2.52497 
+-2.92040 -0.68113  0.01439  0.77354  2.64064 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 48.62299    0.09050  537.28   &lt;2e-16 ***
-x           14.07055    0.06943  202.65   &lt;2e-16 ***
-I(x^2)       1.14705    0.08934   12.84   &lt;2e-16 ***
+(Intercept) 48.66925    0.08871  548.66   &lt;2e-16 ***
+x           14.00682    0.06806  205.81   &lt;2e-16 ***
+I(x^2)       1.03872    0.08757   11.86   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.047 on 298 degrees of freedom
-Multiple R-squared:  0.9928,    Adjusted R-squared:  0.9928 
-F-statistic: 2.061e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.026 on 298 degrees of freedom
+Multiple R-squared:  0.993, Adjusted R-squared:  0.993 
+F-statistic: 2.125e+04 on 2 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
