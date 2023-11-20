@@ -95,8 +95,8 @@ The observation is an outlier because players similar to Mike Schmidt, in terms 
 std_data <- data[,c('AtBat','Hits','Walks','CRBI','PutOuts')]
 std_data <- (std_data-apply(std_data,2,mean))/apply(std_data,2,sd)
 distance <- sqrt(apply(((std_data[rep(173,n),c('AtBat','Hits','Walks','CRBI','PutOuts')] - std_data[,c('AtBat','Hits','Walks','CRBI','PutOuts')])^2),1,sum))
-data_distance <- cbind(data, distance)
-data_distance[order(by = distance),][1:10,c('AtBat','Hits','Walks','CRBI','PutOuts','Salary')]
+data_distance <- cbind(data, distance, predicted_salary=model$fitted.values)
+data_distance[order(by = distance),][1:5,c('AtBat','Hits','Walks','CRBI','PutOuts','Salary','predicted_salary')]
 ```
 
 We can see salary of players having the most similar statistics to Mike Schmidt is much lower than him.
@@ -104,7 +104,7 @@ We can see salary of players having the most similar statistics to Mike Schmidt 
 Let us see the players for which the predicted salary is more than \$1500
 
 ```{r}
-data[model$fitted.values>1500,c('AtBat','Hits','Walks','CRBI','PutOuts','Salary')]
+cbind(data[model$fitted.values>1500,c('AtBat','Hits','Walks','CRBI','PutOuts','Salary')],predicted_salary = model$fitted.values[model$fitted.values>1500])
 ```
 
 Note that these players have statistics much different than Mike Schmidt. Thus, Mike Schmidt is an outlier with respect to the response.
