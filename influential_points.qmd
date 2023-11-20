@@ -1,0 +1,89 @@
+# Outliers, High leverage and Influential Points
+
+Let us again consider the `Hitters` dataset to identify outliers, high leverage, and influential points. Recall the meaning of these terms:
+
+**1. Outliers:** These are outlying observations with respect to the response ($Y$). If there is a relatively large gap between the prediction and the observed response, the observation may be an outlier. Or, in other words, observations that correspond to large residuals are likely to be outliers.
+
+**2. High Leverage points:** These are outlying observations with respect to the predictors ($X$). If there is a relatively large gap between an observation and the center of the rest of the observations in terms of predictor values, then the observation has a high leverage in influencing the regression function. However, it may or may not influence it. It will influence it only if the observation is an outlier as well, i.e., outlying observation with respect to the response ($Y$) as well.
+
+**3. Influential points:** Observations that are both outliers and having high leverage tend to influence the regression function. Such observations should be analyzed, and a decision should be made whether they should be included in model fitting or not. If they appear to be incorrect, then they may be discarded. 
+
+```{r}
+# Importing libraries
+#| message: false
+rm(list=ls())
+library(ISLR)
+library(leaps)
+library(car)
+```
+
+We will read the `Hitters` dataset, and use the best model based on the $BIC$ criterion as identified in the [previous chapter](https://nustat.github.io/STAT350-class-notes/model_selection.html#best-subset-selection).
+
+```{r}
+# Reading data
+data = Hitters
+
+# Removing missing values
+data <- data[complete.cases(data),]
+
+# Identifying the predictors of the best model based on on the BIC criterion
+regfit.full <- regsubsets(Salary ~ ., data = Hitters,
+    nvmax = 19)
+reg.summary <- summary(regfit.full)
+coef(regfit.full, which.min(reg.summary$bic))
+```
+
+Let us fit the best model based on the above predictors.
+
+```{r}
+# Fitting the best model
+model <- lm(Salary~AtBat+Hits+Walks+CRBI+Division+PutOuts, data = data)
+```
+
+## Outliers
+
+Let us visualize the deleted studentized residuals to identify outliers.
+
+```{r}
+# Number of observations
+n = nrow(data)
+
+# Number of predictors
+p = 6
+```
+
+```{r}
+# Studentized deleted residuals
+plot(1:n, rstudent(model), type = "l")
+text(1:n, rstudent(model))
+```
+
+We'll use the Bonferroni test to identify the value of the studentized deleted residual over which an observation will be considered an outlier
+
+```{r}
+# Critical value for the residual to be identified as an outlier
+alpha <- 0.05
+crit <- qt(1-alpha/2/n, n-p-1) #Bonferroni
+which(abs(rstudent(model)) >=crit )
+```
+
+We have only one outlying observation, which is the $173rd$ observation in the data (also shown below).
+
+```{r}
+# Outliers
+plot(1:n, rstudent(model), type = "l", 
+     ylab = "Deleted studentized residual", xlab = "Index")
+text(1:n, rstudent(model))
+abline(h=crit, col = 'red')
+```
+
+## Leverage
+
+```{r}
+# Leverage
+plot(1:n, hatvalues(model), type = "l")
+text(1:n, hatvalues(model))
+```
+
+
+

@@ -22,6 +22,7 @@ book:
     - multicollinearity.qmd
     - quant_qual_preds.qmd
     - model_selection.qmd
+    - influential_points.qmd
   appendices: 
     - Assignment A.qmd
     - Assignment B.qmd
