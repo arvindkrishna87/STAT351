@@ -79,11 +79,45 @@ abline(h=crit, col = 'red')
 
 ## Leverage
 
+Let us visualize the leverage of all observations.
+
 ```{r}
 # Leverage
 plot(1:n, hatvalues(model), type = "l")
 text(1:n, hatvalues(model))
 ```
+
+```{r}
+# Average leverage
+p/n
+```
+
+Observations whose leverage is more than twice as large as the mean leverage can be considered as high leverage.
+
+```{r}
+sum(hatvalues(model)>2*p/n)
+```
+
+We have 28 observations that can be considered to have a high leverage (visualized below).
+
+```{r}
+# High leverage
+plot(1:n, hatvalues(model), type = "l")
+text(1:n, hatvalues(model))
+abline(h=2*p/n, col = 'red')
+```
+
+## Influential observations
+
+Observations that have a high leverage and are outliers are influential. The degree of influence depends on the leverage and the magnitude of the residual.
+
+Let us visualize 
+
+```{r}
+plot(hatvalues(model), rstudent(model), cex = 10*cooks.distance(model))
+abline(h=0,col=2)
+```
+
 
 
 
