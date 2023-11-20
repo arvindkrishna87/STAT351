@@ -393,31 +393,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>std_data <span class="ot">&lt;-</span> data[,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>)]</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>std_data <span class="ot">&lt;-</span> (std_data<span class="sc">-</span><span class="fu">apply</span>(std_data,<span class="dv">2</span>,mean))<span class="sc">/</span><span class="fu">apply</span>(std_data,<span class="dv">2</span>,sd)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">apply</span>(((std_data[<span class="fu">rep</span>(<span class="dv">173</span>,n),<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>)] <span class="sc">-</span> std_data[,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>)])<span class="sc">^</span><span class="dv">2</span>),<span class="dv">1</span>,sum))</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>data_distance <span class="ot">&lt;-</span> <span class="fu">cbind</span>(data, distance)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data_distance[<span class="fu">order</span>(<span class="at">by =</span> distance),][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>,<span class="st">'Salary'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>data_distance <span class="ot">&lt;-</span> <span class="fu">cbind</span>(data, distance, <span class="at">predicted_salary=</span>model<span class="sc">$</span>fitted.values)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data_distance[<span class="fu">order</span>(<span class="at">by =</span> distance),][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>,<span class="st">'Salary'</span>,<span class="st">'predicted_salary'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                 AtBat Hits Walks CRBI PutOuts   Salary
--Mike Schmidt       20    1     0    7      78 2127.333
--Bruce Bochy       127   32    14   82     202  135.000
--Dale Sveum        317   78    32   35      45   70.000
--Curt Ford         214   53    23   32     109   70.000
--Kurt Stillwell    279   64    30   26     107   75.000
--Howard Johnson    220   54    31  154      50  297.500
--Wayne Tolleson    475  126    52   93      37  385.000
--Mike LaValliere   303   71    36   36     468  100.000
--Carmen Castillo   205   57     9  107      58  247.500
--Kal Daniels       181   58    22   23      88   86.500</code></pre>
+<pre><code>                AtBat Hits Walks CRBI PutOuts   Salary predicted_salary
+-Mike Schmidt      20    1     0    7      78 2127.333         86.86152
+-Bruce Bochy      127   32    14   82     202  135.000        132.47474
+-Dale Sveum       317   78    32   35      45   70.000        245.03616
+-Curt Ford        214   53    23   32     109   70.000        229.09872
+-Kurt Stillwell   279   64    30   26     107   75.000         89.83407</code></pre>
 </div>
 </div>
 <p>We can see salary of players having the most similar statistics to Mike Schmidt is much lower than him.</p>
 <p>Let us see the players for which the predicted salary is more than $1500</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data[model<span class="sc">$</span>fitted.values<span class="sc">&gt;</span><span class="dv">1500</span>,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>,<span class="st">'Salary'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(data[model<span class="sc">$</span>fitted.values<span class="sc">&gt;</span><span class="dv">1500</span>,<span class="fu">c</span>(<span class="st">'AtBat'</span>,<span class="st">'Hits'</span>,<span class="st">'Walks'</span>,<span class="st">'CRBI'</span>,<span class="st">'PutOuts'</span>,<span class="st">'Salary'</span>)],<span class="at">predicted_salary =</span> model<span class="sc">$</span>fitted.values[model<span class="sc">$</span>fitted.values<span class="sc">&gt;</span><span class="dv">1500</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                 AtBat Hits Walks CRBI PutOuts Salary
--Eddie Murray      495  151    78 1015    1045 2460.0
--Jim Rice          618  200    62 1289     330 2412.5
--Keith Hernandez   551  171    94  900    1199 1800.0</code></pre>
+<pre><code>                 AtBat Hits Walks CRBI PutOuts Salary predicted_salary
+-Eddie Murray      495  151    78 1015    1045 2460.0         1532.104
+-Jim Rice          618  200    62 1289     330 2412.5         1602.928
+-Keith Hernandez   551  171    94  900    1199 1800.0         1605.470</code></pre>
 </div>
 </div>
 <p>Note that these players have statistics much different than Mike Schmidt. Thus, Mike Schmidt is an outlier with respect to the response.</p>
