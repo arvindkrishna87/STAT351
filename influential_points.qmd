@@ -9,8 +9,8 @@ Let us again consider the `Hitters` dataset to identify outliers, high leverage,
 **3. Influential points:** Observations that are both outliers and having high leverage tend to influence the regression function. Such observations should be analyzed, and a decision should be made whether they should be included in model fitting or not. If they appear to be incorrect, then they may be discarded. 
 
 ```{r}
-# Importing libraries
 #| message: false
+# Importing libraries
 rm(list=ls())
 library(ISLR)
 library(leaps)
@@ -49,7 +49,7 @@ Let us visualize the deleted studentized residuals to identify outliers.
 n = nrow(data)
 
 # Number of predictors
-p = 6
+p = 7 # including the intercept
 ```
 
 ```{r}
@@ -98,7 +98,7 @@ Observations whose leverage is more than twice as large as the mean leverage can
 sum(hatvalues(model)>2*p/n)
 ```
 
-We have 28 observations that can be considered to have a high leverage (visualized below).
+We have 24 observations that can be considered to have a high leverage (visualized below).
 
 ```{r}
 # High leverage
@@ -109,29 +109,61 @@ abline(h=2*p/n, col = 'red')
 
 ## Influential observations
 
-Observations that have a high leverage and are outliers are influential. The degree of influence depends on the leverage and the magnitude of the residual.
+Observations that have a high leverage and are outliers are  influential. The degree of influence depends on the leverage and the magnitude of the residual.
+
+### Cook's distance
 
 Let us visualize influential observations based on Cook's distance.
 
 ```{r}
 plot(1:n, cooks.distance(model), type = "l")
 text(1:n, cooks.distance(model))
-abline(h=2*p/n, col = 'red')
 ```
 
-If Cook's distance for an observation is at 50th or higher percentile of $F(p,n-p)$ distribution, then the observation is highly influential
+If Cook's distance for an observation is at 50th or higher percentile of $F(p,n-p)$ distribution, then the observation is highly influential, while if it is less than 20th percentile, then it is not influential.
 
 ```{r}
 #50th percentile value of F(p,n-p) distribution
+qf(0.5, 7, n-7)
+
+#20th percentile value of F(p,n-p) distribution
 qf(0.2, 7, n-7)
+```
+
+As the highest Cook's distance in our observations is 0.2, we don't have any influential observations. However, the 173rd observation is relatively more influential than the rest.
+
+As the influence of an observation depends on its residual, and leverage, a plot of residual against leverage also indicates influence of observations. In the plot below, the size of the points is proportional to the influence.
+
+```{r}
+plot(hatvalues(model), rstudent(model), cex = 10*cooks.distance(model), ylab = "Deleted studentized residual", xlab = "Leverage")
+abline(h=0,col=2)
+```
+
+We can see that the observation with the deleted studentized residual of more than 6 is the most influential. Let us compare the model fit with and without this observation.
+
+```{r}
+model_minus173 <- lm(Salary~AtBat+Hits+Walks+CRBI+Division+PutOuts, data = data[-173,])
 ```
 
 
 ```{r}
-plot(hatvalues(model), rstudent(model), cex = 10*cooks.distance(model))
-abline(h=0,col=2)
+# Original model
+summary(model)$r.squared
+summary(model)$adj.r.squared
+
+# Model after removing the 173rd observation
+summary(model_minus173)$r.squared
+summary(model_minus173)$adj.r.squared
 ```
 
+We observe that the model fit does seem to improve if we remove the outlier, as the outlier corresponds to a high prediction error.
 
+### DFFITS
 
+```{r}
+plot(1:n, dffits(model), type="l")
+text(1:n, dffits(model))
+```
+
+### DFBETAS
 
