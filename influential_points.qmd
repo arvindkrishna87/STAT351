@@ -246,8 +246,34 @@ The change in the predicted value is 89\% if the 173rd observation is removed fr
 
 Let us observe the influence of each observation on the regression coefficients.
 
+Influence on the intercept:
 
 ```{r}
-
+# Intercept is the 1st predictor
+plot(1:n, dfbetas(model)[,1], type="l")
+text(1:n, dfbetas(model)[,1])
 ```
 
+As DFBETAS for the 173rd observation is greater than one, the observation has a high influence on the intercept term
+
+```{r}
+model$coefficients
+```
+
+```{r}
+model_minus173$coefficients
+```
+
+The intercept changes by 89\% from \$91 to \$10 when the 173rd observation is removed.
+
+Influence on the `AtBat`:
+
+```{r}
+# AtBat is the 2nd predictor
+plot(1:n, dfbetas(model)[,2], type="l")
+text(1:n, dfbetas(model)[,2])
+```
+
+None of the observations have a high influence on the coefficient of `AtBat`.
+
+Similary, we can visualize the influence of observations on all the regression coefficients.
