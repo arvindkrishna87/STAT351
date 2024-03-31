@@ -101,7 +101,7 @@ As the $F$-statistic is between the critical values, we do not reject the null h
 
 Thus, we will use the pooled-variance to conduct a 2-sample t-test for equality of means.
 
-Let $\mu_{standard}^2$ denote the mean growth with the standard solution, $\mu_{extra}^2$ denote the mean growth with extra nitrogen. Then,
+Let $\mu_{standard}$ denote the mean growth with the standard solution, $\mu_{extra}$ denote the mean growth with extra nitrogen. Then,
 
 Null hypothesis: $\mu_{standard} = \mu_{extra}$
 
@@ -119,3 +119,7 @@ t <- (3.62 - 4.17)/(sqrt(sp2*2/5))
 ```
 
 As the $p$-value is high, we do not reject the null hypothesis that the extra nitrogen does not enhance growth.
+
+
+
+

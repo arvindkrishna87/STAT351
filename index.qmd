@@ -1,3 +1,3 @@
 # Preface {.unnumbered}
 
-These are coding notes for the course STAT350. If you don't have a background in R, please use the course material on R from the STAT201 course [here](https://nustat.github.io/Intro_to_programming_for_data_sci/Variable_expressions_statements-R.html). 
+These are coding notes for the course STAT351. If you don't have a background in R, please use the course material on R from the STAT201 course [here](https://nustat.github.io/Intro_to_programming_for_data_sci/Variable_expressions_statements-R.html). 
