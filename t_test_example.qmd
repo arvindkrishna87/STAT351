@@ -1,4 +1,4 @@
-# Hypothesis testing example
+# Hypothesis testing examples
 
 ## Question
 
@@ -54,3 +54,27 @@ p-value:
 If the probability of Type I error considered is 5%, then we reject the null hypothesis, and conclude that the sweetness loss is indeed greater than 0.
 
 If the probability of Type I error considered is 1%, then we fail to reject the null hypothesis, and conclude that the sweetness loss is indeed 0.
+
+## Question
+
+In a study of lettuce growth, ten seedlings were randomly allocated to be grown in either a standard nutrient solution or in a solution containing extra nitrogen. After 22 days, the plants were harvested and weighed. The table below summarizes the results. Can we conclude that extra nitrogen enhances growth?
+
+| Nutrient solution | n   | mean |  SD  |
+|-------------------|:----|-----:|:----:|
+| Standard          | 5   | 3.62 | 0.54 |
+| Extra             | 5   | 4.17 | 0.67 |
+
+## Solution
+
+We will first test the hypothesis if the variance of the responses corresponding to the two treatments are the same or not.
+
+We will assume that the response follows the normal distribution.
+
+Let $\mu$ denote the sweetness loss, thus:
+
+Null hypothesis: $H_0: \mu = 0$
+
+Alternate hypothesis: $H_a: \mu > 0$
+
+
+

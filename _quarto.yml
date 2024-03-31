@@ -2,10 +2,10 @@ project:
   type: book
 
 book:
-  title: "Regression analysis (R notes)"
-  subtitle: "STAT 350"
+  title: "Design and analysis of experiments (R notes)"
+  subtitle: "STAT 351"
   author: "Arvind Krishna"
-  date: "9/20/2023"
+  date: "3/30/2024"
   
   sidebar:
     search: true
@@ -16,20 +16,7 @@ book:
     - index.qmd
     - Rintro.qmd
     - t_test_example.qmd
-    - SLR_model.qmd
-    - Diagnostics_Remedial_Measures.qmd
-    - Diagnostics_Remedial_Measures_MLR.qmd
-    - multicollinearity.qmd
-    - quant_qual_preds.qmd
-    - model_selection.qmd
-    - influential_points.qmd
   appendices: 
-    - Assignment A.qmd
-    - Assignment B.qmd
-    - Assignment C.qmd
-    - Assignment D.qmd
-    - Assignment E.qmd
-    - Assignment F.qmd
     - Datasets.ipynb
 
 bibliography: references.bib
