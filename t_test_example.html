@@ -384,6 +384,19 @@ window.Quarto = {
 </div>
 </div>
 <p>As the <span class="math inline">\(p\)</span>-value is high, we do not reject the null hypothesis that the extra nitrogen does not enhance growth.</p>
+<p>Alternatively, the Welch’s test for unequal variances can be used without testing for equality of variances in the two samples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">5</span>; s1 <span class="ot">=</span> <span class="fl">0.54</span>; s2 <span class="ot">=</span> <span class="fl">0.67</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">=</span> (n<span class="dv">-1</span>)<span class="sc">*</span>(((s1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(((s1<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n)<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span>((s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">&lt;-</span> (<span class="fl">3.62</span> <span class="sc">-</span> <span class="fl">4.17</span>)<span class="sc">/</span>(<span class="fu">sqrt</span>((s1<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span>s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">5</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(t0, <span class="fl">7.654594</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1924672</code></pre>
+</div>
+</div>
+<p>As the power of Welch’s t-test is similar to that of Student’s t-test, even when the population variances are equal and sample sizes are balanced, Welch’s test can always be used, irrespective of the variances being equal or not.</p>
+<p>However, if the variances are unequal, then Student’s t-test must not be used. Type 1 error rate will be higher for a Student’s t-test, particularly if one of the samples has a relatively higher variance, and a smaller sample size as compared to the other sample.</p>
 
 
 </section>
