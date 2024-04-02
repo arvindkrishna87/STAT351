@@ -120,6 +120,18 @@ t <- (3.62 - 4.17)/(sqrt(sp2*2/5))
 
 As the $p$-value is high, we do not reject the null hypothesis that the extra nitrogen does not enhance growth.
 
+Alternatively, the Welch's test for unequal variances can be used without testing for equality of variances in the two samples.
 
+```{r}
+n = 5; s1 = 0.54; s2 = 0.67
+nu = (n-1)*(((s1^2 + s2^2)/n)^2)/(((s1^2)/n)^2+((s2^2)/n)^2)
+t0 <- (3.62 - 4.17)/(sqrt((s1^2+s2^2)/5))
+
+2*pt(t0, 7.654594)
+```
+
+As the power of Welch's t-test is similar to that of Student's t-test, even when the population variances are equal and sample sizes are balanced, Welch's test can always be used, irrespective of the variances being equal or not.
+
+However, if the variances are unequal, then Student's t-test must not be used. Type 1 error rate will be higher for a Student's t-test, particularly if one of the samples has a relatively higher variance, and a smaller sample size as compared to the other sample.
 
 
