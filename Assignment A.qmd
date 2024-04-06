@@ -3,6 +3,7 @@ title: "Assignment A"
 format:
   html:
     toc: true
+    number-sections: false
 self-contained: true
 link-external-newwindow: true
 editor_options: 
