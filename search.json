@@ -110,14 +110,91 @@
     ]
   },
   {
+    "objectID": "Assignment A.html",
+    "href": "Assignment A.html",
+    "title": "Appendix A — Assignment A",
+    "section": "",
+    "text": "Instructions",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment A.html#instructions",
+    "href": "Assignment A.html#instructions",
+    "title": "Appendix A — Assignment A",
+    "section": "",
+    "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nMake R code chunks to insert code and type your answer outside the code chunks, in the template provided. Ensure that the solution is written neatly enough to understand and grade.\nQuarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.\nThe assignment is worth 100 points, and is due on 15th April 2024 at 11:59 pm.\nUse a significance level \\(\\alpha = 5\\%\\) in all hypothesis tests, unless otherwise specified.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\n\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (2 pt)\nFinal answers of each question are written clearly (1 pt).\nThe proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (2 pt)\n\n\n10 points will be deducted in case the provided template is not used (for coding / text-answer questions), and/or the template is not rendered using Quarto markdown.\nFor questions involving derivations (Q2, Q3 and Q5 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment A.html#q1",
+    "href": "Assignment A.html#q1",
+    "title": "Appendix A — Assignment A",
+    "section": "A.1 Q1",
+    "text": "A.1 Q1\nWCAS (Weinberg College of Arts and Sciences) is considering replacing keyboards used in offices of all its departments with new keyboards of a different brand. Let the current keyboard be denoted as A, and the new one denoted as B, where A and B can be assumed to be the brands of the keyboards. However, before making the purchase, WCAS is conducting an experiment to test if the new keyboard will increase the typing efficiency.\nFor the experiments mentioned in all the questions below, assume that:\n\nThe manuscripts used in the replications of the experiments are not the same, but are of a fixed length and font size.\nThe effect of typist on the typing time can be considered as a random variable with constant variance, and thus can be combined with the random error due to unknown factors. Typists within the same department as as similar as typists across departments.\nThe effect of manuscript on the typing time can be considered as a random variable. However, manuscripts within the same department are similar, while manuscripts across departments are relatively less similar.\nThe typing time is modeled as:\n\n\\(y = \\mu_{keyboard} + \\beta_{script} + \\epsilon\\),\nwhere the effect of the keyboards is fixed, and the effect of the script is a random variable, whose variance will be higher if scripts from across multiple departments are used as compared to the case if scripts from within the same department are used in the experiment. However, a given script will have the same effect on the typing time if used multiple times in an experiment.\n\nA.1.1 Q1(a)\nThe first experiment is conducted as follows.\n16 manuscripts are distributed randomly among 16 different typists - one manuscript to each typist. The manuscripts are chosen randomly from different departments of WCAS. 8 typists are randomly selected to use keyboard A and the rest use keyboard B.\nThe times taken (in minutes) by the typists for the 2 keyboards are:\n\n\n\nKeyboard A\nKeyboard B\n\n\n\n\n8.73\n10.77\n\n\n11.31\n8.33\n\n\n9.15\n11.87\n\n\n13.78\n8.31\n\n\n11.58\n7.28\n\n\n9.14\n4.99\n\n\n11.05\n12.61\n\n\n9.49\n8.81\n\n\n\nIs there evidence to support the claim that the time taken by keyboard B is less than that by keyboard A?\nState the null and alternate hypothesis, compute the test statistic, conduct the test, and state the conclusion.\n(4 points)\n\na &lt;- c(8.73, 11.31,  9.15, 13.78, 11.58, 9.14, 11.05,  9.49)\nb &lt;- c(10.77,  8.33, 11.87,  8.31,  7.28,  4.99, 12.61,  8.81)\n\n\n\nA.1.2 Q1(b)\nThe company that sells keyboards of brand B contested the conclusions made based on the above test, and asked WCAS to conduct another experiment, where the same script is tested on both the keyboards, and the typing times are compared for the same script across keyboards.\nWCAS randomly distributed 8 scripts among 16 typists, where each script was shared by two typists - one of them typed it with keyboard A, and the other one typed the same script with keyboard B.\nThe times taken (in minutes) by the typists for the 2 keyboards are in the table below. Each row of the table shows time taken to type the same script.\n\n\n\nKeyboard A\nKeyboard B\n\n\n\n\n9.13\n7.58\n\n\n10.31\n9.11\n\n\n6.95\n8.02\n\n\n12.77\n12.75\n\n\n10.26\n8.97\n\n\n8.3\n6.65\n\n\n12.07\n10.34\n\n\n12.24\n11.24\n\n\n\nIs there evidence to support the claim that the time taken by keyboard B is less than that by keyboard A?\nState the null and alternate hypothesis, compute the test statistic, conduct the test, and state the conclusion.\n(4 points)\n\na &lt;- c(9.13, 10.31,  6.95, 12.77, 10.26,  8.3, 12.07, 12.24)\nb &lt;- c(7.58,  9.11,  8.02, 12.75,  8.97,  6.65, 10.34, 11.24)\n\n\n\nA.1.3 Q1(c)\nWere the conclusions based on the experiments in 1(a) different from the experiments in 1(b)? If yes, then why? If no, then why not? Explain in terms of design principles.\n(4 points)\n\n\nA.1.4 Q1(d)\nUnconvinced by the results of the tests in 1(a) and 1(b), WCAS asked the Department of Statistics and Data Science (DSDS) to conduct both types of experiments (1(a) & 1(b)) again.\nDSDS conducted experiments similar to the ones conducted in 1(a) and 1(b). However, they distributed the scripts available within their own department to typists. Note that the scripts within the same department will be similar as compared to scripts across departments.\nFor the first experiment, DSDS randomly distributed 16 scripts among 16 typists - one manuscript to each typist. The typists and manuscripts are chosen randomly from within DSDS. 8 typists are randomly selected to use keyboard A and the rest use keyboard B.\nThe times taken (in minutes) by the typists for the 2 keyboards are:\n\n\n\nKeyboard A\nKeyboard B\n\n\n\n\n10.79\n9.20\n\n\n10.05\n6.53\n\n\n11.17\n9.52\n\n\n10.32\n8.50\n\n\n12.08\n9.75\n\n\n8.81\n9.18\n\n\n11.66\n9.92\n\n\n11.93\n9.09\n\n\n\nIs there evidence to support the claim that the time taken by keyboard B is less than that by keyboard A?\nState the null and alternate hypothesis, compute the test statistic, conduct the test, and state the conclusion.\n(4 points)\n\na &lt;- c(10.79, 10.05, 11.17, 10.32, 12.08,  8.81, 11.66, 11.93)\nb &lt;- c(9.20, 6.53, 9.52, 8.50, 9.75, 9.18, 9.92, 9.09)\n\n\n\nA.1.5 Q1(e)\nAre the conclusions based on the experiment conducted by DSDS in 1(d) the same as that of the experiment conducted in 1(a)?\nWhat do you think can be the reason of the conclusions being the same (if they are indeed the same) or different (if they are indeed different)?\n(4 points)\n\n\nA.1.6 Q1(f)\nFor the seconds experiment, DSDS randomly distributed 8 scripts among 16 typists, where each script was shared by two typists - one of them typed it with keyboard A, and the other one typed the same script with keyboard B.\nThe times taken (in minutes) by the typists for the 2 keyboards are in the table below. Each row of the table shows time taken to type the same script.\n\n\n\nKeyboard A\nKeyboard B\n\n\n\n\n10.99\n8.53\n\n\n9.73\n7.06\n\n\n9.38\n8.32\n\n\n9.29\n10.79\n\n\n8.26\n9.61\n\n\n9.11\n11.00\n\n\n9.51\n8.76\n\n\n9.73\n8.88\n\n\n\nIs there evidence to support the claim that the time taken by keyboard B is less than that by keyboard A?\nState the null and alternate hypothesis, compute the test statistic, conduct the test, and state the conclusion.\n(4 points)\n\na &lt;- c(10.99,  9.73,  9.38,  9.29,  8.26,  9.11,  9.51,  9.73)\nb &lt;- c(8.53,  7.06,  8.32, 10.79, 9.61, 11.00,  8.76,  8.88)\n\n\n\nA.1.7 Q1(g)\nAre the conclusions based on the experiment conducted by DSDS in 1(f) the same as that of the experiment conducted in 1(b)?\nWhat do you think can be the reason of the conclusions being the same (if they are indeed the same) or different (if they are indeed different)?\n(4 points)\n\n\nA.1.8 Q1(h)\nIf the true difference between the mean typing time with the 2 keyboards is 60 seconds, compute the power of the test for each of the 4 tests - 1(a), 1(b), 1(d), and 1(f). You can assume the population variances to be the same for the populations considered in each experiment.\n(8 points)\n\n\nA.1.9 Q1(i)\nWhich test among 1(a), 1(b), 1(d), and 1(f) would you recommend in the future for a similar problem? Why?\nIs there any potential disadvantage of the recommended test?\n(4 points)\n\n\nA.1.10 Q1(j)\nDesign an experiment that uses minimum resources (i.e., minimum replicates) to provide a power of at least 95% in detecting a potential difference of 60 seconds in the typing time taken by the keyboards. Mention the design. You may modify any of the designs in 1(a), 1(b), 1(d), or 1(f), or even combine the results of some of the experiments to come up with a more reliable design.\n(4 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment A.html#q2",
+    "href": "Assignment A.html#q2",
+    "title": "Appendix A — Assignment A",
+    "section": "A.2 Q2",
+    "text": "A.2 Q2\nConsider another experiment to compare two keyboards A and B in terms of typing efficiency. In this experiment, six manuscripts 1-6 are given to the same typist.\n\nA.2.1 Q2(a)\nUse a statistical model to quantify the gains (1) using randomization (use the randomized design on slide 15 of the class presentation), and (2) using balanced randomization.\n(4 points)\n\n\nA.2.2 Q2(b)\nSuppose the following sequence is obtained using balanced randomization:\n\nA-B, 2. A-B, 3. A-B, 4. B-A, 5. B-A, 6. B-A.\n\nWould you use it for the study? What aspect of the sequence makes you concerned?\nCan you relate it to the possibility that the learning effect may decay over time? Assuming that is the case, derive an expression for the expected bias in the estimated typing time difference of the two keyboards, if you use this design.\nHow can you modify the design to reduce the expected bias?\n(2 + 2 + 2 = 6 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment A.html#q3",
+    "href": "Assignment A.html#q3",
+    "title": "Appendix A — Assignment A",
+    "section": "A.3 Q3",
+    "text": "A.3 Q3\nA fertilizer is claimed to change the mean yield of a crop to 3 times the mean yield without the fertilizer minus 5 units, i.e.,\nmean yield with fertilizer = 3 * (mean yield without fertilizer) - 5\nWe need to conduct a hypothesis test to verify this claim.\nAssume that the variances of the yield of the two populations (with & without the fertilizer), \\(\\sigma_{Fertilizer}^2\\) and \\(\\sigma_{NoFertilizer}^2\\) are known.\n\nA.3.1 Q3(a)\nState the null and alternate hypothesis.\n(4 points)\n\n\nA.3.2 Q3(b)\nFormulate the test statistic.\n(4 points)\n\n\nA.3.3 Q3(c)\nDerive an expression for the ratio of the number of observations to be sampled from each of the populations, so as to maximize the power of the test. Assume a fixed budget of a total of \\(N\\) samples (i.e., sum of number of samples from both the populations is \\(N\\)).\n(6 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment A.html#q4",
+    "href": "Assignment A.html#q4",
+    "title": "Appendix A — Assignment A",
+    "section": "A.4 Q4",
+    "text": "A.4 Q4\nIn the early stages of research and development experimentation which type of error do you think is most important, type I or type II? Justify your answer.\n(4 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment A.html#q5",
+    "href": "Assignment A.html#q5",
+    "title": "Appendix A — Assignment A",
+    "section": "A.5 Q5",
+    "text": "A.5 Q5\nConsider a hardness testing machine that presses a rod with a pointed tip (treatment) into a metal specimen (experimental unit) with a known force.\nBy measuring the depth of the depression caused by the tip, the hardness of the specimen is determined (observed response).\nTwo different tips (Tip 1 & Tip 2) are available for this machine, and although the precision (variability) of the measurements made by the two tips seems to be the same, it is suspected that one tip produces different mean hardness readings than the other.\nSuppose that the observed hardness, \\(y_{ij}\\) in the experiments is modeled as follows:\n\\(y_{ij} = \\mu_i + \\beta_{j} + \\epsilon_{ij}\\),\nwhere,\n\\(y_{ij}\\) is the observed hardness of the \\(j_{th}\\) metal specimen based on the \\(i^{th}\\) tip,\n\\(\\mu_i\\) is the true mean hardness measured by the \\(i^{th}\\) tip,\n\\(\\beta_{j} \\sim N(0, \\sigma_{\\beta}^2)\\) is a random variable, which is the effect of the nature of the metal specimen on its observed hardness (however, the nature of a given metal specimen will have the same effect on the hardness measured by both the tips if tested repeatedly),\n\\(\\epsilon_{ij} \\sim N(0, \\sigma_{n}^2)\\) is the random variable, which is the effect of unknown factors on the observed hardness \\(y_{ij}\\).\n\\(i = 1,2\\) (There are 2 tips),\n\\(j = 1, ..., n\\) (There are \\(n\\) replicates for each tip)\n\nA.5.1 Q5(a)\nSuppose that a randomly selected set of \\(n\\) metal specimens is assigned to tip 1, and another set of randomly selected \\(n\\) metal specimens is assigned to tip 2 (i.e., a total of 2\\(n\\) specimens are used in the experiment), and the appropriate test is used to test the hypothesis if the mean hardness measured by the two tips is the same.\n\nA.5.1.1 Q5(a)(i)\nDerive an expression for the expected bias of the estimated difference in the mean hardness measured by the 2 tips.\n(4 points)\n\n\nA.5.1.2 Q5(a)(ii)\nDerive an expression for the expected variance of the estimated difference in the mean hardness measured by the 2 tips.\n(4 points)\n\n\n\nA.5.2 Q5(b)\nSuppose that a randomly selected set of \\(n\\) metal specimens is assigned to both the tips (i.e., a total of \\(n\\) specimens are used in the experiment). For each specimen, hardness is observed at a point in the specimen using tip 1 and at another point within the same specimen using tip 2. The appropriate test is used to test the hypothesis if the mean hardness measured by the two tips is the same.\n\nA.5.2.1 Q5(b)(i)\nDerive an expression for the expected bias of the estimated difference in the mean hardness measured by the 2 tips.\n(2 points)\n\n\nA.5.2.2 Q5(b)(ii)\nDerive an expression for the expected variance of the estimated difference in the mean hardness measured by the 2 tips.\n(3 points)\n\n\n\nA.5.3 Q5(c)\nDerive the condition, when the expected precision of the estimated difference in means of the hardness measured by the two tips will be higher in the experimental design of 5(b) as compared to the experimental design in 5(a).\nHint: Derive the expression when the expected square of the width of the confidence interval based on the design in 5(b) is less than the expected square of the width of the confidence interval based on the design in 5(a).\n(8 points)\n\n\nA.5.4 Q5(d)\nHow does the difference in the precision of the estimated difference (in means of the hardness measured by the two tips) by the two experimental designs (5(a) and 5(b)) change as the number of replicates \\(n\\) are increased in each of those designs.\n(2 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment A</span>"
+    ]
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
-    "title": "Appendix A — Assignment templates and Datasets",
+    "title": "Appendix B — Assignment templates and Datasets",
     "section": "",
     "text": "Assignment templates and datasets used in the class notes can be found here",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment templates and Datasets</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment templates and Datasets</span>"
     ]
   }
 ]
