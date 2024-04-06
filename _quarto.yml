@@ -17,6 +17,7 @@ book:
     - Rintro.qmd
     - t_test_example.qmd
   appendices: 
+    - Assignment A.qmd
     - Datasets.ipynb
 
 bibliography: references.bib
