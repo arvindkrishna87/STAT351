@@ -3,6 +3,7 @@ title: "Assignment 1"
 format:
   html:
     toc: true
+    toc-depth: 4
     number-sections: false
 self-contained: true
 link-external-newwindow: true
