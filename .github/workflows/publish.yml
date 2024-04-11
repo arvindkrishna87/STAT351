@@ -39,10 +39,6 @@ jobs:
         with:
           cache-version: 1
 
-      - name: Install packages
-        run:
-          Rscript -e "install.packages(c('ISLR','ggplot2','lmtest','MASS','car','leaps','vctrs'))"
-
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
