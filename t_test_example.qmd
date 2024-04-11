@@ -134,4 +134,5 @@ As the power of Welch's t-test is similar to that of Student's t-test, even when
 
 However, if the variances are unequal, then Student's t-test must not be used. Type 1 error rate will be higher for a Student's t-test, particularly if one of the samples has a relatively higher variance, and a smaller sample size as compared to the other sample.
 
+The functions `t.test()` and `power.t.test()` can be used to conveniently test the hypothesis, estimate confidence intervals, estimate power of the test, or the observations needed for a certain power of the test. Look at the documentation of these function, by executing the code `?t.test()` or `?power.t.test()` in the R console, to see the parameters you need to specify for using them.
 
