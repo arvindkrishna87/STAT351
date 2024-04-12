@@ -1,0 +1,10 @@
+# One way ANOVA
+
+## ANOVA Table
+
+```{r}
+library(car)
+library(DescTools)
+data <- PlantGrowth
+aov(lm(weight ~ group, data = data))
+```

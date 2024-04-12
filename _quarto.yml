@@ -16,6 +16,7 @@ book:
     - index.qmd
     - Rintro.qmd
     - t_test_example.qmd
+    - ANOVA.qmd
   appendices: 
     - Assignment A.qmd
     - Datasets.ipynb
