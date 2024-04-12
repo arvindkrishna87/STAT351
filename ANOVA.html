@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Design and analysis of experiments (R notes) - 2&nbsp; Hypothesis testing examples</title>
+<title>Design and analysis of experiments (R notes) - 3&nbsp; One way ANOVA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ANOVA.html" rel="next">
-<link href="./Rintro.html" rel="prev">
+<link href="./Assignment A.html" rel="next">
+<link href="./t_test_example.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -103,35 +103,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -144,7 +115,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./t_test_example.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hypothesis testing examples</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ANOVA.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">One way ANOVA</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -186,13 +157,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./t_test_example.html" class="sidebar-item-text sidebar-link active">
+  <a href="./t_test_example.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hypothesis testing examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ANOVA.html" class="sidebar-item-text sidebar-link">
+  <a href="./ANOVA.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">One way ANOVA</span></span></a>
   </div>
 </li>
@@ -229,16 +200,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#t-test" id="toc-t-test" class="nav-link active" data-scroll-target="#t-test"><span class="header-section-number">2.1</span> t-test</a>
-  <ul class="collapse">
-  <li><a href="#question" id="toc-question" class="nav-link" data-scroll-target="#question"><span class="header-section-number">2.1.1</span> Question</a></li>
-  <li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution"><span class="header-section-number">2.1.2</span> Solution</a></li>
-  </ul></li>
-  <li><a href="#two-sample-t-test" id="toc-two-sample-t-test" class="nav-link" data-scroll-target="#two-sample-t-test"><span class="header-section-number">2.2</span> Two-sample t-test</a>
-  <ul class="collapse">
-  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1"><span class="header-section-number">2.2.1</span> Question</a></li>
-  <li><a href="#solution-1" id="toc-solution-1" class="nav-link" data-scroll-target="#solution-1"><span class="header-section-number">2.2.2</span> Solution</a></li>
-  </ul></li>
+  <li><a href="#anova-table" id="toc-anova-table" class="nav-link active" data-scroll-target="#anova-table"><span class="header-section-number">3.1</span> ANOVA Table</a></li>
   </ul>
 </nav>
     </div>
@@ -247,7 +209,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hypothesis testing examples</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">One way ANOVA</span></h1>
 </div>
 
 
@@ -264,155 +226,31 @@ window.Quarto = {
 </header>
 
 
-<section id="t-test" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="t-test"><span class="header-section-number">2.1</span> t-test</h2>
-<section id="question" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="question"><span class="header-section-number">2.1.1</span> Question</h3>
-<p>Cola manufacturers want to test how much the sweetness of a new cola drink is affected by storage. The sweetness loss due to storage was evaluated by 10 professional tasters (by comparing the sweetness before and after storage):</p>
-<pre><code>Taster          Sweetness loss
+<section id="anova-table" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="anova-table"><span class="header-section-number">3.1</span> ANOVA Table</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(DescTools)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> PlantGrowth</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">aov</span>(<span class="fu">lm</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+   aov(formula = lm(weight ~ group, data = data))
 
- 1         2.0
- 2         0.4
- 3         0.7  
- 4         2.0  
- 5       −0.4   
- 6         2.2  
- 7       −1.3   
- 8         1.2  
- 9         1.1
-10         2.3</code></pre>
-<p>Obviously, we want to test if storage results in a loss of sweetness</p>
-<p>Let <span class="math inline">\(\mu\)</span> denote the sweetness loss, thus:</p>
-<p>Null hypothesis: <span class="math inline">\(H_0: \mu = 0\)</span></p>
-<p>Alternate hypothesis: <span class="math inline">\(H_a: \mu &gt; 0\)</span></p>
-</section>
-<section id="solution" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="solution"><span class="header-section-number">2.1.2</span> Solution</h3>
-<p>Sample mean (<span class="math inline">\(\bar{x}\)</span>):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.4</span>, <span class="fl">0.7</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="fl">0.4</span>, <span class="fl">2.2</span>, <span class="sc">-</span><span class="fl">1.3</span>, <span class="fl">1.2</span>, <span class="fl">1.1</span>, <span class="fl">2.3</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>xbar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.02</code></pre>
+Terms:
+                   group Residuals
+Sum of Squares   3.76634  10.49209
+Deg. of Freedom        2        27
+
+Residual standard error: 0.6233746
+Estimated effects may be unbalanced</code></pre>
 </div>
 </div>
-<p>T-statistic:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> xbar<span class="sc">/</span>(<span class="fu">sd</span>(data)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">10</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.696689</code></pre>
-</div>
-</div>
-<p>p-value:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(t, <span class="at">df =</span> <span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01226316</code></pre>
-</div>
-</div>
-<p>If the probability of Type I error considered is 5%, then we reject the null hypothesis, and conclude that the sweetness loss is indeed greater than 0.</p>
-<p>If the probability of Type I error considered is 1%, then we fail to reject the null hypothesis, and conclude that the sweetness loss is indeed 0.</p>
-</section>
-</section>
-<section id="two-sample-t-test" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="two-sample-t-test"><span class="header-section-number">2.2</span> Two-sample t-test</h2>
-<section id="question-1" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="question-1"><span class="header-section-number">2.2.1</span> Question</h3>
-<p>In a study of lettuce growth, ten seedlings were randomly allocated to be grown in either a standard nutrient solution or in a solution containing extra nitrogen. After 22 days, the plants were harvested and weighed. The table below summarizes the results. Can we conclude that extra nitrogen enhances growth?</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Nutrient solution</th>
-<th style="text-align: left;">n</th>
-<th style="text-align: right;">mean</th>
-<th style="text-align: center;">SD</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Standard</td>
-<td style="text-align: left;">5</td>
-<td style="text-align: right;">3.62</td>
-<td style="text-align: center;">0.54</td>
-</tr>
-<tr class="even">
-<td>Extra</td>
-<td style="text-align: left;">5</td>
-<td style="text-align: right;">4.17</td>
-<td style="text-align: center;">0.67</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="solution-1" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="solution-1"><span class="header-section-number">2.2.2</span> Solution</h3>
-<p>We will first test the hypothesis if the variance of the responses corresponding to the two treatments are the same or not.</p>
-<p>We will assume that the response follows the normal distribution.</p>
-<p>Let <span class="math inline">\(\sigma_{standard}^2\)</span> denote the variance of the observations treated with standard solution, <span class="math inline">\(\sigma_{extra}^2\)</span> denote the variance of the observations treated with extra nitrogen. Then,</p>
-<p>Null hypothesis: <span class="math inline">\(\sigma_{standard}^2 = \sigma_{extra}^2\)</span></p>
-<p>Alternate hypothesis: <span class="math inline">\(\sigma_{standard}^2 \ne \sigma_{extra}^2\)</span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># F-statistic:</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>F <span class="ot">=</span> (<span class="fl">0.54</span><span class="sc">/</span><span class="fl">0.67</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>F</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6495879</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Critical values based on a significance level of 5%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>left_tail_critical_value <span class="ot">&lt;-</span> <span class="fu">qf</span>(<span class="fl">0.025</span>, <span class="dv">4</span>, <span class="dv">4</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>left_tail_critical_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1041175</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>right_tail_critical_value <span class="ot">&lt;-</span> <span class="fu">qf</span>(<span class="fl">0.975</span>, <span class="dv">4</span>, <span class="dv">4</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>right_tail_critical_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 9.60453</code></pre>
-</div>
-</div>
-<p>As the <span class="math inline">\(F\)</span>-statistic is between the critical values, we do not reject the null hypothesis.</p>
-<p>Thus, we will use the pooled-variance to conduct a 2-sample t-test for equality of means.</p>
-<p>Let <span class="math inline">\(\mu_{standard}\)</span> denote the mean growth with the standard solution, <span class="math inline">\(\mu_{extra}\)</span> denote the mean growth with extra nitrogen. Then,</p>
-<p>Null hypothesis: <span class="math inline">\(\mu_{standard} = \mu_{extra}\)</span></p>
-<p>Alternate hypothesis: <span class="math inline">\(\mu_{standard} \ne \mu_{extra}\)</span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pooled variance</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sp2 <span class="ot">=</span> (<span class="fl">0.54</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.67</span><span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># t-statistic</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (<span class="fl">3.62</span> <span class="sc">-</span> <span class="fl">4.17</span>)<span class="sc">/</span>(<span class="fu">sqrt</span>(sp2<span class="sc">*</span><span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>))</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#p-value</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(t, <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1908168</code></pre>
-</div>
-</div>
-<p>As the <span class="math inline">\(p\)</span>-value is high, we do not reject the null hypothesis that the extra nitrogen does not enhance growth.</p>
-<p>Alternatively, the Welch’s test for unequal variances can be used without testing for equality of variances in the two samples.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">5</span>; s1 <span class="ot">=</span> <span class="fl">0.54</span>; s2 <span class="ot">=</span> <span class="fl">0.67</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>nu <span class="ot">=</span> (n<span class="dv">-1</span>)<span class="sc">*</span>(((s1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(((s1<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n)<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span>((s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">&lt;-</span> (<span class="fl">3.62</span> <span class="sc">-</span> <span class="fl">4.17</span>)<span class="sc">/</span>(<span class="fu">sqrt</span>((s1<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span>s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">5</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(t0, <span class="fl">7.654594</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1924672</code></pre>
-</div>
-</div>
-<p>As the power of Welch’s t-test is similar to that of Student’s t-test, even when the population variances are equal and sample sizes are balanced, Welch’s test can always be used, irrespective of the variances being equal or not.</p>
-<p>However, if the variances are unequal, then Student’s t-test must not be used. Type 1 error rate will be higher for a Student’s t-test, particularly if one of the samples has a relatively higher variance, and a smaller sample size as compared to the other sample.</p>
-<p>The functions <code>t.test()</code> and <code>power.t.test()</code> can be used to conveniently test the hypothesis, estimate confidence intervals, estimate power of the test, or the observations needed for a certain power of the test. Look at the documentation of these function, by executing the code <code>?t.test()</code> or <code>?power.t.test()</code> in the R console, to see the parameters you need to specify for using them.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -827,13 +665,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Rintro.html" class="pagination-link" aria-label="R: Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R: Introduction</span></span>
+      <a href="./t_test_example.html" class="pagination-link" aria-label="Hypothesis testing examples">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Hypothesis testing examples</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ANOVA.html" class="pagination-link" aria-label="One way ANOVA">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">One way ANOVA</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Assignment A.html" class="pagination-link" aria-label="Assignment 1">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
