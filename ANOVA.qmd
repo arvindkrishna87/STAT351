@@ -4,7 +4,7 @@
 
 ```{r}
 library(car)
-library(DescTools)
+#library(DescTools)
 data <- PlantGrowth
 aov(lm(weight ~ group, data = data))
 ```
