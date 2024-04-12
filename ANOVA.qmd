@@ -2,9 +2,39 @@
 
 ## ANOVA Table
 
-```{r}
+Let us consider an example where we have results from an experiment to compare yields (as measured by dried weight of plants) obtained under a control and two different treatment conditions. The dataset is named as `PlantGrowth` and it can be found in the library `car`.
+
+```{r, message=FALSE}
+# Loading the dataset
 library(car)
 library(DescTools)
 data <- PlantGrowth
-aov(lm(weight ~ group, data = data))
 ```
+
+Let us print the anova table.
+
+```{r}
+anova(lm(weight ~ group, data = data))
+```
+
+The null hypothesis that all treatments are the same is rejected at a significance level of 5\%.
+
+Let us print the Bonferroni's confidence intervals:
+
+```{r}
+aov_object <- aov(lm(weight ~ group, data = data))
+PostHocTest(aov_object, method = "bonferroni")
+```
+
+Based on Bonferroni's method, we observe that treatment 1 and treatment 2 are significantly different, but there is no difference between other pairs.
+
+Bonferroni's confidence intervals are overly conservative. Let us find the confidence intervals basead on Tukey's method:
+
+```{r}
+PostHocTest(aov_object, method = "hsd")
+```
+
+
+
+
+
