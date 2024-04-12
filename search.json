@@ -114,7 +114,7 @@
     "href": "ANOVA.html",
     "title": "3  One way ANOVA",
     "section": "",
-    "text": "3.1 ANOVA Table\nlibrary(car)\n\nLoading required package: carData\n\n#library(DescTools)\ndata &lt;- PlantGrowth\naov(lm(weight ~ group, data = data))\n\nCall:\n   aov(formula = lm(weight ~ group, data = data))\n\nTerms:\n                   group Residuals\nSum of Squares   3.76634  10.49209\nDeg. of Freedom        2        27\n\nResidual standard error: 0.6233746\nEstimated effects may be unbalanced",
+    "text": "3.1 ANOVA Table\nlibrary(car)\n\nLoading required package: carData\n\nlibrary(DescTools)\n\n\nAttaching package: 'DescTools'\n\n\nThe following object is masked from 'package:car':\n\n    Recode\n\ndata &lt;- PlantGrowth\naov(lm(weight ~ group, data = data))\n\nCall:\n   aov(formula = lm(weight ~ group, data = data))\n\nTerms:\n                   group Residuals\nSum of Squares   3.76634  10.49209\nDeg. of Freedom        2        27\n\nResidual standard error: 0.6233746\nEstimated effects may be unbalanced",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>One way ANOVA</span>"
     ]
