@@ -19,6 +19,8 @@ anova(lm(weight ~ group, data = data))
 
 The null hypothesis that all treatments are the same is rejected at a significance level of 5\%.
 
+## Confidence interval
+
 Let us print the Bonferroni's confidence intervals:
 
 ```{r}
@@ -33,6 +35,12 @@ Bonferroni's confidence intervals are overly conservative. Let us find the confi
 ```{r}
 PostHocTest(aov_object, method = "hsd")
 ```
+
+## Model assumptions check
+
+The conclusions of the statistical tests and the confidence intervals are based on the assumption that random error is normally distributed with mean 0 and constant variance, i.e., $\epsilon_{ij} \sim N(0, \sigma^2)$. 
+
+The diagnostic plots and statistical tests for checking model assumptions can be found [here](https://nustat.github.io/STAT350-class-notes/Diagnostics_Remedial_Measures.html#diagnostic-plots-statistical-tests).
 
 
 
