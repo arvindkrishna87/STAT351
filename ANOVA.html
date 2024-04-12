@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -201,6 +230,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#anova-table" id="toc-anova-table" class="nav-link active" data-scroll-target="#anova-table"><span class="header-section-number">3.1</span> ANOVA Table</a></li>
+  <li><a href="#confidence-interval" id="toc-confidence-interval" class="nav-link" data-scroll-target="#confidence-interval"><span class="header-section-number">3.2</span> Confidence interval</a></li>
+  <li><a href="#model-assumptions-check" id="toc-model-assumptions-check" class="nav-link" data-scroll-target="#model-assumptions-check"><span class="header-section-number">3.3</span> Model assumptions check</a></li>
   </ul>
 </nav>
     </div>
@@ -250,6 +281,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>The null hypothesis that all treatments are the same is rejected at a significance level of 5%.</p>
+</section>
+<section id="confidence-interval" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="confidence-interval"><span class="header-section-number">3.2</span> Confidence interval</h2>
 <p>Let us print the Bonferroni’s confidence intervals:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>aov_object <span class="ot">&lt;-</span> <span class="fu">aov</span>(<span class="fu">lm</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> data))</span>
@@ -288,6 +322,11 @@ trt2-trt1  0.865  0.1737839 1.5562161 0.0120 *
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+</section>
+<section id="model-assumptions-check" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="model-assumptions-check"><span class="header-section-number">3.3</span> Model assumptions check</h2>
+<p>The conclusions of the statistical tests and the confidence intervals are based on the assumption that random error is normally distributed with mean 0 and constant variance, i.e., <span class="math inline">\(\epsilon_{ij} \sim N(0, \sigma^2)\)</span>.</p>
+<p>The diagnostic plots and statistical tests for checking model assumptions can be found <a href="https://nustat.github.io/STAT350-class-notes/Diagnostics_Remedial_Measures.html#diagnostic-plots-statistical-tests">here</a>.</p>
 
 
 </section>
