@@ -183,7 +183,7 @@ $x_i = C/n$
 *(2 points)*
 
 
-### Q5
+## Q5
 
 Suppose that experiments are being conducted to analyse the effect of whey protein and creatine *(supplement)* on growth in muscle mass. The table below show the muscle mass growth *(in grams/100 kg body weight)* of a randomly selected sample of 32 individuals in a month. Each individual took a different amount of protein *(0.4, 0.6, 0.8, or 1.0 grams/kg body weight)* and either took the supplement or didn't take it.
 
