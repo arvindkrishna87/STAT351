@@ -38,7 +38,7 @@ editor_options:
 
 In Q1 of assignment 1, suppose three keyboards were being compared, instead of two. Let us say there were keyboards of another brand C. Assume that the number of replicates of keyboard C were the same as that of keyboards A and B in all the experiments. After the experiment is conducted, ANOVA is used to identify a difference between the typing time of all pairs of keyboards. Will it be more likely or less likely to observe a statistically significant difference between keyboard A and keyboard B in each of the experiments - 1(a), 1(b), 1(d), and 1(f)? Justify your answer.
 
-*(5 points)*
+*(4 points)*
 
 ## Q2
 
@@ -66,7 +66,7 @@ Experiments were conducted based on the design in the previous question, and the
 |9.37| 12.16 |10.48| 12.02 |
 |7.33| 9.86 |10.15| 9.78 |
 
-*(5 points)*
+*(4 points)*
 
 ```{r}
 data <- data.frame(app_time = c(7.75, 9.37, 7.33, 14.69, 12.16,  9.86,  9.97, 10.48, 10.15,  8.39, 12.02, 9.78), design = factor(c(rep("A", 3), rep("B", 3), rep("C", 3), rep("D", 3))))
@@ -180,7 +180,7 @@ $\min \sum_{i=1}^n x_i^2$, subject to $\sum_{i=1}^n x_i = C$, where $C$ is a con
 
 $x_i = C/n$ 
 
-*(2 points)*
+*(4 points)*
 
 
 ## Q5
