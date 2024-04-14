@@ -19,6 +19,7 @@ book:
     - ANOVA.qmd
   appendices: 
     - Assignment A.qmd
+    - Assignment B_questions.qmd
     - Datasets.ipynb
 
 bibliography: references.bib

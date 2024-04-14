@@ -1,0 +1,237 @@
+---
+title: "Assignment 2"
+format:
+  html:
+    toc: true
+self-contained: true
+link-external-newwindow: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Instructions {.unnumbered}
+
+1.  You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.
+
+2.  Make R code chunks to insert code and type your answer outside the code chunks, in the template provided. Ensure that the solution is written neatly enough to understand and grade.
+
+3.  Quarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.
+
+4.  The assignment is worth 100 points, and is due on **24th April 2024 at 11:59 pm**.
+
+5. Use a significance level $\alpha = 5\%$ in all hypothesis tests, unless otherwise specified.
+
+6.  **Five points are properly formatting the assignment**. The breakdown is as follows:
+
+-   There aren't excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren't long printouts of which iteration a loop is on, there aren't long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (2 pt)
+-   Final answers of each question are written clearly (1 pt).
+-   The proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (2 pt)
+
+7. **10 points** will be deducted in case the provided template is not used *(for coding / text-answer questions)*, and/or the template is not rendered using Quarto markdown. 
+
+8. For the question involving derivations (Q4 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivation in this template.
+
+## Q1
+
+In Q1 of assignment 1, suppose three keyboards were being compared, instead of two. Let us say there were keyboards of another brand C. Assume that the number of replicates of keyboard C were the same as that of keyboards A and B in all the experiments. After the experiment is conducted, ANOVA is used to identify a difference between the typing time of all pairs of keyboards. Will it be more likely or less likely to observe a statistically significant difference between keyboard A and keyboard B in each of the experiments - 1(a), 1(b), 1(d), and 1(f)? Justify your answer.
+
+*(5 points)*
+
+## Q2
+
+### Q2(a)
+
+A developer has 4 different designs of a food-ordering mobile app. They tested each design 3 times *(the design was launched for a week to be tested each time)*, and recorded the average time spent by a user on the app. The developer is thinking about either using a single best design that stands out, or combine features of designs that bring similar user-engagement. The developer has the following specific questions in mind before the experiment:
+
+1. Is design B significantly better or worse than the other three designs? Design B will be more expensive to use as the developer will need to purchase some copyrights to use the design for long term. However, design B will be seriously considered if it generates significantly more app time than the other three designs. Otherwise, a combination of the other 3 designs may be considered.
+
+2. Is design A significantly better or worse than designs C and D. Design A is targeted towards Gen-Z, while designs C and D are targeted towards millennials. Thus, it will be easier to either combine designs C and D, or just use design A.
+
+3. Is design C significantly better or worse than design D? If that is the case, then the developer may not need to combine designs C and D.
+
+Construct a meaningful set of orthogonal contrasts that will be useful to answer the questions once the experiment has been performed.
+
+*(3 points)*
+
+### Q2(b)
+
+Experiments were conducted based on the design in the previous question, and the results *(average time spent on app per user in minutes)* are given below. Conduct statistically independent tests to answer the 3 questions in 1(a).
+
+| App design A | App design B | App design C | App design D | 
+|----|----|----|----|
+|7.75| 14.69 |9.97| 8.39 |
+|9.37| 12.16 |10.48| 12.02 |
+|7.33| 9.86 |10.15| 9.78 |
+
+*(5 points)*
+
+```{r}
+data <- data.frame(app_time = c(7.75, 9.37, 7.33, 14.69, 12.16,  9.86,  9.97, 10.48, 10.15,  8.39, 12.02, 9.78), design = factor(c(rep("A", 3), rep("B", 3), rep("C", 3), rep("D", 3))))
+```
+
+### Q2(c)
+
+Answer each of the questions in 1(a) with a confidence interval, and interpret the interval.
+
+*(6 points)*
+
+### Q2(d)
+
+Test if the model assumptions are satisfied in the model developed in 2(b). 
+
+Regardless whether the assumptions are satisfied or not, consider the hypothetical scenario that they are not satisfied. Which conclusions will they effect? For each model assumption violation, mention the conclusion effected.
+
+*(6 points)*
+
+### Q2(e)
+
+Conduct an ANOVA analysis to test if the mean user app times of all the designs is the same. Construct confidence intervals of the difference in mean app times of each design using Tukey's method. Mention the conclusion based on the analysis.
+
+*(4 points)*
+
+### Q2(f)
+
+Do the conclusions in 2(e) contradict those in 2(b)? If yes, then why? If not, then why not?
+
+*(4 points)*
+
+### Q2(g)
+
+What is the benefit of using orthogonal contrasts, instead of non-orthogonal contrasts? 
+Do orthogonal contrasts reduce the family-wise type I error rate as compared to non-orthogonal contrasts?
+
+*(4 points)*
+
+## Q3
+
+Experiments are conducted to compare the average lifetime of batteries of three brands. Five randomly selected batteries of each brand are tested with the following results. The table consists of life of batteries in weeks.
+
+| Brand A | Brand B | Brand C | 
+|----|----|----|
+|100| 76 |108|
+|96| 80 |100|
+|92| 75 |96|
+|96| 84 |98|
+|92| 82 |100|
+
+### Q3(a)
+
+Which brand will you select for use? Justify your answer with statistical analysis.
+
+*(4 points)*
+
+### Q3(b)
+
+If the manufacturer will replace without charge any battery that fails in less than 85 weeks, what percentage would the company expect to replace? Consider the brand selected in 3(a). 
+
+*(4 points)*
+
+### Q3(c)
+
+If we wish to detect a maximum difference in mean battery life of 10 hours with a probability of at least 0.90, what sample size should be used?
+
+*(4 points)*
+
+### Q3(d)
+
+If we wish to construct a 95 percent confidence interval on the difference in two mean battery lives that has an accuracy of $\pm2$ weeks, how many batteries of each brand must be tested? 
+
+*(4 points)*
+
+## Q4
+
+Several ovens in a metal working shop are used to heat metal specimens.  All ovens are supposed to operate at the same temperature, although it is suspected that this may not be true.  Three ovens selected at random, and their temperatures on successive heats are noted.  The data collected are as follows:
+
+| Oven 1 | Oven 2 | Oven 3 | 
+|----|----|----|
+|491.5| 488.5 |480.1|
+|498.3| 484.65 |484.8|
+|498.1| 479.9 |488.25|
+|493.5| 477.35 |473|
+|493.6| - |471.85|
+|-| - |478.65|
+
+### Q4(a)
+
+Is there significant variation in temperature between ovens?   
+
+*(2 points)*
+
+### Q4(b)
+
+Derive the expression for the expected Mean squared treatment $E(MS_{Oven})$ for the model in 4(a). Note that you will need to consider different number of replicates for each oven. Don't plug-in any values in the expression, leave the expression in an algebraic form.
+
+*(12 points)*
+
+### Q4(c)
+
+Suppose engineers have modified the oven manufacturing process in the factory to minimize the temperature variation between ovens. The quality testing team has to design an experiment to test the hypothesis test in 4(a) again. They decide to conduct the experiment on a random sample of 3 ovens manufactured based on the new process in the factory.
+
+Assume that the budget for the total number of replicates *(successive heat measurements on all ovens)* in the experiment is fixed as $N$. Derive the optimal number of replicates for each oven to maximize the power of the test. 
+
+You may use the following result.
+
+The solution of the problem,
+
+$\min \sum_{i=1}^n x_i^2$, subject to $\sum_{i=1}^n x_i = C$, where $C$ is a constant, is:
+
+$x_i = C/n$ 
+
+*(2 points)*
+
+
+### Q5
+
+Suppose that experiments are being conducted to analyse the effect of whey protein and creatine *(supplement)* on growth in muscle mass. The table below show the muscle mass growth *(in grams/100 kg body weight)* of a randomly selected sample of 32 individuals in a month. Each individual took a different amount of protein *(0.4, 0.6, 0.8, or 1.0 grams/kg body weight)* and either took the supplement or didn't take it.
+
+|Supplement|Protein amount||||
+|----|----|----|----|----|
+|| **0.4g** | **0.6g** | **0.8g** | **1.0g** | 
+|Creatine|105.7| 419.2 |608.4|623.1|
+|Creatine|111.6| 418.4 |602.9|602.9|
+|Creatine|90.8| 435.3 |591.2|581.5|
+|Creatine|92.6| 424.2 |589.4|594.4|
+|None|104.9| 452.1| 416.0| 366.8|
+|None|93.5| 447.3| 400.6 |383.3|
+|None|103.2| 466.4| 407.7 |369.1|
+|None|109.0 |449.6 |405.9 |370.1|
+
+### Q5(a)
+
+Answer the following questions using orthogonal contrasts:
+
+1. Is there a linear response of muscle growth to increasing whey protein?
+
+2. Is there a quadratic response of muscle growth to increasing whey protein?
+
+3. Is there a cubic response of muscle growth to increasing whey protein?
+
+4. Does adding the creatine supplement have a significant effect on increase in muscle growth?
+
+5. Is the linear response to muscle growth different in the presence or absence of the creatine supplement?
+
+6. Is the quadratic response to muscle growth different in the presence or absence of the creatine supplement?
+
+7. Is the cubic response to muscle growth different in the presence or absence of the creatine supplement?
+
+*(14 points)*
+
+### Q5(b)
+
+Demonstrate that the contrasts are orthogonal.
+
+*(4 points)*
+
+### Q5(c)
+
+Create a line plot that shows the average effect on muscle growth with increasing whey protein, both with and without supplement *(i.e., 2 line plots - one for supplement, and one for no supplement)*. Based on the results of the plot which whey-protein-supplement combination will be the best for high muscle growth? 
+
+*(4 points)*
+
+### Q5(d)
+
+Now take the uncertainty of the estimates in the plot in 5(c) into account. Will your answer to the recommendation asked in 5(c) change? Why or why not?
+
+*Note: If there are multiple combinations with no statistically significant difference in the muscle growth, and provide statistically significantly higher muscle growth than the rest of the combinations, then recommend the combination with the lower whey protein / supplement, as it will be cheaper.*
+
+*(4 points)*
