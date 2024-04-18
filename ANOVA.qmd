@@ -42,6 +42,44 @@ The conclusions of the statistical tests and the confidence intervals are based 
 
 The diagnostic plots and statistical tests for checking model assumptions can be found [here](https://nustat.github.io/STAT350-class-notes/Diagnostics_Remedial_Measures.html#diagnostic-plots-statistical-tests).
 
+## Contrasts
+
+This is an example to use orthogonal contrasts to answer questions of interest. The data `rice_seed_data.csv` consists of the shoot dry weight (in mg) of an experiment to determine the effect of seed treatment by acids on the early growth of rice seeds.
+
+The investigator had several specific questions in mind from the beginning: 
+ -Do acid treatments affect seedling growth?
+- Is the effect of organic acids different from that of inorganic acids?
+- Is there a difference in the effects of the two different organic acids?
+
+We will create orthogonal contrasts, and perform an ANOVA analysis to answer these questions.
+
+
+```{r}
+rice_data <- read.csv('rice_seed_data.csv')
+anova(lm(growth~treatment, data = rice_data))
+
+c1 <- c(3, -1, -1, -1)
+c2 <- c(0, -2, 1, 1)
+c3 <- c(0, 0, 1, -1)
+
+# Contrast matrix
+mat.contrast <- cbind(c1, c2, c3)
+colnames(mat.contrast) <- paste0("c",1:3)
+
+# Converting treatment to a factor variable
+rice_data$treatment <- as.factor(rice_data$treatment)
+contrasts(rice_data$treatment) <- mat.contrast
+
+# ANOVA table
+model <- aov(growth ~ treatment, data = rice_data,
+                   contrasts = list(treatment = mat.contrast))
+
+# Splitting the Treatment sum of squares into independent 
+# orthogonal contrast components
+summary.aov(model,split = list(treatment = list("Control vs acid"=1,  
+                              "Inorganic vs organic" = 2, 'Between organic'=3)))
+
+```
 
 
 
