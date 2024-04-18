@@ -238,6 +238,7 @@ window.Quarto = {
   <li><a href="#anova-table" id="toc-anova-table" class="nav-link active" data-scroll-target="#anova-table"><span class="header-section-number">3.1</span> ANOVA Table</a></li>
   <li><a href="#confidence-interval" id="toc-confidence-interval" class="nav-link" data-scroll-target="#confidence-interval"><span class="header-section-number">3.2</span> Confidence interval</a></li>
   <li><a href="#model-assumptions-check" id="toc-model-assumptions-check" class="nav-link" data-scroll-target="#model-assumptions-check"><span class="header-section-number">3.3</span> Model assumptions check</a></li>
+  <li><a href="#contrasts" id="toc-contrasts" class="nav-link" data-scroll-target="#contrasts"><span class="header-section-number">3.4</span> Contrasts</a></li>
   </ul>
 </nav>
     </div>
@@ -333,6 +334,56 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h2 data-number="3.3" class="anchored" data-anchor-id="model-assumptions-check"><span class="header-section-number">3.3</span> Model assumptions check</h2>
 <p>The conclusions of the statistical tests and the confidence intervals are based on the assumption that random error is normally distributed with mean 0 and constant variance, i.e., <span class="math inline">\(\epsilon_{ij} \sim N(0, \sigma^2)\)</span>.</p>
 <p>The diagnostic plots and statistical tests for checking model assumptions can be found <a href="https://nustat.github.io/STAT350-class-notes/Diagnostics_Remedial_Measures.html#diagnostic-plots-statistical-tests">here</a>.</p>
+</section>
+<section id="contrasts" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="contrasts"><span class="header-section-number">3.4</span> Contrasts</h2>
+<p>This is an example to use orthogonal contrasts to answer questions of interest. The data <code>rice_seed_data.csv</code> consists of the shoot dry weight (in mg) of an experiment to determine the effect of seed treatment by acids on the early growth of rice seeds.</p>
+<p>The investigator had several specific questions in mind from the beginning: -Do acid treatments affect seedling growth? - Is the effect of organic acids different from that of inorganic acids? - Is there a difference in the effects of the two different organic acids?</p>
+<p>We will create orthogonal contrasts, and perform an ANOVA analysis to answer these questions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rice_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'rice_seed_data.csv'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(growth<span class="sc">~</span>treatment, <span class="at">data =</span> rice_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: growth
+          Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    
+treatment  3 0.87369 0.291232  33.874 3.669e-07 ***
+Residuals 16 0.13756 0.008597                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>c3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Contrast matrix</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>mat.contrast <span class="ot">&lt;-</span> <span class="fu">cbind</span>(c1, c2, c3)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mat.contrast) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"c"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting treatment to a factor variable</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>rice_data<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(rice_data<span class="sc">$</span>treatment)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(rice_data<span class="sc">$</span>treatment) <span class="ot">&lt;-</span> mat.contrast</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA table</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(growth <span class="sc">~</span> treatment, <span class="at">data =</span> rice_data,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">contrasts =</span> <span class="fu">list</span>(<span class="at">treatment =</span> mat.contrast))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting the Treatment sum of squares into independent </span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># orthogonal contrast components</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(model,<span class="at">split =</span> <span class="fu">list</span>(<span class="at">treatment =</span> <span class="fu">list</span>(<span class="st">"Control vs acid"</span><span class="ot">=</span><span class="dv">1</span>,  </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"Inorganic vs organic"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">'Between organic'</span><span class="ot">=</span><span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                  Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+treatment                          3 0.8737  0.2912  33.874 3.67e-07 ***
+  treatment: Control vs acid       1 0.7415  0.7415  86.244 7.61e-08 ***
+  treatment: Inorganic vs organic  1 0.1129  0.1129  13.126  0.00229 ** 
+  treatment: Between organic       1 0.0194  0.0194   2.252  0.15293    
+Residuals                         16 0.1376  0.0086                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
 
 
 </section>

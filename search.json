@@ -140,6 +140,16 @@
     ]
   },
   {
+    "objectID": "ANOVA.html#contrasts",
+    "href": "ANOVA.html#contrasts",
+    "title": "3  One way ANOVA",
+    "section": "3.4 Contrasts",
+    "text": "3.4 Contrasts\nThis is an example to use orthogonal contrasts to answer questions of interest. The data rice_seed_data.csv consists of the shoot dry weight (in mg) of an experiment to determine the effect of seed treatment by acids on the early growth of rice seeds.\nThe investigator had several specific questions in mind from the beginning: -Do acid treatments affect seedling growth? - Is the effect of organic acids different from that of inorganic acids? - Is there a difference in the effects of the two different organic acids?\nWe will create orthogonal contrasts, and perform an ANOVA analysis to answer these questions.\n\nrice_data &lt;- read.csv('rice_seed_data.csv')\nanova(lm(growth~treatment, data = rice_data))\n\nAnalysis of Variance Table\n\nResponse: growth\n          Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    \ntreatment  3 0.87369 0.291232  33.874 3.669e-07 ***\nResiduals 16 0.13756 0.008597                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nc1 &lt;- c(3, -1, -1, -1)\nc2 &lt;- c(0, -2, 1, 1)\nc3 &lt;- c(0, 0, 1, -1)\n\n# Contrast matrix\nmat.contrast &lt;- cbind(c1, c2, c3)\ncolnames(mat.contrast) &lt;- paste0(\"c\",1:3)\n\n# Converting treatment to a factor variable\nrice_data$treatment &lt;- as.factor(rice_data$treatment)\ncontrasts(rice_data$treatment) &lt;- mat.contrast\n\n# ANOVA table\nmodel &lt;- aov(growth ~ treatment, data = rice_data,\n                   contrasts = list(treatment = mat.contrast))\n\n# Splitting the Treatment sum of squares into independent \n# orthogonal contrast components\nsummary.aov(model,split = list(treatment = list(\"Control vs acid\"=1,  \n                              \"Inorganic vs organic\" = 2, 'Between organic'=3)))\n\n                                  Df Sum Sq Mean Sq F value   Pr(&gt;F)    \ntreatment                          3 0.8737  0.2912  33.874 3.67e-07 ***\n  treatment: Control vs acid       1 0.7415  0.7415  86.244 7.61e-08 ***\n  treatment: Inorganic vs organic  1 0.1129  0.1129  13.126  0.00229 ** \n  treatment: Between organic       1 0.0194  0.0194   2.252  0.15293    \nResiduals                         16 0.1376  0.0086                     \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>One way ANOVA</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",
