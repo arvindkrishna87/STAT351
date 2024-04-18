@@ -81,6 +81,6 @@ summary.aov(model,split = list(treatment = list("Control vs acid"=1,
 
 ```
 
-
+We conclude that there is no statistically significant difference between the effect of organic acids. However, there is a statistically significant difference between the effect of inorganic and organic acids, and an even higher statistically significant difference between the weight of seeds in the control group and the weight seeds treated with acid.
 
 
