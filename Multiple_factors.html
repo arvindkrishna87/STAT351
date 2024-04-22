@@ -290,123 +290,29 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>aov_object <span class="ot">&lt;-</span> <span class="fu">aov</span>(value<span class="sc">~</span>Girder<span class="sc">+</span>treatment, <span class="at">data =</span> data_melt)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tukey's method</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">PostHocTest</span>(aov_object, <span class="at">method =</span> <span class="st">"hsd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">PostHocTest</span>(aov_object, <span class="at">method =</span> <span class="st">"hsd"</span>)<span class="sc">$</span>treatment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-  Posthoc multiple comparisons of means : Tukey HSD 
-    95% family-wise confidence level
-
-$Girder
-              diff     lwr.ci    upr.ci   pval    
-S1.2-S1.1  0.09600 -0.1037876 0.2957876 0.7780    
-S2.1-S1.1 -0.06300 -0.2627876 0.1367876 0.9730    
-S2.2-S1.1  0.01050 -0.1892876 0.2102876 1.0000    
-S3.1-S1.1  0.00950 -0.1902876 0.2092876 1.0000    
-S3.2-S1.1  0.07600 -0.1237876 0.2757876 0.9239    
-S4.1-S1.1  0.00025 -0.1995376 0.2000376 1.0000    
-S4.2-S1.1  0.05775 -0.1420376 0.2575376 0.9841    
-S5.1-S1.1 -0.04575 -0.2455376 0.1540376 0.9965    
-S2.1-S1.2 -0.15900 -0.3587876 0.0407876 0.1981    
-S2.2-S1.2 -0.08550 -0.2852876 0.1142876 0.8649    
-S3.1-S1.2 -0.08650 -0.2862876 0.1132876 0.8575    
-S3.2-S1.2 -0.02000 -0.2197876 0.1797876 1.0000    
-S4.1-S1.2 -0.09575 -0.2955376 0.1040376 0.7803    
-S4.2-S1.2 -0.03825 -0.2380376 0.1615376 0.9990    
-S5.1-S1.2 -0.14175 -0.3415376 0.0580376 0.3221    
-S2.2-S2.1  0.07350 -0.1262876 0.2732876 0.9361    
-S3.1-S2.1  0.07250 -0.1272876 0.2722876 0.9405    
-S3.2-S2.1  0.13900 -0.0607876 0.3387876 0.3457    
-S4.1-S2.1  0.06325 -0.1365376 0.2630376 0.9724    
-S4.2-S2.1  0.12075 -0.0790376 0.3205376 0.5239    
-S5.1-S2.1  0.01725 -0.1825376 0.2170376 1.0000    
-S3.1-S2.2 -0.00100 -0.2007876 0.1987876 1.0000    
-S3.2-S2.2  0.06550 -0.1342876 0.2652876 0.9662    
-S4.1-S2.2 -0.01025 -0.2100376 0.1895376 1.0000    
-S4.2-S2.2  0.04725 -0.1525376 0.2470376 0.9956    
-S5.1-S2.2 -0.05625 -0.2560376 0.1435376 0.9865    
-S3.2-S3.1  0.06650 -0.1332876 0.2662876 0.9631    
-S4.1-S3.1 -0.00925 -0.2090376 0.1905376 1.0000    
-S4.2-S3.1  0.04825 -0.1515376 0.2480376 0.9950    
-S5.1-S3.1 -0.05525 -0.2550376 0.1445376 0.9879    
-S4.1-S3.2 -0.07575 -0.2755376 0.1240376 0.9251    
-S4.2-S3.2 -0.01825 -0.2180376 0.1815376 1.0000    
-S5.1-S3.2 -0.12175 -0.3215376 0.0780376 0.5134    
-S4.2-S4.1  0.05750 -0.1422876 0.2572876 0.9845    
-S5.1-S4.1 -0.04600 -0.2457876 0.1537876 0.9964    
-S5.1-S4.2 -0.10350 -0.3032876 0.0962876 0.7053    
-
-$treatment
-                        diff       lwr.ci      upr.ci    pval    
-Karisruhe-Aarau    0.5452222  0.437124171  0.65332027 3.2e-12 ***
-Lehigh-Aarau       0.2713333  0.163235283  0.37943138 2.1e-06 ***
-Cardiff-Aarau      0.1106667  0.002568616  0.21876472  0.0434 *  
-Lehigh-Karisruhe  -0.2738889 -0.381986940 -0.16579084 1.8e-06 ***
-Cardiff-Karisruhe -0.4345556 -0.542653606 -0.32645750 3.7e-10 ***
-Cardiff-Lehigh    -0.1606667 -0.268764717 -0.05256862  0.0022 ** 
-
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<pre><code>                        diff       lwr.ci      upr.ci         pval
+Karisruhe-Aarau    0.5452222  0.437124171  0.65332027 3.225975e-12
+Lehigh-Aarau       0.2713333  0.163235283  0.37943138 2.106339e-06
+Cardiff-Aarau      0.1106667  0.002568616  0.21876472 4.343575e-02
+Lehigh-Karisruhe  -0.2738889 -0.381986940 -0.16579084 1.808447e-06
+Cardiff-Karisruhe -0.4345556 -0.542653606 -0.32645750 3.675706e-10
+Cardiff-Lehigh    -0.1606667 -0.268764717 -0.05256862 2.164599e-03</code></pre>
 </div>
 </div>
 <p>All methods are different from each other according to Tukey’s method <em>(at 5% significance level)</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bonferroni's method</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PostHocTest</span>(aov_object, <span class="at">method =</span> <span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PostHocTest</span>(aov_object, <span class="at">method =</span> <span class="st">"bonferroni"</span>)<span class="sc">$</span>treatment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-  Posthoc multiple comparisons of means : Bonferroni 
-    95% family-wise confidence level
-
-$Girder
-              diff      lwr.ci     upr.ci   pval    
-S1.2-S1.1  0.09600 -0.11641714 0.30841714 1.0000    
-S2.1-S1.1 -0.06300 -0.27541714 0.14941714 1.0000    
-S2.2-S1.1  0.01050 -0.20191714 0.22291714 1.0000    
-S3.1-S1.1  0.00950 -0.20291714 0.22191714 1.0000    
-S3.2-S1.1  0.07600 -0.13641714 0.28841714 1.0000    
-S4.1-S1.1  0.00025 -0.21216714 0.21266714 1.0000    
-S4.2-S1.1  0.05775 -0.15466714 0.27016714 1.0000    
-S5.1-S1.1 -0.04575 -0.25816714 0.16666714 1.0000    
-S2.1-S1.2 -0.15900 -0.37141714 0.05341714 0.4450    
-S2.2-S1.2 -0.08550 -0.29791714 0.12691714 1.0000    
-S3.1-S1.2 -0.08650 -0.29891714 0.12591714 1.0000    
-S3.2-S1.2 -0.02000 -0.23241714 0.19241714 1.0000    
-S4.1-S1.2 -0.09575 -0.30816714 0.11666714 1.0000    
-S4.2-S1.2 -0.03825 -0.25066714 0.17416714 1.0000    
-S5.1-S1.2 -0.14175 -0.35416714 0.07066714 0.8602    
-S2.2-S2.1  0.07350 -0.13891714 0.28591714 1.0000    
-S3.1-S2.1  0.07250 -0.13991714 0.28491714 1.0000    
-S3.2-S2.1  0.13900 -0.07341714 0.35141714 0.9528    
-S4.1-S2.1  0.06325 -0.14916714 0.27566714 1.0000    
-S4.2-S2.1  0.12075 -0.09166714 0.33316714 1.0000    
-S5.1-S2.1  0.01725 -0.19516714 0.22966714 1.0000    
-S3.1-S2.2 -0.00100 -0.21341714 0.21141714 1.0000    
-S3.2-S2.2  0.06550 -0.14691714 0.27791714 1.0000    
-S4.1-S2.2 -0.01025 -0.22266714 0.20216714 1.0000    
-S4.2-S2.2  0.04725 -0.16516714 0.25966714 1.0000    
-S5.1-S2.2 -0.05625 -0.26866714 0.15616714 1.0000    
-S3.2-S3.1  0.06650 -0.14591714 0.27891714 1.0000    
-S4.1-S3.1 -0.00925 -0.22166714 0.20316714 1.0000    
-S4.2-S3.1  0.04825 -0.16416714 0.26066714 1.0000    
-S5.1-S3.1 -0.05525 -0.26766714 0.15716714 1.0000    
-S4.1-S3.2 -0.07575 -0.28816714 0.13666714 1.0000    
-S4.2-S3.2 -0.01825 -0.23066714 0.19416714 1.0000    
-S5.1-S3.2 -0.12175 -0.33416714 0.09066714 1.0000    
-S4.2-S4.1  0.05750 -0.15491714 0.26991714 1.0000    
-S5.1-S4.1 -0.04600 -0.25841714 0.16641714 1.0000    
-S5.1-S4.2 -0.10350 -0.31591714 0.10891714 1.0000    
-
-$treatment
-                        diff       lwr.ci      upr.ci    pval    
-Karisruhe-Aarau    0.5452222  0.432559601  0.65788484 3.3e-12 ***
-Lehigh-Aarau       0.2713333  0.158670712  0.38399595 2.2e-06 ***
-Cardiff-Aarau      0.1106667 -0.001995955  0.22332929  0.0563 .  
-Lehigh-Karisruhe  -0.2738889 -0.386551510 -0.16122627 1.9e-06 ***
-Cardiff-Karisruhe -0.4345556 -0.547218177 -0.32189293 3.8e-10 ***
-Cardiff-Lehigh    -0.1606667 -0.273329288 -0.04800405  0.0025 ** 
-
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<pre><code>                        diff       lwr.ci      upr.ci         pval
+Karisruhe-Aarau    0.5452222  0.432559601  0.65788484 3.308011e-12
+Lehigh-Aarau       0.2713333  0.158670712  0.38399595 2.208198e-06
+Cardiff-Aarau      0.1106667 -0.001995955  0.22332929 5.631958e-02
+Lehigh-Karisruhe  -0.2738889 -0.386551510 -0.16122627 1.894578e-06
+Cardiff-Karisruhe -0.4345556 -0.547218177 -0.32189293 3.770501e-10
+Cardiff-Lehigh    -0.1606667 -0.273329288 -0.04800405 2.453939e-03</code></pre>
 </div>
 </div>
 <p>All methods except Aarau and Cardiff are different from each other according to Bonferroni’s method <em>(at 5% significance level)</em>.</p>
