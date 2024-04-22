@@ -160,6 +160,16 @@
     ]
   },
   {
+    "objectID": "Multiple_factors.html#two-way-layout",
+    "href": "Multiple_factors.html#two-way-layout",
+    "title": "4  Multiple factors",
+    "section": "4.2 Two-way layout",
+    "text": "4.2 Two-way layout\nA manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We’ll use two-way ANOVA to find if the two factors or their interaction effect the torque.\n\ndata &lt;- read.table('bolt.dat.txt', header = TRUE)\ndata_melt &lt;- melt(data, variable.name = 'plating', value.name = 'torque')\n\nUsing M.B as id variables\n\nhead(data_melt)\n\n  M.B plating torque\n1   M     P.O     10\n2   M     P.O     13\n3   M     P.O     17\n4   M     P.O     16\n5   M     P.O     15\n6   M     P.O     14\n\nanova(lm(torque ~ M.B*plating, data = data_melt))\n\nAnalysis of Variance Table\n\nResponse: torque\n            Df Sum Sq Mean Sq F value    Pr(&gt;F)    \nM.B          1  821.4  821.40 22.4563 1.604e-05 ***\nplating      2 2290.6 1145.32 31.3118 9.363e-10 ***\nM.B:plating  2  665.1  332.55  9.0916 0.0003952 ***\nResiduals   54 1975.2   36.58                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n#data['plating_bolt'] = apply(data_melt[,1:2], axis = 1, function(x) paste)\n\nThe two factors and their interaction significantly effects the torque.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Multiple factors</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",

@@ -213,6 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#randomized-complete-block-design-rcbd" id="toc-randomized-complete-block-design-rcbd" class="nav-link active" data-scroll-target="#randomized-complete-block-design-rcbd"><span class="header-section-number">4.1</span> Randomized complete block design (RCBD)</a></li>
+  <li><a href="#two-way-layout" id="toc-two-way-layout" class="nav-link" data-scroll-target="#two-way-layout"><span class="header-section-number">4.2</span> Two-way layout</a></li>
   </ul>
 </nav>
     </div>
@@ -351,6 +352,42 @@ BP = 22.205, df = 11, p-value = 0.02283</code></pre>
 </div>
 </div>
 <p>The error variance assumption is also satisfied at a 1% significance level. There is no strong deviation from the assumption.</p>
+</section>
+<section id="two-way-layout" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="two-way-layout"><span class="header-section-number">4.2</span> Two-way layout</h2>
+<p>A manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We’ll use two-way ANOVA to find if the two factors or their interaction effect the torque.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'bolt.dat.txt'</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>data_melt <span class="ot">&lt;-</span> <span class="fu">melt</span>(data, <span class="at">variable.name =</span> <span class="st">'plating'</span>, <span class="at">value.name =</span> <span class="st">'torque'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using M.B as id variables</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_melt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  M.B plating torque
+1   M     P.O     10
+2   M     P.O     13
+3   M     P.O     17
+4   M     P.O     16
+5   M     P.O     15
+6   M     P.O     14</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(torque <span class="sc">~</span> M.B<span class="sc">*</span>plating, <span class="at">data =</span> data_melt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: torque
+            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+M.B          1  821.4  821.40 22.4563 1.604e-05 ***
+plating      2 2290.6 1145.32 31.3118 9.363e-10 ***
+M.B:plating  2  665.1  332.55  9.0916 0.0003952 ***
+Residuals   54 1975.2   36.58                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data['plating_bolt'] = apply(data_melt[,1:2], axis = 1, function(x) paste)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The two factors and their interaction significantly effects the torque.</p>
 
 
 </section>
