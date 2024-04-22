@@ -160,11 +160,21 @@
     ]
   },
   {
-    "objectID": "Multiple_factors.html#two-way-layout",
-    "href": "Multiple_factors.html#two-way-layout",
+    "objectID": "Multiple_factors.html#two-way-layout-fixed-effects",
+    "href": "Multiple_factors.html#two-way-layout-fixed-effects",
     "title": "4  Multiple factors",
-    "section": "4.2 Two-way layout",
-    "text": "4.2 Two-way layout\nA manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We’ll use two-way ANOVA to find if the two factors or their interaction effect the torque.\n\ndata &lt;- read.table('bolt.dat.txt', header = TRUE)\ndata_melt &lt;- melt(data, variable.name = 'plating', value.name = 'torque')\n\nUsing M.B as id variables\n\nhead(data_melt)\n\n  M.B plating torque\n1   M     P.O     10\n2   M     P.O     13\n3   M     P.O     17\n4   M     P.O     16\n5   M     P.O     15\n6   M     P.O     14\n\nanova(lm(torque ~ M.B*plating, data = data_melt))\n\nAnalysis of Variance Table\n\nResponse: torque\n            Df Sum Sq Mean Sq F value    Pr(&gt;F)    \nM.B          1  821.4  821.40 22.4563 1.604e-05 ***\nplating      2 2290.6 1145.32 31.3118 9.363e-10 ***\nM.B:plating  2  665.1  332.55  9.0916 0.0003952 ***\nResiduals   54 1975.2   36.58                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n#data['plating_bolt'] = apply(data_melt[,1:2], axis = 1, function(x) paste)\n\nThe two factors and their interaction significantly effects the torque.",
+    "section": "4.2 Two-way layout: Fixed effects",
+    "text": "4.2 Two-way layout: Fixed effects\nA manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We’ll use two-way ANOVA to find if the two factors or their interaction effect the torque.\n\ndata &lt;- read.table('bolt.dat.txt', header = TRUE)\ndata_melt &lt;- melt(data, variable.name = 'plating', value.name = 'torque')\n\nUsing M.B as id variables\n\nhead(data_melt)\n\n  M.B plating torque\n1   M     P.O     10\n2   M     P.O     13\n3   M     P.O     17\n4   M     P.O     16\n5   M     P.O     15\n6   M     P.O     14\n\nanova(lm(torque ~ M.B*plating, data = data_melt))\n\nAnalysis of Variance Table\n\nResponse: torque\n            Df Sum Sq Mean Sq F value    Pr(&gt;F)    \nM.B          1  821.4  821.40 22.4563 1.604e-05 ***\nplating      2 2290.6 1145.32 31.3118 9.363e-10 ***\nM.B:plating  2  665.1  332.55  9.0916 0.0003952 ***\nResiduals   54 1975.2   36.58                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n#data['plating_bolt'] = apply(data_melt[,1:2], axis = 1, function(x) paste)\n\nThe two factors and their interaction significantly effects the torque.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Multiple factors</span>"
+    ]
+  },
+  {
+    "objectID": "Multiple_factors.html#two-way-layout-random-effects",
+    "href": "Multiple_factors.html#two-way-layout-random-effects",
+    "title": "4  Multiple factors",
+    "section": "4.3 Two-way layout: Random effects",
+    "text": "4.3 Two-way layout: Random effects\n\ndata &lt;- read.csv('sensory_data.csv', header = TRUE)\nhead(data)\n\n   Item Operator1 Operator2 Operator3 Operator4 Operator5\n1 Item1       4.3       4.9       3.3       5.3       4.4\n2 Item1       4.3       4.5       4.0       5.5       3.3\n3 Item1       4.1       5.3       3.4       5.7       4.7\n4 Item2       6.0       5.3       4.5       5.9       4.7\n5 Item2       4.9       6.3       4.2       5.5       4.9\n6 Item2       6.0       5.9       4.7       6.3       4.6\n\ndata_melt &lt;- melt(data, variable.name = \"Operator\", value.name = 'property')\n\nUsing Item as id variables\n\nhead(data_melt)\n\n   Item  Operator property\n1 Item1 Operator1      4.3\n2 Item1 Operator1      4.3\n3 Item1 Operator1      4.1\n4 Item2 Operator1      6.0\n5 Item2 Operator1      4.9\n6 Item2 Operator1      6.0\n\nanova(lm(property~Item*Operator, data = data_melt))\n\nAnalysis of Variance Table\n\nResponse: property\n               Df Sum Sq Mean Sq  F value    Pr(&gt;F)    \nItem            9 612.40  68.044 199.3084 &lt; 2.2e-16 ***\nOperator        4  25.49   6.372  18.6643 1.739e-11 ***\nItem:Operator  36  12.97   0.360   1.0549     0.406    \nResiduals     100  34.14   0.341                       \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nLet us estimate the item variance:\n\n(68.04 - 0.36)/15\n\n[1] 4.512\n\n\nLet us estimate the operator variance:\n\n(6.37 - 0.36)/30\n\n[1] 0.2003333",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Multiple factors</span>"
     ]

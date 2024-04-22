@@ -213,7 +213,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#randomized-complete-block-design-rcbd" id="toc-randomized-complete-block-design-rcbd" class="nav-link active" data-scroll-target="#randomized-complete-block-design-rcbd"><span class="header-section-number">4.1</span> Randomized complete block design (RCBD)</a></li>
-  <li><a href="#two-way-layout" id="toc-two-way-layout" class="nav-link" data-scroll-target="#two-way-layout"><span class="header-section-number">4.2</span> Two-way layout</a></li>
+  <li><a href="#two-way-layout-fixed-effects" id="toc-two-way-layout-fixed-effects" class="nav-link" data-scroll-target="#two-way-layout-fixed-effects"><span class="header-section-number">4.2</span> Two-way layout: Fixed effects</a></li>
+  <li><a href="#two-way-layout-random-effects" id="toc-two-way-layout-random-effects" class="nav-link" data-scroll-target="#two-way-layout-random-effects"><span class="header-section-number">4.3</span> Two-way layout: Random effects</a></li>
   </ul>
 </nav>
     </div>
@@ -353,8 +354,8 @@ BP = 22.205, df = 11, p-value = 0.02283</code></pre>
 </div>
 <p>The error variance assumption is also satisfied at a 1% significance level. There is no strong deviation from the assumption.</p>
 </section>
-<section id="two-way-layout" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="two-way-layout"><span class="header-section-number">4.2</span> Two-way layout</h2>
+<section id="two-way-layout-fixed-effects" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="two-way-layout-fixed-effects"><span class="header-section-number">4.2</span> Two-way layout: Fixed effects</h2>
 <p>A manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We’ll use two-way ANOVA to find if the two factors or their interaction effect the torque.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'bolt.dat.txt'</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
@@ -388,6 +389,63 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data['plating_bolt'] = apply(data_melt[,1:2], axis = 1, function(x) paste)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The two factors and their interaction significantly effects the torque.</p>
+</section>
+<section id="two-way-layout-random-effects" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="two-way-layout-random-effects"><span class="header-section-number">4.3</span> Two-way layout: Random effects</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'sensory_data.csv'</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Item Operator1 Operator2 Operator3 Operator4 Operator5
+1 Item1       4.3       4.9       3.3       5.3       4.4
+2 Item1       4.3       4.5       4.0       5.5       3.3
+3 Item1       4.1       5.3       3.4       5.7       4.7
+4 Item2       6.0       5.3       4.5       5.9       4.7
+5 Item2       4.9       6.3       4.2       5.5       4.9
+6 Item2       6.0       5.9       4.7       6.3       4.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data_melt <span class="ot">&lt;-</span> <span class="fu">melt</span>(data, <span class="at">variable.name =</span> <span class="st">"Operator"</span>, <span class="at">value.name =</span> <span class="st">'property'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using Item as id variables</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_melt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Item  Operator property
+1 Item1 Operator1      4.3
+2 Item1 Operator1      4.3
+3 Item1 Operator1      4.1
+4 Item2 Operator1      6.0
+5 Item2 Operator1      4.9
+6 Item2 Operator1      6.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(property<span class="sc">~</span>Item<span class="sc">*</span>Operator, <span class="at">data =</span> data_melt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: property
+               Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+Item            9 612.40  68.044 199.3084 &lt; 2.2e-16 ***
+Operator        4  25.49   6.372  18.6643 1.739e-11 ***
+Item:Operator  36  12.97   0.360   1.0549     0.406    
+Residuals     100  34.14   0.341                       
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Let us estimate the item variance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">68.04</span> <span class="sc">-</span> <span class="fl">0.36</span>)<span class="sc">/</span><span class="dv">15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.512</code></pre>
+</div>
+</div>
+<p>Let us estimate the operator variance:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">6.37</span> <span class="sc">-</span> <span class="fl">0.36</span>)<span class="sc">/</span><span class="dv">30</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2003333</code></pre>
+</div>
+</div>
 
 
 </section>
