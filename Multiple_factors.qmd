@@ -37,4 +37,4 @@ All methods are different from each other according to Tukey's method *(at 5\% s
 PostHocTest(aov_object, method = "bonferroni")
 ```
 
-All methods except Aarau and Cardiff are different from each other according to Bonferroni's method *(at 5\% significance level)*.
+All methods except Aarau and Cardiff are different from each other according to Bonferroni's method *(at 5\% significance level)*. 
