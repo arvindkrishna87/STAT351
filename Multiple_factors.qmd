@@ -63,7 +63,7 @@ bptest(model)
 The error variance assumption is also satisfied at a 1\% significance level. There is no strong deviation from the assumption.
 
 
-## Two-way layout
+## Two-way layout: Fixed effects
 
 A manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We'll use two-way ANOVA to find if the two factors or their interaction effect the torque.
 
@@ -77,4 +77,24 @@ anova(lm(torque ~ M.B*plating, data = data_melt))
 
 The two factors and their interaction significantly effects the torque.
 
+## Two-way layout: Random effects
 
+```{r}
+data <- read.csv('sensory_data.csv', header = TRUE)
+head(data)
+data_melt <- melt(data, variable.name = "Operator", value.name = 'property')
+head(data_melt)
+anova(lm(property~Item*Operator, data = data_melt))
+```
+
+Let us estimate the item variance:
+
+```{r}
+(68.04 - 0.36)/15
+```
+
+Let us estimate the operator variance:
+
+```{r}
+(6.37 - 0.36)/30
+```
