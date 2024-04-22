@@ -8,14 +8,16 @@ Let us consider an example, where the shear strength of steel plate girders need
 library(ACSWR)
 library(reshape2)
 library(DescTools)
+library(lmtest)
 
 # Visualizing treatment effects
+data("girder")
 boxplot(girder[,2:5])
 
 # Melting data to make it suitable to fit a linear regression model
 # using the 'lm' function
 data_melt <- melt(girder, variable.name = "treatment", id = 'Girder')
-anova(lm(value~Girder+block, data = data_melt))
+anova(lm(value~Girder+treatment, data = data_melt))
 ```
 
 The null hypothesis that there is no effect of the method on the sheer strength of the girder is rejected.
@@ -23,7 +25,7 @@ The null hypothesis that there is no effect of the method on the sheer strength 
 Let us compare the methods pairwise.
 
 ```{r}
-aov_object <- aov(value~Girder+block, data = data_melt)
+aov_object <- aov(value~Girder+treatment, data = data_melt)
 
 # Tukey's method
 PostHocTest(aov_object, method = "hsd")
@@ -38,3 +40,24 @@ PostHocTest(aov_object, method = "bonferroni")
 ```
 
 All methods except Aarau and Cardiff are different from each other according to Bonferroni's method *(at 5\% significance level)*. 
+
+Let us verify if the model assumptions are satisfied.
+
+```{r}
+par(mfrow = c(2,2))
+model <- lm(value~Girder+treatment, data = data_melt)
+plot(model)
+```
+
+
+```{r}
+shapiro.test(model$residuals)
+```
+
+The errors are normally distribued.
+
+```{r}
+bptest(model)
+```
+
+The error variance assumption is also satisfied at a 1\% significance level. There is no strong deviation from the assumption.

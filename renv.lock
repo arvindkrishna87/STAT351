@@ -9,6 +9,16 @@
     ]
   },
   "Packages": {
+    "ACSWR": {
+      "Package": "ACSWR",
+      "Version": "1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "MASS"
+      ],
+      "Hash": "eed0e1d92bbc5aa92a4b17fd3da9cf7c"
+    },
     "DescTools": {
       "Package": "DescTools",
       "Version": "0.99.54",
@@ -1075,6 +1085,17 @@
       ],
       "Hash": "876c618df5ae610be84356d5d7a5d124"
     },
+    "plyr": {
+      "Package": "plyr",
+      "Version": "1.8.9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp"
+      ],
+      "Hash": "6b8177fd19982f0020743fadbfdbd933"
+    },
     "praise": {
       "Package": "praise",
       "Version": "1.0.0",
@@ -1226,6 +1247,19 @@
         "utils"
       ],
       "Hash": "397b7b2a265bc5a7a06852524dabae20"
+    },
+    "reshape2": {
+      "Package": "reshape2",
+      "Version": "1.4.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "plyr",
+        "stringr"
+      ],
+      "Hash": "bb5996d0bd962d214a11140d77589917"
     },
     "rlang": {
       "Package": "rlang",
