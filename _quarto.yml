@@ -17,6 +17,7 @@ book:
     - Rintro.qmd
     - t_test_example.qmd
     - ANOVA.qmd
+    - Multiple_factors.qmd
   appendices: 
     - Assignment A.qmd
     - Assignment B_questions.qmd

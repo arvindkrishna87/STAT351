@@ -1,0 +1,40 @@
+# Multiple factors
+
+## Randomized complete block design (RCBD)
+
+Let us consider an example, where the shear strength of steel plate girders needs to be modeled as a function of the four methods *(treatment)* and nine girders *(blocks)*.
+
+```{r}
+library(ACSWR)
+library(reshape2)
+library(DescTools)
+
+# Visualizing treatment effects
+boxplot(girder[,2:5])
+
+# Melting data to make it suitable to fit a linear regression model
+# using the 'lm' function
+data_melt <- melt(girder, variable.name = "treatment", id = 'Girder')
+anova(lm(value~Girder+block, data = data_melt))
+```
+
+The null hypothesis that there is no effect of the method on the sheer strength of the girder is rejected.
+
+Let us compare the methods pairwise.
+
+```{r}
+aov_object <- aov(value~Girder+block, data = data_melt)
+
+# Tukey's method
+PostHocTest(aov_object, method = "hsd")
+```
+
+All methods are different from each other according to Tukey's method *(at 5\% significance level)*.
+
+
+```{r}
+# Bonferroni's method
+PostHocTest(aov_object, method = "bonferroni")
+```
+
+All methods except Aarau and Cardiff are different from each other according to Bonferroni's method *(at 5\% significance level)*.
