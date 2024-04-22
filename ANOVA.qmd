@@ -44,6 +44,8 @@ The diagnostic plots and statistical tests for checking model assumptions can be
 
 ## Contrasts
 
+### Class comparison
+
 This is an example to use orthogonal contrasts to answer questions of interest. The data `rice_seed_data.csv` consists of the shoot dry weight (in mg) of an experiment to determine the effect of seed treatment by acids on the early growth of rice seeds.
 
 The investigator had several specific questions in mind from the beginning: 
@@ -82,5 +84,36 @@ summary.aov(model,split = list(treatment = list("Control vs acid"=1,
 ```
 
 We conclude that there is no statistically significant difference between the effect of organic acids. However, there is a statistically significant difference between the effect of inorganic and organic acids, and an even higher statistically significant difference between the weight of seeds in the control group and the weight seeds treated with acid.
+
+### Trend comparison
+
+This is an example to identify if there is a linear, quadratic, or higher order relationship between a continuous treatment and the response.
+
+Consider the data `laser_power.csv`, which consists of laser power, and the corresponding strength of the material obtained using a machining process involving the laser. The question to be answered is if there is a linear or quadratic relationship between the laser power and strength of the material.
+
+```{r}
+data <- read.csv('laser_power.csv')
+data$power <- as.factor(data$power)
+
+# Linear contrast
+c1 <- c(-1, 0, 1)
+
+# Quadratic contrast
+c2 <- c(1, -2, 1)
+
+mat.contrast <- cbind(c1, c2)
+model <- aov(strength ~ power, data = data,
+             contrasts = list(power = mat.contrast))
+summary.aov(model, split = list(power = list("linear" = 1,
+                                                 "quadratic" = 2)))
+```
+
+We conclude that there is a linear relationship between laser power and strength. This can be seen visually as well as below.
+
+```{r}
+data$power <- as.integer(substr(data$power,5,8))
+plot(data$power, data$strength)
+abline(lm(strength~power, data = data))
+```
 
 
