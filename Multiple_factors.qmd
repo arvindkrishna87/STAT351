@@ -61,3 +61,20 @@ bptest(model)
 ```
 
 The error variance assumption is also satisfied at a 1\% significance level. There is no strong deviation from the assumption.
+
+
+## Two-way layout
+
+A manufacturer was interested in finding differences in torque values of a lock-nut. The two factors effecting the torque are the type of plating, and whether the locknut is threaded into a bolt or a mandrel. We'll use two-way ANOVA to find if the two factors or their interaction effect the torque.
+
+```{r}
+data <- read.table('bolt.dat.txt', header = TRUE)
+data_melt <- melt(data, variable.name = 'plating', value.name = 'torque')
+head(data_melt)
+anova(lm(torque ~ M.B*plating, data = data_melt))
+#data['plating_bolt'] = apply(data_melt[,1:2], axis = 1, function(x) paste)
+```
+
+The two factors and their interaction significantly effects the torque.
+
+
