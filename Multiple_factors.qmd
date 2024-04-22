@@ -28,7 +28,7 @@ Let us compare the methods pairwise.
 aov_object <- aov(value~Girder+treatment, data = data_melt)
 
 # Tukey's method
-PostHocTest(aov_object, method = "hsd")
+PostHocTest(aov_object, method = "hsd")$treatment
 ```
 
 All methods are different from each other according to Tukey's method *(at 5\% significance level)*.
@@ -36,7 +36,7 @@ All methods are different from each other according to Tukey's method *(at 5\% s
 
 ```{r}
 # Bonferroni's method
-PostHocTest(aov_object, method = "bonferroni")
+PostHocTest(aov_object, method = "bonferroni")$treatment
 ```
 
 All methods except Aarau and Cardiff are different from each other according to Bonferroni's method *(at 5\% significance level)*. 
