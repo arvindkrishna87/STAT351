@@ -4,7 +4,7 @@
 
 Let us consider an example, where the shear strength of steel plate girders needs to be modeled as a function of the four methods *(treatment)* and nine girders *(blocks)*.
 
-```{r}
+```{r, message=FALSE}
 library(ACSWR)
 library(reshape2)
 library(DescTools)
@@ -79,6 +79,14 @@ The two factors and their interaction significantly effects the torque.
 
 ## Two-way layout: Random effects
 
+Ten food items are being tested by 5 judges *(operators)* for quality. Each judge inspects a food item 3 times, and gives a score. Answer the following questions with appropriate analysis:
+
+1. Is there a statistically significant variation in the scores given by judges for the same quality of food? If yes, quantify the variation.
+
+2. Is the variation in the scores given by judges for the same quality of food dependent on the food item?
+
+3. Is there a statistically significant variation in the quality of the food items after removing the variation in scores due to different judges? If yes, quantify the variation.
+
 ```{r}
 data <- read.csv('sensory_data.csv', header = TRUE)
 head(data)
@@ -87,14 +95,21 @@ head(data_melt)
 anova(lm(property~Item*Operator, data = data_melt))
 ```
 
-Let us estimate the item variance:
+Yes, there is a statistically significant variation in the scores given by judges for the same quality of food
+
+The standard deviation in the scores given by judges for the same quality of food is:
 
 ```{r}
-(68.04 - 0.36)/15
+sqrt((6.37 - 0.36)/30)
 ```
 
-Let us estimate the operator variance:
+The variation in the scores given by judges for the same quality of food does not depend on the food item
+
+Yes, there is a statistically significant variation in the quality of the food items after removing the variation in scores due to different judges.
+
+The standard deviation in the scores given food items after removing the variation due to different judges is:
 
 ```{r}
-(6.37 - 0.36)/30
+sqrt((68.04 - 0.36)/15)
 ```
+
