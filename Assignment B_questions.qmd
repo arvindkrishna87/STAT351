@@ -131,7 +131,7 @@ If the manufacturer will replace without charge any battery that fails in less t
 
 ### Q3(c)
 
-If we wish to detect a maximum difference in mean battery life of 10 hours with a probability of at least 0.90, what sample size should be used?
+If we wish to detect a maximum difference in mean battery life of 10 weeks with a probability of at least 0.90, what sample size should be used?
 
 *(4 points)*
 
