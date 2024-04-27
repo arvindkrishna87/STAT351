@@ -58,7 +58,7 @@ Construct a meaningful set of orthogonal contrasts that will be useful to answer
 
 ### Q2(b)
 
-Experiments were conducted based on the design in the previous question, and the results *(average time spent on app per user in minutes)* are given below. Conduct statistically independent tests to answer the 3 questions in 1(a).
+Experiments were conducted based on the design in the previous question, and the results *(average time spent on app per user in minutes)* are given below. Conduct statistically independent tests to answer the 3 questions in 2(a).
 
 | App design A | App design B | App design C | App design D | 
 |----|----|----|----|
