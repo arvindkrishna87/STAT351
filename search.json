@@ -334,14 +334,80 @@
     ]
   },
   {
+    "objectID": "Assignment 3_questions.html",
+    "href": "Assignment 3_questions.html",
+    "title": "Appendix C — Assignment 3",
+    "section": "",
+    "text": "Instructions",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3_questions.html#instructions",
+    "href": "Assignment 3_questions.html#instructions",
+    "title": "Appendix C — Assignment 3",
+    "section": "",
+    "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nMake R code chunks to insert code and type your answer outside the code chunks, in the template provided. Ensure that the solution is written neatly enough to understand and grade.\nQuarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.\nThe assignment is worth 100 points, and is due on 17th May 2024 at 11:59 pm.\nUse a significance level \\(\\alpha = 5\\%\\) in all hypothesis tests, unless otherwise specified.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\n\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (2 pt)\nFinal answers of each question are written clearly (1 pt).\nThe proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (2 pt)\n\n\n10 points will be deducted in case the provided template is not used (for coding / text-answer questions), and/or the template is not rendered using Quarto markdown.\nFor questions involving derivations (Q1, Q4(d) in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.\nTo maintain family-wise error-rate, use Bonferroni’s correction, wherever needed. Do not use Tukey’s correction. This is to ensure consistency and simplicity of solutions.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3_questions.html#robustness-to-interaction-effect",
+    "href": "Assignment 3_questions.html#robustness-to-interaction-effect",
+    "title": "Appendix C — Assignment 3",
+    "section": "1 Robustness to interaction effect",
+    "text": "1 Robustness to interaction effect\nConsider the randomized complete block design, with no replicates. Suppose that there is a significant interaction between the treatments and the blocks. However, if no interaction is assumed between the treatments and the blocks, will the hypothesis test of testing if all treatments are the same hold?\nAnswer this question by considering 2 different cases:\nCase 1: Fixed treatment effect, fixed block effect\nCase 2: Fixed treatment effect, random block effect\nDerive \\(E(MSTr)\\), and \\(E(MSE)\\) in both the cases to argue whether the hypothesis test is robust to the assumption of no interaction in the respective case.\n(10 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3_questions.html#rcbd-without-replicates",
+    "href": "Assignment 3_questions.html#rcbd-without-replicates",
+    "title": "Appendix C — Assignment 3",
+    "section": "2) RCBD (without replicates)",
+    "text": "2) RCBD (without replicates)\nDuring the Covid-19 pandemic, several schools changed their mode of instruction from in-person to virtual or hybrid. As a result, educators decided to test the effect of virtual / hybrid / in-person education on the ACT scores of high school students.\nThe file act_scores1.csv consists of ACT scores of high school students. The average ACT scores are provided for a set of 5 schools randomly selected from all US schools. For each school, the average ACT score is provided for students receiving in-person, virtual, and hybrid education respectively.\nHere the teaching mode (i.e., in-person, virtual, or hybrid) and school are the factors effecting ACT score.\n\n2a) Model\nWrite the model equation with ACT score as the response, and mean ACT score (population mean), teaching mode effects, school effects, and random error, as the independent variables.\n(1 point)\n\n\n2b) Fixed/random effects\nIdentify the teaching mode effect, and school effect as fixed or random. Justify your answer.\n(2 points)\n\n\n2c) School effect\nFind the variance estimate of the school effect.\n(2 points)\n\n\n2d) Teaching mode effect\nFind the variance of the estimate of the difference in any pair of teaching mode effects.\n(2 points)\n\n\n2e) Precision\nUse the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects.\n(2 points)\n\n\n2f) Best teaching mode\nWhich teaching mode is the best for students (consider uncertainties)?\n(1 point)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3_questions.html#rcbd-with-replicates",
+    "href": "Assignment 3_questions.html#rcbd-with-replicates",
+    "title": "Appendix C — Assignment 3",
+    "section": "3) RCBD (with replicates)",
+    "text": "3) RCBD (with replicates)\nSchools may be interacting with the teaching mode to effect the ACT scores. The file act_scores2.csv consists of replicates of average ACT scores for a given school and teaching mode.\nNote: These average ACT scores may be obtained at different period of times for a given school and teaching mode. However, we are not considering the time period as another potential factor effecting the ACT score for simplicity.\n\n3a) Interaction effect\nShould the interaction effect of teaching mode and school on the average ACT score be considered as fixed or random?\n(1 point)\n\n\n3b) Expectation\nWrite the expression for the expected mean teaching-mode sum-of-squares, the expected mean school sum-of-squares, and the expected interaction sum-of-squares. You do not need to show the derivation.\n(3 points)\n\n\n3c) Teaching mode, and School effect\nIs there a statistically significant variation in school effects? Are all the teaching mode effects the same?\nHint: Conduct appropriate hypothesis tests, you will not get the result directly from the ANOVA table. Find the \\(p\\)-value for each test.\n(4 points)\n\n\n3d) Best teaching mode\nWhich teaching mode is the best for students (consider uncertainties)?\n(2 points)\n\n\n3e) Effects variance\nEstimate the variance of the school effect, and the variance of the interaction effect.\n(4 points)\n\n\n3f) Chance\nWhat is the chance that a school with in-person education has a worse average ACT score than a school with virtual education?\nConsider the degrees of freedom of the \\(t\\)-distribution as the minimum of the degrees of freedom of the terms contributing to the variance estimate in the denominator of the \\(t\\)-statistic.\n(4 points)\n\n\n3g) Teaching mode effect\nFind the variance of the estimate of the difference in any pair of teaching mode effects.\n(2 points)\n\n\n3h) Precision\nUse the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects. Did it increase or decrease as compared to that in case of RBCD without replicates [2(e)]? Why?\n(4 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3_questions.html#three-way-anova",
+    "href": "Assignment 3_questions.html#three-way-anova",
+    "title": "Appendix C — Assignment 3",
+    "section": "4) Three-way ANOVA",
+    "text": "4) Three-way ANOVA\nBased on exploratory research, it was found that the income status of a student’s family is likely to effect the ACT score, and it may also interact with the teaching mode and school in effecting the ACT score. To analyze these effects, the average ACT score was collected for students of a given income status, school, and being taught with a particular teaching mode.\nThe file act_scores3.csv consists of average ACT score for a given school, teaching mode, and income status of students. There are no replicates, i.e., there is only one observation for a given school, teaching mode, and income status combination.\n\n4a) Model equation\nWrite the model equation.\n(1 point)\n\n\n4b) Two-factor interactions\nGiven that there are no replicates, will be possible to estimate two-factor interactions? Will it be possible to estimate three-factor interactions? Justify your answers.\n(2 + 2 points)\n\n\n4c) Interaction effect\nAmong the three two-factor interaction effects, which interaction effects are fixed, and which are random?\n(3 points)\n\n\n4d) Expectation\nDerive the expressions for the:\n\nExpected mean teaching-mode sum-of-squares [\\(E(MS_{TM})\\)],\nExpected mean school sum-of-squares [\\(E(MS_{School})\\)],\nExpected mean income sum-of-squares [\\(E(MS_{income})\\)],\nExpected mean sum-of-squares of interaction between teaching mode and school [\\(E(MS_{TM-School})\\)],\nExpected mean sum-of-squares of interaction between teaching mode and income status [\\(E(MS_{TM-income})\\)],\nExpected mean sum-of-squares of interaction between school and income status [\\(E(MS_{School-income})\\)]\n\nAs the derivations will be similar, you are allowed to skip steps, and write expressions directly wherever you can.\n(4 points for writing the model equation, and the equations for the relevant means (\\(y_{ijk}, \\bar{y}_{i..}, \\bar{y}_{.j.}, \\bar{y}_{..k}, \\bar{y}_{ij.}, \\bar{y}_{i.k}, \\bar{y}_{.jk}, \\bar{y}_{...}\\)) - a total of 8 equations)\n(1 point for writing the estimates of the main effects)\n(3 points for writing the estimates of the interaction effects)\n(6 \\(\\times\\) 2 = 12 points for taking expectations and writing the derivations)\n\n\n4e) Teaching mode, and School effect\nWhich two-factor interaction effects, and which main-effects are statistically significant?\nHint:\n\nConduct hypothesis tests, you will not get the result directly from the ANOVA table.\nFor testing the statistical significance of school effects, the denominator of the \\(F\\) statistic will be a linear combination of 3 mean sum-of-squares terms. Use the minimum degrees of freedom of the 3 mean sum-of-squares as the degrees of freedom of the denominator.\n\n(6 points)\n\n\n4f) Effects variance\nEstimate the variance of the school effect, and the variance of the relevant interaction effects.\n(3 points)\n\n\n4g) Teaching mode effect\nFind the variance of the estimates of the difference in any pair of teaching mode effects.\n(2 points)\n\n\n4h) Precision\nUse the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects.\n(2 points)\n\n\n4i) Change in precision\nHas the width of the confidence interval obtained in the previous question reduced as compared to that in 3(h)? If yes, then why? Given the same number of data points in Qs 3 and 4, why will the width reduce in 4(h) as compared to that in 3(h)?\n(4 points)\n\n\n4j) Best teaching method based on income\nWhich is the best teaching method based on the income status of the student, i.e., which is the best teaching method for:\n\nHigh-income students,\nMedium-income students,\nLow-income students.\n\nInclude uncertainties into account, i.e., there may be multiple best teaching methods for students of a given income status.\n(3 \\(\\times\\) 2 = 6 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3</span>"
+    ]
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
-    "title": "Appendix C — Assignment templates and Datasets",
+    "title": "Appendix D — Assignment templates and Datasets",
     "section": "",
     "text": "Assignment templates and datasets used in the class notes can be found here",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment templates and Datasets</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment templates and Datasets</span>"
     ]
   }
 ]
