@@ -21,6 +21,7 @@ book:
   appendices: 
     - Assignment A.qmd
     - Assignment B_questions.qmd
+    - Assignment 3_questions.qmd
     - Datasets.ipynb
 
 bibliography: references.bib
