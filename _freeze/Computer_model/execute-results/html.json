@@ -1,0 +1,16 @@
+{
+  "hash": "af5a61b4fd47304870b4f4d9acc12693",
+  "result": {
+    "markdown": "# Computer model\n\nAssume that the true computer model is the following:\n\n\n::: {.cell}\n\n```{.r .cell-code}\ncurve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))\n```\n\n::: {.cell-output-display}\n![](Computer_model_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n\n\nWe will consider potential methods to replace the computer model above with a meatamodel or a surrogate model.\n\n## Polynomial interpolation\n\nBelow is an example of a $7$-point polynomial interpolator.\n\n\n::: {.cell}\n\n```{.r .cell-code}\ncurve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))\nx=seq(-4,4,length=7)\ny=1/(1+x^2)\nX=as.matrix(cbind(1,x,x^2,x^3,x^4,x^5,x^6))\na=solve(X,y)\na\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n                          x                                           \n 1.000000e+00  1.348921e-15 -4.719098e-01 -2.248202e-16  6.759065e-02 \n                            \n 8.782038e-18 -2.610798e-03 \n```\n:::\n\n```{.r .cell-code}\nu=seq(-4,4,length=100)\nyhat=u\nfor(i in 1:100)\n  yhat[i]=sum(c(1,u[i],u[i]^2,u[i]^3,u[i]^4,u[i]^5,u[i]^6)*a)\nlines(u,yhat, col=2, lty=2, lwd = 2)\npoints(x,y,col=2)\n```\n\n::: {.cell-output-display}\n![](Computer_model_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n\nNotice that the polynomial interpolation model tends to be unstable near the edges, this is called Runge's phenomenon.\n\nThe instability increases as the degree of the polynomial increases. Consider the same example if 9 equally-spaced points are considered, instead of 7.\n\n\n::: {.cell}\n\n```{.r .cell-code}\ncurve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))\nx=seq(-4,4,length=9)\ny=1/(1+x^2)\nX=as.matrix(cbind(1,x,x^2,x^3,x^4,x^5,x^6,x^7,x^8))\na=solve(X,y)\na\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n                          x                                           \n 1.000000e+00  2.469982e-15 -6.611765e-01 -1.110223e-15  1.788235e-01 \n                                                        \n 1.621278e-16 -1.823529e-02 -6.399202e-18  5.882353e-04 \n```\n:::\n\n```{.r .cell-code}\nu=seq(-4,4,length=100)\nyhat=u\nfor(i in 1:100)\n  yhat[i]=sum(c(1,u[i],u[i]^2,u[i]^3,u[i]^4,u[i]^5,u[i]^6, u[i]^7,u[i]^8)*a)\nlines(u,yhat, col='blue', lty=3, lwd = 2)\npoints(x,y,col=\"blue\")\n```\n\n::: {.cell-output-display}\n![](Computer_model_files/figure-html/unnamed-chunk-3-1.png){width=672}\n:::\n:::\n",
+    "supporting": [
+      "Computer_model_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
