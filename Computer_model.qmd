@@ -227,3 +227,107 @@ test=u
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
 
+Note that we assumed the mean $\mu$ to be $\mu = 0$. In case our guess for $\mu$ was incorrect, it would have resulted in a worse model. Let us visualize the fit, and confidence intervals, if our guess for $\mu$ was $\mu = 100$.
+
+```{r}
+curve(f(x),from=0,to=1, ylim = c(-0.75, 0.55))
+points(D,y,pch=4,cex=2)
+E=as.matrix(dist(D, diag=T, upper=T))
+theta=100
+R=exp(-theta*E^2)
+mu=100
+I=diag(n)
+Rinv=solve(R+10^(-10)*I)
+coef=Rinv%*%(y-mu)
+
+basis=function(h)
+  exp(-theta*h^2)
+r=function(x)
+{
+  vec=basis(x-D)
+  return(vec)
+}
+
+fhat=function(x)
+  mu+t(r(x))%*%coef
+
+sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
+f.var=function(x)
+  sigma2*(1-t(r(x))%*%Rinv%*%r(x))
+
+N=1000
+u=seq(0,1,length=N)
+y.pred=y.low=y.high=numeric(N)
+for(i in 1:N)
+{
+  y.pred[i]=fhat(u[i])
+  SD=sqrt(f.var(u[i]))
+  y.low[i]=y.pred[i]-2*SD
+  y.high[i]=y.pred[i]+2*SD
+}
+
+lines(u,y.pred,col=3,lwd=2)
+lines(u,y.low,lty=2,col=2,lwd=2)
+lines(u,y.high,lty=2,col=2,lwd=2)
+```
+
+We observe that the fit is much worse if our guess for the value of $\mu$ is very different from its true value. Thus, in such cases, we should estimate the mean $\mu$ from the data, or use ordinary kriging instead of simple kriging, as shown below.
+
+```{r}
+f=function(x)
+  sin(30*(x-.9)^4)*cos(2*(x-.9))+(x-.9)/2
+
+n=10
+D=seq(0,1,length=n)
+y=f(D)
+curve(f(x),from=0,to=1, ylim= c(-0.75, 0.55))
+points(D,y)
+E=as.matrix(dist(D, diag=T, upper=T))
+theta=100
+R=exp(-theta*E^2)
+one=rep(1,n)
+I=diag(n)
+Rinv=solve(R+10^(-10)*I)
+mu=drop(t(one)%*%Rinv%*%y/(t(one)%*%Rinv%*%one))
+mu
+coef=Rinv%*%(y-mu)
+
+basis=function(h)
+  exp(-theta*h^2)
+r=function(x)
+{
+  vec=basis(x-D)
+  return(vec)
+}
+
+sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
+f.var=function(x)
+{ 
+  fac=1/(one%*%Rinv%*%one)
+  val=sigma2*(1-t(r(x))%*%Rinv%*%r(x)+fac*(1-t(r(x))%*%Rinv%*%one)^2)
+  return(val)
+}
+
+
+fhat=function(x)
+  mu+t(r(x))%*%coef
+N=1000
+u=seq(0,1,length=N)
+y.pred=y.low=y.high=numeric(N)
+for(i in 1:N)
+{
+  y.pred[i]=fhat(u[i])
+  SD=sqrt(f.var(u[i]))
+  y.low[i]=y.pred[i]-2*SD
+  y.high[i]=y.pred[i]+2*SD
+}
+
+lines(u,y.pred,col=3,lwd=2)
+lines(u,y.low,lty=2,col=2,lwd=2)
+lines(u,y.high,lty=2,col=2,lwd=2)
+test=u
+
+# RMSE
+sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
+```
+
