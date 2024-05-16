@@ -171,4 +171,59 @@ for(i in 1:10)
   lines(x,R.sqrt%*%rnorm(N),col=i)
 ```
 
+## Simple Kriging
+
+Let us use simple kriging to develop a metamodel for the following one dimentional computer model, and visualize the fit, along with uncertainty.
+
+```{r}
+# Computer model
+f=function(x)
+  sin(30*(x-.9)^4)*cos(2*(x-.9))+(x-.9)/2
+
+n=10
+D=seq(0,1,length=n)
+y=f(D)
+curve(f(x),from=0,to=1, ylim = c(-0.75, 0.55))
+points(D,y,pch=4,cex=2)
+E=as.matrix(dist(D, diag=T, upper=T))
+theta=100
+R=exp(-theta*E^2)
+mu=0
+I=diag(n)
+Rinv=solve(R+10^(-10)*I)
+coef=Rinv%*%(y-mu)
+
+basis=function(h)
+  exp(-theta*h^2)
+r=function(x)
+{
+  vec=basis(x-D)
+  return(vec)
+}
+
+fhat=function(x)
+  mu+t(r(x))%*%coef
+
+sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
+f.var=function(x)
+  sigma2*(1-t(r(x))%*%Rinv%*%r(x))
+
+N=1000
+u=seq(0,1,length=N)
+y.pred=y.low=y.high=numeric(N)
+for(i in 1:N)
+{
+  y.pred[i]=fhat(u[i])
+  SD=sqrt(f.var(u[i]))
+  y.low[i]=y.pred[i]-2*SD
+  y.high[i]=y.pred[i]+2*SD
+}
+
+lines(u,y.pred,col=3,lwd=2)
+lines(u,y.low,lty=2,col=2,lwd=2)
+lines(u,y.high,lty=2,col=2,lwd=2)
+test=u
+# RMSE
+sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
+```
 
