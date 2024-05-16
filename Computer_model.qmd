@@ -104,7 +104,13 @@ plot(x,y,"l", ylim=c(-3,3))
 
 Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.
 
-The reason why the above realization of a computer model is not smooth is because the response values are not correlated. For smooth functions, adjacent points $y(x)$ and $y(x + \Delta)$ should be positively correlated.
+The reason why the above realization of a computer model is not smooth is because the response values are not correlated. The sample paths for the above random function follow the multivariate normal distribution with the identity matrix as the covariance matrix, i.e.,
+
+$\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I})$, 
+
+where $\textbf{I}$ is the $100 \times 100$ identity matrix. 
+
+For smooth functions, adjacent points $y(x)$ and $y(x + \Delta)$ should be positively correlated.
 
 Let us introduce correlation between response values to make the realizations of the computer models more smooth.
 
@@ -112,28 +118,28 @@ Let us assume that the response values have an underlying multivariate normal di
 
 For example, consider the covariance matrix $R$. where:
 
-$$R = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}$$
+$$\textbf{R} = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}$$
 In the above correlation function, we can control the flexibility by changing the value of $\theta$. The higher the value of $\theta$, the lesser is the correlation between the response values, for a given distance between inputs, and the higher is the flexibility of the function. Thus, this correlation function can provide the desired level of flexibility while also providing smoothness in the function. 
 
 Then, 
 
-$$y \sim N(0, R)$$
+$$\textbf{y} \sim N(0, \textbf{R})$$
 Let us visualize 10 realizations from the above random function to see the smoothness.
 
-If $z \sim N(0, 1)$, then $y = R^{(1/2)}z $.
+If $\textbf{z} \sim N(\textbf{0}, \textbf{I})$, then $\textbf{y} = \textbf{R}^{1/2}\textbf{z}$.
 
-Proof:
-Given $y = R^{1/2}z$,
+**Proof:**
+Given $y = \textbf{R}^{1/2}\textbf{z}$,
 
-$E(y) = R^{1/2}E(z) = 0$
+$E(\textbf{y}) = \textbf{R}^{1/2}E(\textbf{z}) = 0$
 
-$Var(y) = Var(R^{1/2}z)$
+$Var(y) = Var(\textbf{R}^{1/2}\textbf{z})$
 
-$\implies Var(y) = R^{1/2}Var(z)R^{1/2})$
+$\implies Var(\textbf{y}) = \textbf{R}^{1/2}Var(\textbf{z})R^{1/2})$
 
-$\implies Var(y) = R^{1/2}IR^{1/2})$
+$\implies Var(\textbf{y}) = \textbf{R}^{1/2}\textbf{I}\textbf{R}^{1/2})$
 
-$\implies Var(y) = R$
+$\implies Var(\textbf{y}) = \textbf{R}$
 
 ```{r}
 E=as.matrix(dist(x, diag=T, ,upper=T))
@@ -141,12 +147,12 @@ E=as.matrix(dist(x, diag=T, ,upper=T))
 # Correlation matrix R
 R=exp(-0.5*E^2)
 eig=eigen(R)
-R=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
+R.sqrt=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
 z=rnorm(N)
-y=R%*%z
+y=R.sqrt%*%z
 plot(x,y,"l", ylim=c(-3,3))
 for(i in 1:10)
-  lines(x,R%*%rnorm(N),col=i)
+  lines(x,R.sqrt%*%rnorm(N),col=i)
 ```
 
 We can increase the flexibility by increasing the value of the correlation parameter $\theta$ to say $\theta = 5$, as shown below.
@@ -157,12 +163,12 @@ E=as.matrix(dist(x, diag=T, ,upper=T))
 # Correlation matrix R
 R=exp(-5*E^2)
 eig=eigen(R)
-R=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
+R.sqrt=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
 z=rnorm(N)
-y=R%*%z
+y=R.sqrt%*%z
 plot(x,y,"l", ylim=c(-3,3))
 for(i in 1:10)
-  lines(x,R%*%rnorm(N),col=i)
+  lines(x,R.sqrt%*%rnorm(N),col=i)
 ```
 
 
