@@ -273,6 +273,10 @@ lines(u,y.high,lty=2,col=2,lwd=2)
 
 We observe that the fit is much worse if our guess for the value of $\mu$ is very different from its true value. Thus, in such cases, we should estimate the mean $\mu$ from the data, or use ordinary kriging instead of simple kriging, as shown below.
 
+## Ordinary Kriging
+
+In ordinary kriging, we assume that we don't know the value of $\mu$, and estimate it from the data.
+
 ```{r}
 f=function(x)
   sin(30*(x-.9)^4)*cos(2*(x-.9))+(x-.9)/2
@@ -289,7 +293,17 @@ one=rep(1,n)
 I=diag(n)
 Rinv=solve(R+10^(-10)*I)
 mu=drop(t(one)%*%Rinv%*%y/(t(one)%*%Rinv%*%one))
+```
+
+The estimated value of $\mu$ from the data is:
+
+```{r}
 mu
+```
+
+Let us use it to fit the ordinary kriging model.
+
+```{r}
 coef=Rinv%*%(y-mu)
 
 basis=function(h)
@@ -307,7 +321,6 @@ f.var=function(x)
   val=sigma2*(1-t(r(x))%*%Rinv%*%r(x)+fac*(1-t(r(x))%*%Rinv%*%one)^2)
   return(val)
 }
-
 
 fhat=function(x)
   mu+t(r(x))%*%coef
@@ -330,4 +343,6 @@ test=u
 # RMSE
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
+
+
 
