@@ -410,32 +410,35 @@ window.Quarto = {
 </div>
 </div>
 <p>Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.</p>
-<p>The reason why the above realization of a computer model is not smooth is because the response values are not correlated. For smooth functions, adjacent points <span class="math inline">\(y(x)\)</span> and <span class="math inline">\(y(x + \Delta)\)</span> should be positively correlated.</p>
+<p>The reason why the above realization of a computer model is not smooth is because the response values are not correlated. The sample paths for the above random function follow the multivariate normal distribution with the identity matrix as the covariance matrix, i.e.,</p>
+<p><span class="math inline">\(\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I})\)</span>,</p>
+<p>where <span class="math inline">\(\textbf{I}\)</span> is the <span class="math inline">\(100 \times 100\)</span> identity matrix.</p>
+<p>For smooth functions, adjacent points <span class="math inline">\(y(x)\)</span> and <span class="math inline">\(y(x + \Delta)\)</span> should be positively correlated.</p>
 <p>Let us introduce correlation between response values to make the realizations of the computer models more smooth.</p>
 <p>Let us assume that the response values have an underlying multivariate normal distribution, with a covariance matrix that is not the diagonal matrix.</p>
 <p>For example, consider the covariance matrix <span class="math inline">\(R\)</span>. where:</p>
-<p><span class="math display">\[R = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}\]</span> In the above correlation function, we can control the flexibility by changing the value of <span class="math inline">\(\theta\)</span>. The higher the value of <span class="math inline">\(\theta\)</span>, the lesser is the correlation between the response values, for a given distance between inputs, and the higher is the flexibility of the function. Thus, this correlation function can provide the desired level of flexibility while also providing smoothness in the function.</p>
+<p><span class="math display">\[\textbf{R} = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}\]</span> In the above correlation function, we can control the flexibility by changing the value of <span class="math inline">\(\theta\)</span>. The higher the value of <span class="math inline">\(\theta\)</span>, the lesser is the correlation between the response values, for a given distance between inputs, and the higher is the flexibility of the function. Thus, this correlation function can provide the desired level of flexibility while also providing smoothness in the function.</p>
 <p>Then,</p>
-<p><span class="math display">\[y \sim N(0, R)\]</span> Let us visualize 10 realizations from the above random function to see the smoothness.</p>
-<p>If <span class="math inline">\(z \sim N(0, 1)\)</span>, then $y = R^{(1/2)}z $.</p>
-<p>Proof: Given <span class="math inline">\(y = R^{1/2}z\)</span>,</p>
-<p><span class="math inline">\(E(y) = R^{1/2}E(z) = 0\)</span></p>
-<p><span class="math inline">\(Var(y) = Var(R^{1/2}z)\)</span></p>
-<p><span class="math inline">\(\implies Var(y) = R^{1/2}Var(z)R^{1/2})\)</span></p>
-<p><span class="math inline">\(\implies Var(y) = R^{1/2}IR^{1/2})\)</span></p>
-<p><span class="math inline">\(\implies Var(y) = R\)</span></p>
+<p><span class="math display">\[\textbf{y} \sim N(0, \textbf{R})\]</span> Let us visualize 10 realizations from the above random function to see the smoothness.</p>
+<p>If <span class="math inline">\(\textbf{z} \sim N(\textbf{0}, \textbf{I})\)</span>, then <span class="math inline">\(\textbf{y} = \textbf{R}^{1/2}\textbf{z}\)</span>.</p>
+<p><strong>Proof:</strong> Given <span class="math inline">\(y = \textbf{R}^{1/2}\textbf{z}\)</span>,</p>
+<p><span class="math inline">\(E(\textbf{y}) = \textbf{R}^{1/2}E(\textbf{z}) = 0\)</span></p>
+<p><span class="math inline">\(Var(y) = Var(\textbf{R}^{1/2}\textbf{z})\)</span></p>
+<p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}^{1/2}Var(\textbf{z})R^{1/2})\)</span></p>
+<p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}^{1/2}\textbf{I}\textbf{R}^{1/2})\)</span></p>
+<p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}\)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(x, <span class="at">diag=</span>T, ,<span class="at">upper=</span>T))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation matrix R</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>eig<span class="ot">=</span><span class="fu">eigen</span>(R)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>R.sqrt<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">rnorm</span>(N)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R<span class="sc">%*%</span>z</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R.sqrt<span class="sc">%*%</span>z</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R.sqrt<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -451,12 +454,12 @@ window.Quarto = {
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation matrix R</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>eig<span class="ot">=</span><span class="fu">eigen</span>(R)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>R.sqrt<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">rnorm</span>(N)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R<span class="sc">%*%</span>z</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R.sqrt<span class="sc">%*%</span>z</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R.sqrt<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
