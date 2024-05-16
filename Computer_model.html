@@ -257,6 +257,7 @@ window.Quarto = {
   <li><a href="#splines" id="toc-splines" class="nav-link" data-scroll-target="#splines"><span class="header-section-number">5.2</span> Splines</a></li>
   <li><a href="#random-functions" id="toc-random-functions" class="nav-link" data-scroll-target="#random-functions"><span class="header-section-number">5.3</span> Random functions</a></li>
   <li><a href="#simple-kriging" id="toc-simple-kriging" class="nav-link" data-scroll-target="#simple-kriging"><span class="header-section-number">5.4</span> Simple Kriging</a></li>
+  <li><a href="#ordinary-kriging" id="toc-ordinary-kriging" class="nav-link" data-scroll-target="#ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</a></li>
   </ul>
 </nav>
     </div>
@@ -412,7 +413,7 @@ window.Quarto = {
 </div>
 <p>Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.</p>
 <p>The reason why the above realization of a computer model is not smooth is because the response values are not correlated. The sample paths for the above random function follow the multivariate normal distribution with the identity matrix as the covariance matrix, i.e.,</p>
-<p><span class="math inline">\(\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I})\)</span>,</p>
+<p><span class="math display">\[\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I}),\]</span></p>
 <p>where <span class="math inline">\(\textbf{I}\)</span> is the <span class="math inline">\(100 \times 100\)</span> identity matrix.</p>
 <p>For smooth functions, adjacent points <span class="math inline">\(y(x)\)</span> and <span class="math inline">\(y(x + \Delta)\)</span> should be positively correlated.</p>
 <p>Let us introduce correlation between response values to make the realizations of the computer models more smooth.</p>
@@ -424,7 +425,7 @@ window.Quarto = {
 <p>If <span class="math inline">\(\textbf{z} \sim N(\textbf{0}, \textbf{I})\)</span>, then <span class="math inline">\(\textbf{y} = \textbf{R}^{1/2}\textbf{z}\)</span>.</p>
 <p><strong>Proof:</strong> Given <span class="math inline">\(y = \textbf{R}^{1/2}\textbf{z}\)</span>,</p>
 <p><span class="math inline">\(E(\textbf{y}) = \textbf{R}^{1/2}E(\textbf{z}) = 0\)</span></p>
-<p><span class="math inline">\(Var(y) = Var(\textbf{R}^{1/2}\textbf{z})\)</span></p>
+<p><span class="math inline">\(Var(\textbf{y}) = Var(\textbf{R}^{1/2}\textbf{z})\)</span></p>
 <p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}^{1/2}Var(\textbf{z})R^{1/2})\)</span></p>
 <p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}^{1/2}\textbf{I}\textbf{R}^{1/2})\)</span></p>
 <p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}\)</span></p>
@@ -582,63 +583,26 @@ window.Quarto = {
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.501507</code></pre>
+</div>
 </div>
 <p>We observe that the fit is much worse if our guess for the value of <span class="math inline">\(\mu\)</span> is very different from its true value. Thus, in such cases, we should estimate the mean <span class="math inline">\(\mu\)</span> from the data, or use ordinary kriging instead of simple kriging, as shown below.</p>
+</section>
+<section id="ordinary-kriging" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</h2>
+<p>In ordinary kriging, we assume that we don’t know the value of <span class="math inline">\(\mu\)</span>, and estimate it from the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f<span class="ot">=</span><span class="cf">function</span>(x)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sin</span>(<span class="dv">30</span><span class="sc">*</span>(x<span class="fl">-.9</span>)<span class="sc">^</span><span class="dv">4</span>)<span class="sc">*</span><span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>(x<span class="fl">-.9</span>))<span class="sc">+</span>(x<span class="fl">-.9</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">10</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>D<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>n)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">f</span>(D)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(D, <span class="at">diag=</span>T, <span class="at">upper=</span>T))</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">100</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>one<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span>,n)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)<span class="sc">*</span>I)</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="fu">drop</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>y<span class="sc">/</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one))</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.1229525</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>basis<span class="ot">=</span><span class="cf">function</span>(h)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>h<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>r<span class="ot">=</span><span class="cf">function</span>(x)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  vec<span class="ot">=</span><span class="fu">basis</span>(x<span class="sc">-</span>D)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(vec)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>f.var<span class="ot">=</span><span class="cf">function</span>(x)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>{ </span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  fac<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(one<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  val<span class="ot">=</span>sigma2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span><span class="fu">r</span>(x)<span class="sc">+</span>fac<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(val)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>fhat<span class="ot">=</span><span class="cf">function</span>(x)</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  mu<span class="sc">+</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>coef</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">1000</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>u<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>N)</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>y.pred<span class="ot">=</span>y.low<span class="ot">=</span>y.high<span class="ot">=</span><span class="fu">numeric</span>(N)</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>f<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sin</span>(<span class="dv">30</span><span class="sc">*</span>(x<span class="fl">-.9</span>)<span class="sc">^</span><span class="dv">4</span>)<span class="sc">*</span><span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>(x<span class="fl">-.9</span>))<span class="sc">+</span>(x<span class="fl">-.9</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">10</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>D<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>n)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">f</span>(D)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -646,10 +610,69 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>test<span class="ot">=</span>u</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(D, <span class="at">diag=</span>T, <span class="at">upper=</span>T))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>one<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span>,n)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)<span class="sc">*</span>I)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="fu">drop</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>y<span class="sc">/</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The estimated value of <span class="math inline">\(\mu\)</span> from the data is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.1229525</code></pre>
+</div>
+</div>
+<p>Let us use it to fit the ordinary kriging model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>basis<span class="ot">=</span><span class="cf">function</span>(h)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>h<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>r<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  vec<span class="ot">=</span><span class="fu">basis</span>(x<span class="sc">-</span>D)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(vec)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>f.var<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>{ </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  fac<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(one<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  val<span class="ot">=</span>sigma2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span><span class="fu">r</span>(x)<span class="sc">+</span>fac<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(val)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>fhat<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  mu<span class="sc">+</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>coef</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">1000</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>u<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>N)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>y.pred<span class="ot">=</span>y.low<span class="ot">=</span>y.high<span class="ot">=</span><span class="fu">numeric</span>(N)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>test<span class="ot">=</span>u</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.09235139</code></pre>
 </div>
