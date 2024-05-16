@@ -91,7 +91,7 @@ y=b[1]+b[2]*x+b[3]*x^2
 lines(x,y,"l",col=i)}
 ```
 
-We want a more flexible random function, so that the computer model corresponds to a realization from that random function.
+We want a more flexible random function, so that a flexible computer model could correspond to a realization from that random function.
 
 Suppose $y(x_i) \sim N(0, \sigma^2)$. Let us plot a realization of this model for $\sigma^2 = 1$.
 
@@ -103,6 +103,22 @@ plot(x,y,"l", ylim=c(-3,3))
 ```
 
 Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.
+
+The reason why the above realization of a computer model is not smooth is because the response values are not correlated. For smooth functions, adjacent points $y(x)$ and $y(x + \Delta)$ should be positively correlated.
+
+Let us introduce correlation between response values to make the realizations of the computer models more smooth.
+
+Let us assume that the response values have an underlying multivariate normal distribution, with a covariance matrix that is not the diagonal matrix.
+
+For example, consider the covariance matrix $R$. where:
+
+$$R = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}$$
+In the above correlation function, we can control the flexibility by changing the value of $\theta$. The higher the value of $\theta$, the lesser is the correlation between the response values, for a given distance between inputs, and the higher is the flexibility of the function. Thus, this correlation function can provide the desired level of flexibility while also providing smoothness in the function. 
+
+Then, 
+
+$$y \sim N(0, R)$$
+Let us visualize 10 realizations from the above random function to see the smoothness.
 
 ```{r}
 E=as.matrix(dist(x, diag=T, ,upper=T))
