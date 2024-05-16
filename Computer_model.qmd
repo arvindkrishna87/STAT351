@@ -6,7 +6,7 @@ Assume that the true computer model is the following:
 curve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))
 ```
 
-We will consider potential methods to replace the computer model above with a meatamodel or a surrogate model.
+We will consider potential methods to replace the computer model above with a metamodel or a surrogate model.
 
 ## Polynomial interpolation
 
@@ -43,6 +43,78 @@ for(i in 1:100)
 lines(u,yhat, col='blue', lty=3, lwd = 2)
 points(x,y,col="blue")
 ```
+
+## Splines
+
+Let us consider splines as the metamodel to replace the same computer model considered above.
+
+```{r}
+curve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))
+
+# Splines with 7 points
+
+x=seq(-4,4,length=7)
+y=1/(1+x^2)
+points(x,y,col=2)
+a=splinefun(x,y,method="natural")
+curve(a,add=T,col=2, lwd = 2)
+
+# Splines with 9 points
+
+x=seq(-4,4,length=9)
+y=1/(1+x^2)
+points(x,y, pch=3,col=3)
+a=splinefun(x,y,method="natural")
+curve(a,add=T,col=3, lty=2, lwd = 2)
+```
+
+We observe that splines fit the points smoothly, which is desired. However, splines do not scale up and are difficult to fit in case of higher dimensions.
+
+
+## Random functions
+
+We will now adopt a statistical approach to replace the computer model with a metamodel, where we view the deterministic computer model as a realization from a stochastic process.
+
+Let us consider quadratic functions as the random functions to develop the metamodel.
+
+```{r}
+x=seq(-1,1,length=10)
+b=rnorm(3)
+y=b[1]+b[2]*x+b[3]*x^2
+plot(x,y,"l", ylim=c(-3,3))
+b=rnorm(3)
+y=b[1]+b[2]*x+b[3]*x^2
+lines(x,y,"l")
+for(i in 1:10)
+{b=rnorm(3)
+y=b[1]+b[2]*x+b[3]*x^2
+lines(x,y,"l",col=i)}
+```
+
+We want a more flexible random function, so that the computer model corresponds to a realization from that random function.
+
+Suppose $y(x_i) \sim N(0, \sigma^2)$. Let us plot a realization of this model for $\sigma^2 = 1$.
+
+```{r}
+N=100
+x=seq(-1,1,length=N)
+y=rnorm(N)
+plot(x,y,"l", ylim=c(-3,3))
+```
+
+Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.
+
+```{r}
+E=as.matrix(dist(x, diag=T, ,upper=T))
+Sigma=exp(-0.5*E^2)
+eig=eigen(Sigma)
+Sigma.sqrt=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
+z=Sigma.sqrt%*%y
+plot(x,z,"l", ylim=c(-3,3))
+for(i in 1:10)
+  lines(x,Sigma.sqrt%*%rnorm(N),col=i)
+```
+
 
 
 
