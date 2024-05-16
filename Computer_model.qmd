@@ -293,15 +293,6 @@ Let us use it to fit the ordinary kriging model.
 
 ```{r}
 coef=Rinv%*%(y-mu)
-
-basis=function(h)
-  exp(-theta*h^2)
-r=function(x)
-{
-  vec=basis(x-D)
-  return(vec)
-}
-
 sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
 f.var=function(x)
 { 
@@ -310,11 +301,6 @@ f.var=function(x)
   return(val)
 }
 
-fhat=function(x)
-  mu+t(r(x))%*%coef
-N=1000
-u=seq(0,1,length=N)
-y.pred=y.low=y.high=numeric(N)
 for(i in 1:N)
 {
   y.pred[i]=fhat(u[i])
