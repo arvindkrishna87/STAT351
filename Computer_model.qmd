@@ -280,20 +280,6 @@ We observe that the fit is much worse if our guess for the value of $\mu$ is ver
 In ordinary kriging, we assume that we don't know the value of $\mu$, and estimate it from the data.
 
 ```{r}
-f=function(x)
-  sin(30*(x-.9)^4)*cos(2*(x-.9))+(x-.9)/2
-
-n=10
-D=seq(0,1,length=n)
-y=f(D)
-curve(f(x),from=0,to=1, ylim= c(-0.75, 0.55))
-points(D,y)
-E=as.matrix(dist(D, diag=T, upper=T))
-theta=100
-R=exp(-theta*E^2)
-one=rep(1,n)
-I=diag(n)
-Rinv=solve(R+10^(-10)*I)
 mu=drop(t(one)%*%Rinv%*%y/(t(one)%*%Rinv%*%one))
 ```
 
