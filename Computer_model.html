@@ -394,7 +394,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>We want a more flexible random function, so that the computer model corresponds to a realization from that random function.</p>
+<p>We want a more flexible random function, so that a flexible computer model could correspond to a realization from that random function.</p>
 <p>Suppose <span class="math inline">\(y(x_i) \sim N(0, \sigma^2)\)</span>. Let us plot a realization of this model for <span class="math inline">\(\sigma^2 = 1\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">100</span></span>
@@ -410,6 +410,13 @@ window.Quarto = {
 </div>
 </div>
 <p>Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.</p>
+<p>The reason why the above realization of a computer model is not smooth is because the response values are not correlated. For smooth functions, adjacent points <span class="math inline">\(y(x)\)</span> and <span class="math inline">\(y(x + \Delta)\)</span> should be positively correlated.</p>
+<p>Let us introduce correlation between response values to make the realizations of the computer models more smooth.</p>
+<p>Let us assume that the response values have an underlying multivariate normal distribution, with a covariance matrix that is not the diagonal matrix.</p>
+<p>For example, consider the covariance matrix <span class="math inline">\(R\)</span>. where:</p>
+<p><span class="math display">\[R = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}\]</span> In the above correlation function, we can control the flexibility by changing the value of <span class="math inline">\(\theta\)</span>. The higher the value of <span class="math inline">\(\theta\)</span>, the lesser is the correlation between the response values, for a given distance between inputs, and the higher is the flexibility of the function. Thus, this correlation function can provide the desired level of flexibility while also providing smoothness in the function.</p>
+<p>Then,</p>
+<p><span class="math display">\[y \sim N(0, R)\]</span> Let us visualize 10 realizations from the above random function to see the smoothness.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(x, <span class="at">diag=</span>T, ,<span class="at">upper=</span>T))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Sigma<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
