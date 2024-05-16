@@ -120,15 +120,33 @@ Then,
 $$y \sim N(0, R)$$
 Let us visualize 10 realizations from the above random function to see the smoothness.
 
+If $z \sim N(0, 1)$, then $y = R^{(1/2)}z $.
+
+Proof:
+Given $y = R^{1/2}z$,
+
+$E(y) = R^{1/2}E(z) = 0$
+
+$Var(y) = Var(R^{1/2}z)$
+
+$\implies Var(y) = R^{1/2}Var(z)R^{1/2})$
+
+$\implies Var(y) = R^{1/2}IR^{1/2})$
+
+$\implies Var(y) = R$
+
 ```{r}
 E=as.matrix(dist(x, diag=T, ,upper=T))
-Sigma=exp(-0.5*E^2)
-eig=eigen(Sigma)
-Sigma.sqrt=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
-z=Sigma.sqrt%*%y
-plot(x,z,"l", ylim=c(-3,3))
+
+# Correlation matrix R
+R=exp(-0.5*E^2)
+eig=eigen(R)
+R=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)
+z=rnorm(N)
+y=R%*%z
+plot(x,y,"l", ylim=c(-3,3))
 for(i in 1:10)
-  lines(x,Sigma.sqrt%*%rnorm(N),col=i)
+  lines(x,R%*%rnorm(N),col=i)
 ```
 
 
