@@ -444,6 +444,27 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>We can increase the flexibility by increasing the value of the correlation parameter <span class="math inline">\(\theta\)</span> to say <span class="math inline">\(\theta = 5\)</span>, as shown below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(x, <span class="at">diag=</span>T, ,<span class="at">upper=</span>T))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation matrix R</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>eig<span class="ot">=</span><span class="fu">eigen</span>(R)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">rnorm</span>(N)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R<span class="sc">%*%</span>z</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
