@@ -137,6 +137,8 @@ $Var(\textbf{y}) = Var(\textbf{R}^{1/2}\textbf{z})$
 
 $\implies Var(\textbf{y}) = \textbf{R}^{1/2}Var(\textbf{z})R^{1/2})$
 
+*(Refer to equation 313 in the [matrix cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf))*
+
 $\implies Var(\textbf{y}) = \textbf{R}^{1/2}\textbf{I}\textbf{R}^{1/2})$
 
 $\implies Var(\textbf{y}) = \textbf{R}$
