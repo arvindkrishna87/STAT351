@@ -106,7 +106,7 @@ Although the function does seem to be flexible, it is not smooth. We want to hav
 
 The reason why the above realization of a computer model is not smooth is because the response values are not correlated. The sample paths for the above random function follow the multivariate normal distribution with the identity matrix as the covariance matrix, i.e.,
 
-$\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I})$, 
+$$\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I}),$$ 
 
 where $\textbf{I}$ is the $100 \times 100$ identity matrix. 
 
@@ -133,7 +133,7 @@ Given $y = \textbf{R}^{1/2}\textbf{z}$,
 
 $E(\textbf{y}) = \textbf{R}^{1/2}E(\textbf{z}) = 0$
 
-$Var(y) = Var(\textbf{R}^{1/2}\textbf{z})$
+$Var(\textbf{y}) = Var(\textbf{R}^{1/2}\textbf{z})$
 
 $\implies Var(\textbf{y}) = \textbf{R}^{1/2}Var(\textbf{z})R^{1/2})$
 
@@ -269,6 +269,8 @@ for(i in 1:N)
 lines(u,y.pred,col=3,lwd=2)
 lines(u,y.low,lty=2,col=2,lwd=2)
 lines(u,y.high,lty=2,col=2,lwd=2)
+# RMSE
+sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
 
 We observe that the fit is much worse if our guess for the value of $\mu$ is very different from its true value. Thus, in such cases, we should estimate the mean $\mu$ from the data, or use ordinary kriging instead of simple kriging, as shown below.
