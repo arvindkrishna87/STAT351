@@ -210,6 +210,16 @@
     ]
   },
   {
+    "objectID": "Computer_model.html#simple-kriging",
+    "href": "Computer_model.html#simple-kriging",
+    "title": "5  Computer model",
+    "section": "5.4 Simple Kriging",
+    "text": "5.4 Simple Kriging\nLet us use simple kriging to develop a metamodel for the following one dimentional computer model, and visualize the fit, along with uncertainty.\n\n# Computer model\nf=function(x)\n  sin(30*(x-.9)^4)*cos(2*(x-.9))+(x-.9)/2\n\nn=10\nD=seq(0,1,length=n)\ny=f(D)\ncurve(f(x),from=0,to=1, ylim = c(-0.75, 0.55))\npoints(D,y,pch=4,cex=2)\nE=as.matrix(dist(D, diag=T, upper=T))\ntheta=100\nR=exp(-theta*E^2)\nmu=0\nI=diag(n)\nRinv=solve(R+10^(-10)*I)\ncoef=Rinv%*%(y-mu)\n\nbasis=function(h)\n  exp(-theta*h^2)\nr=function(x)\n{\n  vec=basis(x-D)\n  return(vec)\n}\n\nfhat=function(x)\n  mu+t(r(x))%*%coef\n\nsigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))\nf.var=function(x)\n  sigma2*(1-t(r(x))%*%Rinv%*%r(x))\n\nN=1000\nu=seq(0,1,length=N)\ny.pred=y.low=y.high=numeric(N)\nfor(i in 1:N)\n{\n  y.pred[i]=fhat(u[i])\n  SD=sqrt(f.var(u[i]))\n  y.low[i]=y.pred[i]-2*SD\n  y.high[i]=y.pred[i]+2*SD\n}\n\nlines(u,y.pred,col=3,lwd=2)\nlines(u,y.low,lty=2,col=2,lwd=2)\nlines(u,y.high,lty=2,col=2,lwd=2)\n\n\n\n\n\n\n\ntest=u\n# RMSE\nsqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))\n\n[1] 0.09318819",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Computer model</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",
