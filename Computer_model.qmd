@@ -280,6 +280,7 @@ We observe that the fit is much worse if our guess for the value of $\mu$ is ver
 In ordinary kriging, we assume that we don't know the value of $\mu$, and estimate it from the data.
 
 ```{r}
+one=rep(1,n)
 mu=drop(t(one)%*%Rinv%*%y/(t(one)%*%Rinv%*%one))
 ```
 
