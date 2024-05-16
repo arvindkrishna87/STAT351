@@ -1,0 +1,33 @@
+# Computer model
+
+Assume that the true computer model is the following:
+
+```{r}
+curve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))
+```
+
+We will consider potential methods to replace the computer model above with a meatamodel or a surrogate model.
+
+## Polynomial interpolation
+
+Below is an example of a $7$-point polynomial interpolator.
+
+```{r}
+x=seq(-4,4,length=7)
+y=1/(1+x^2)
+X=as.matrix(cbind(1,x,x^2,x^3,x^4,x^5,x^6))
+a=solve(X,y)
+a
+u=seq(-4,4,length=100)
+yhat=u
+for(i in 1:100)
+  yhat[i]=sum(c(1,u[i],u[i]^2,u[i]^3,u[i]^4,u[i]^5,u[i]^6)*a)
+lines(u,yhat, col=2, lty=2, lwd = 2)
+points(x,y,col=2)
+```
+
+Notice that the polynomial interpolation model tends to be unstable near the edges, this is called Runge's phenomenon.
+
+
+
+
