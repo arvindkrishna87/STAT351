@@ -190,6 +190,26 @@
     ]
   },
   {
+    "objectID": "Computer_model.html#splines",
+    "href": "Computer_model.html#splines",
+    "title": "5  Computer model",
+    "section": "5.2 Splines",
+    "text": "5.2 Splines\nLet us consider splines as the metamodel to replace the same computer model considered above.\n\ncurve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))\n\n# Splines with 7 points\n\nx=seq(-4,4,length=7)\ny=1/(1+x^2)\npoints(x,y,col=2)\na=splinefun(x,y,method=\"natural\")\ncurve(a,add=T,col=2, lwd = 2)\n\n# Splines with 9 points\n\nx=seq(-4,4,length=9)\ny=1/(1+x^2)\npoints(x,y, pch=3,col=3)\na=splinefun(x,y,method=\"natural\")\ncurve(a,add=T,col=3, lty=2, lwd = 2)\n\n\n\n\n\n\n\n\nWe observe that splines fit the points smoothly, which is desired. However, splines do not scale up and are difficult to fit in case of higher dimensions.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Computer model</span>"
+    ]
+  },
+  {
+    "objectID": "Computer_model.html#random-functions",
+    "href": "Computer_model.html#random-functions",
+    "title": "5  Computer model",
+    "section": "5.3 Random functions",
+    "text": "5.3 Random functions\nWe will now adopt a statistical approach to replace the computer model with a metamodel, where we view the deterministic computer model as a realization from a stochastic process.\nLet us consider quadratic functions as the random functions to develop the metamodel.\n\nx=seq(-1,1,length=10)\nb=rnorm(3)\ny=b[1]+b[2]*x+b[3]*x^2\nplot(x,y,\"l\", ylim=c(-3,3))\nb=rnorm(3)\ny=b[1]+b[2]*x+b[3]*x^2\nlines(x,y,\"l\")\nfor(i in 1:10)\n{b=rnorm(3)\ny=b[1]+b[2]*x+b[3]*x^2\nlines(x,y,\"l\",col=i)}\n\n\n\n\n\n\n\n\nWe want a more flexible random function, so that the computer model corresponds to a realization from that random function.\nSuppose \\(y(x_i) \\sim N(0, \\sigma^2)\\). Let us plot a realization of this model for \\(\\sigma^2 = 1\\).\n\nN=100\nx=seq(-1,1,length=N)\ny=rnorm(N)\nplot(x,y,\"l\", ylim=c(-3,3))\n\n\n\n\n\n\n\n\nAlthough the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.\n\nE=as.matrix(dist(x, diag=T, ,upper=T))\nSigma=exp(-0.5*E^2)\neig=eigen(Sigma)\nSigma.sqrt=eig$vec%*%diag(sqrt(eig$val+10^(-10)))%*%t(eig$vec)\nz=Sigma.sqrt%*%y\nplot(x,z,\"l\", ylim=c(-3,3))\nfor(i in 1:10)\n  lines(x,Sigma.sqrt%*%rnorm(N),col=i)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Computer model</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",
