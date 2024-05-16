@@ -180,6 +180,16 @@
     ]
   },
   {
+    "objectID": "Computer_model.html",
+    "href": "Computer_model.html",
+    "title": "5  Computer model",
+    "section": "",
+    "text": "5.1 Polynomial interpolation\nBelow is an example of a \\(7\\)-point polynomial interpolator.\ncurve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))\nx=seq(-4,4,length=7)\ny=1/(1+x^2)\nX=as.matrix(cbind(1,x,x^2,x^3,x^4,x^5,x^6))\na=solve(X,y)\nu=seq(-4,4,length=100)\nyhat=u\nfor(i in 1:100)\n  yhat[i]=sum(c(1,u[i],u[i]^2,u[i]^3,u[i]^4,u[i]^5,u[i]^6)*a)\nlines(u,yhat, col=2, lty=2, lwd = 2)\npoints(x,y,col=2)\nNotice that the polynomial interpolation model tends to be unstable near the edges, this is called Runge’s phenomenon.\nThe instability increases as the degree of the polynomial increases. Consider the same example if 9 equally-spaced points are considered, instead of 7.\ncurve(1/(1+x^2), from=-4, to=4, ylim=c(-.7,1))\nx=seq(-4,4,length=9)\ny=1/(1+x^2)\nX=as.matrix(cbind(1,x,x^2,x^3,x^4,x^5,x^6,x^7,x^8))\na=solve(X,y)\nu=seq(-4,4,length=100)\nyhat=u\nfor(i in 1:100)\n  yhat[i]=sum(c(1,u[i],u[i]^2,u[i]^3,u[i]^4,u[i]^5,u[i]^6, u[i]^7,u[i]^8)*a)\nlines(u,yhat, col='blue', lty=3, lwd = 2)\npoints(x,y,col=\"blue\")",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Computer model</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",
