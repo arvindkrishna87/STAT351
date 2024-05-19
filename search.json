@@ -509,7 +509,7 @@
     "href": "Assignment 4_questions.html#design-of-computer-experiments",
     "title": "Appendix D — Assignment 4",
     "section": "4) Design of computer experiments",
-    "text": "4) Design of computer experiments\nSuppose the computer model is given by the borehole function. Develop a simple-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs:\n\nMaximin design\nMaximin LHD\nMaxPro LHD\nMaxPro design\n\nCompute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence.\nCompare the RMSEs, and comment about the relative performance of the designs and the metamodels.\nWhich of the model-design combination has the least uncertainty in its predictions, on an average?\n(8 x 1.5 + 4 points for uncertainty + 3 points for comments = 19 points)",
+    "text": "4) Design of computer experiments\nSuppose the computer model is given by the borehole function. Develop a simple-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs:\n\nMaximin design\nMaximin LHD\nMaxPro LHD\nMaxPro design\n\nCompute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence.\nCompare the RMSEs, and comment about the relative performance of the designs and the metamodels.\nWhich of the model-design combination has the least uncertainty in its predictions, on an average?\n(8 x 1.5 points for the RMSEs + 4 points for uncertainty + 3 points for comments = 19 points)",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 4</span>"
