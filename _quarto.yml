@@ -23,6 +23,7 @@ book:
     - Assignment A.qmd
     - Assignment B_questions.qmd
     - Assignment 3_questions.qmd
+    - Assignment 4_questions.qmd
     - Datasets.ipynb
 
 bibliography: references.bib

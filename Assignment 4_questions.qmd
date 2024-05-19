@@ -1,0 +1,191 @@
+---
+title: "Assignment 4"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: false
+self-contained: true
+link-external-newwindow: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Instructions {.unnumbered}
+
+1.  You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.
+
+2.  Make R code chunks to insert code and type your answer outside the code chunks, in the template provided. Ensure that the solution is written neatly enough to understand and grade.
+
+3.  Quarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.
+
+4.  The assignment is worth 100 points, and is due on **28th May 2024 at 11:59 pm**.
+
+5. Use a significance level $\alpha = 5\%$ in all hypothesis tests, unless otherwise specified.
+
+6.  **Five points are properly formatting the assignment**. The breakdown is as follows:
+
+-   There aren't excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren't long printouts of which iteration a loop is on, there aren't long sections of commented-out code, etc.). There is no piece of unnecessary / redundant code, and no unnecessary / redundant text (2 pt)
+-   Final answers of each question are written clearly (1 pt).
+-   The proofs are legible, and clearly written with reasoning provided for every step. They are easy to follow and understand (2 pt)
+
+7. **10 points** will be deducted in case the provided template is not used *(for coding / text-answer questions)*, and/or the template is not rendered using Quarto markdown. 
+
+8. For questions involving derivations (Q3 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
+
+9. To maintain family-wise error-rate, use Bonferroni's correction, wherever needed. Don't use Tukey's correction. This is for consistency and simplicity of solutions.
+
+## 1) LSD (without replicates)
+
+This is the same problem as in Assignment 3, but the designs will be different.
+
+During the Covid-19 pandemic, several schools changed their mode of instruction from in-person to virtual or hybrid. As a result, educators decided to test the effect of virtual / hybrid / in-person education on the ACT scores of high school students. 
+
+Based on exploratory research, it was found that the income status of a student is likely to effect the ACT score, and it may also interact with the teaching mode and school in effecting the ACT score. To analyze these effects, the average ACT score was collected for students of a given income status *(low income / medium income / high income)*, school, and being taught with a particular teaching mode.
+
+### 1a) Design
+
+Develop a latin square design to conduct the experiment. Draw a schematic diagram of the design.
+
+*(2 points)*
+
+### 1b) Identify LSD
+
+Two designs were proposed to analyze student scores. The files `act_scores4.csv` and `act_scores5.csv` consist of the results of the experiments conducted with the respective design.
+
+Which of the two designs is a latin square design? Justify your answer.
+
+*(4 points)*
+
+### 1c)
+
+What is the ratio of the **expected** width of confidence interval of the difference in the estimates of any pair of teaching mode effect in case of the design identified in 1(b), and the design in Q2 *(RCBD without replicates)* of assignment 3. Assume that the expected variance of the error estimate is the same in both the cases.
+
+*(4 points)*
+
+### 1d)
+
+Calculate the ratio of the **actual** width of confidence interval of the difference in the estimates of any pair of teaching mode effect in case of the design identified in 1(b), and the design in Q2 *(RCBD without replicates)* of assignment 3. 
+
+*(4 points)*
+
+### 1e)
+
+Which design provides a narrower confidence interval as per the results of Q1(d)? Do the results of Q1(d) contradict the results of Q1(c)? Why or why not?
+
+*(4 points)*
+
+## LSD (with replicates)
+
+To increase the precision of the results, 3 replicates of the latin square design identifed in 1(b) are considered. Assume the schools are the same in all the 3 replicates.
+
+### 2a) Two-factor interactions
+
+Can you estimate all the two-factor interactions in the replicated latin square design?
+
+Use the following approach to answer the question:
+
+#### 2a)i) 
+
+Write the model equation, and derive the estimates of all the two-factor interaction effects for a full-factorial design with 3 schools, 3 teaching modes, and 3 levels of income status.
+
+*(4 points)*
+
+#### 2a)ii)
+
+Write the model equation, and **attempt** to derive the estimates of all the two-factor interaction effects for the **replicated** latin square design. In your attempt, you will find that some effects are confounded. Show the effects that are confounded, and argue why you cannot estimate all the two-factor interaction effects.
+
+*(8 points)*
+
+### 2b)
+
+How many 2-factor interaction effects can be estimated from the replicated latin square design? Justify your answer. 
+
+**Hint:** Use the model equations in 2a)ii), and degrees of freedom calculation.
+
+*(2 points for answer + 6 points for justification = 8 points)*
+
+### 2c)
+
+The data `act_scores6.csv` consists of the results of the experiments based on the replicated latin square design. Assume the model consists of only the main effects, including the effects of the replicates.
+
+Derive the expressions for the:
+
+1. Expected mean teaching-mode sum of squares [$E(MS_{TM})$],
+
+2. Expected mean school sum of squares [$E(MS_{School})$],
+
+3. Expected mean income sum of squares [$E(MS_{income})$],
+
+As the derivations will be similar, you are allowed to skip steps, and write expressions directly wherever you can.
+
+*(3 points for writing the model equation, and the equations for the relevant means - a total of 5 equations)*
+
+*(3 points for taking expectations and writing correct expression)*
+
+### 2d)
+
+Find the variance of the estimate of the difference in any pair of teaching mode effects.
+
+*(4 points)*
+
+### 2e)
+
+Use the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects. 
+
+*(2 points)*
+
+### 2f)
+
+Has the width increased or decreased as compared to that in 4(h) of assignment 3? One can argue that the number of runs is greater in 4(h). Thus, intuitively, the estimates must be more precise in 4(h). If the width has decreased as compared to 4(h), then why? 
+
+*(4 points)*
+
+
+### 2g) Best teaching method based on income
+
+Which is the best teaching method based on the income status of the student, i.e., which is the best teaching method for:
+
+1. Hign income students,
+
+2. Medium income students,
+
+3. Low income students.
+
+Include uncertainties into account, i.e., there may be multiple best methods for a given income status.
+
+*(3 $\times$ 2 = 6 points)*
+
+
+### 2h)
+
+As shown in 2(a), two-factor interactions could not be estimated with the given replicated latin square design. Propose another experimental design, which is a combination of 3 latin square designs, such that all the 2-factor interactions could be estimated. Is there another name for the proposed design?
+
+*(4 + 2 = 6 points)*
+
+## 3)
+
+Derive the variance of the estimate of the metamodel in case of ordinary kriging. Compare it with the variance of the estimate of the metamodel in case of simple kriging. Is it bigger or smaller? Why?
+
+*(7 + 1 + 2 = 10 points)*
+
+## 4) 
+
+Suppose the computer model is given by the [borehole function](https://www.sfu.ca/~ssurjano/borehole.html). Develop a simple-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs: 
+
+1) Maximin design
+
+2) Maximin LHD
+
+3) MaxPro LHD
+
+4) MaxPro design
+
+Compute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence.
+
+Compare the RMSEs, and comment about the relative performance of the designs and the metamodels.
+
+Which of the model-design combination has the least uncertainty in its predictions, on an average?
+
+*(8 x 1.5 + 4 points for uncertainty + 3 points for comments = 19 points)*
+
