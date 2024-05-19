@@ -31,7 +31,7 @@ editor_options:
 
 7. **10 points** will be deducted in case the provided template is not used *(for coding / text-answer questions)*, and/or the template is not rendered using Quarto markdown. 
 
-8. For questions involving derivations (Q3 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
+8. For questions involving derivations (Q2a-c, Q3 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
 
 9. To maintain family-wise error-rate, use Bonferroni's correction, wherever needed. Don't use Tukey's correction. This is for consistency and simplicity of solutions.
 
@@ -59,7 +59,7 @@ Which of the two designs is a latin square design? Justify your answer.
 
 ### 1c)
 
-What is the ratio of the **expected** width of confidence interval of the difference in the estimates of any pair of teaching mode effect in case of the design identified in 1(b), and the design in Q2 *(RCBD without replicates)* of assignment 3. Assume that the expected variance of the error estimate is the same in both the cases.
+What is the ratio of the **expected** width of confidence interval of the difference in the estimates of any pair of teaching mode effect in case of the design identified in 1(b), and the design in Q2 *(RCBD without replicates)* of assignment 3? Assume that the expected variance of the error estimate is the same in both the cases.
 
 *(4 points)*
 
@@ -163,13 +163,13 @@ As shown in 2(a), two-factor interactions could not be estimated with the given 
 
 *(4 + 2 = 6 points)*
 
-## 3)
+## 3) Computer models
 
 Derive the variance of the estimate of the metamodel in case of ordinary kriging. Compare it with the variance of the estimate of the metamodel in case of simple kriging. Is it bigger or smaller? Why?
 
 *(7 + 1 + 2 = 10 points)*
 
-## 4) 
+## 4) Design of computer experiments
 
 Suppose the computer model is given by the [borehole function](https://www.sfu.ca/~ssurjano/borehole.html). Develop a simple-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs: 
 
