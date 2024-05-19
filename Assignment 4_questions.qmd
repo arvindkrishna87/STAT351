@@ -75,7 +75,7 @@ Which design provides a narrower confidence interval as per the results of Q1(d)
 
 *(4 points)*
 
-## LSD (with replicates)
+## 2) LSD (with replicates)
 
 To increase the precision of the results, 3 replicates of the latin square design identifed in 1(b) are considered. Assume the schools are the same in all the 3 replicates.
 
