@@ -187,5 +187,5 @@ Compare the RMSEs, and comment about the relative performance of the designs and
 
 Which of the model-design combination has the least uncertainty in its predictions, on an average?
 
-*(8 x 1.5 + 4 points for uncertainty + 3 points for comments = 19 points)*
+*(8 x 1.5 points for the RMSEs + 4 points for uncertainty + 3 points for comments = 19 points)*
 
