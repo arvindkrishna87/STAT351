@@ -926,6 +926,16 @@
       ],
       "Hash": "f48238f8d4740426ca12f53f27d004dd"
     },
+    "mlegp": {
+      "Package": "mlegp",
+      "Version": "3.1.9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "methods"
+      ],
+      "Hash": "bddb272ce04c062cc211525038ab0b3e"
+    },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.1",

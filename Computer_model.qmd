@@ -425,7 +425,12 @@ As expected, the model accuracy has deteriorated for an unreasonably low value o
 
 In general, in case of unknown value of the parameters, instead of guessing their values, it is better to use their maximum likelihood estimates from the data. The R function `mlegp()` can be used to do that.
 
+```{r}
+library(mlegp)
 
+# Fit the model to the data
+model <- mlegp(D, y)
+```
 
 
 
