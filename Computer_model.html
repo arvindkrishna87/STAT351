@@ -834,6 +834,17 @@ creating gp object......done</code></pre>
 <pre><code>[1] 54.08925</code></pre>
 </div>
 </div>
+<p>For making predictions, the function <code>predict.gp()</code> is used, and the observations for prediction must be specified as a matrix or a dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model_predictions <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The RMSE is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span>model_predictions)<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.100242</code></pre>
+</div>
+</div>
 
 
 </section>
