@@ -175,7 +175,9 @@ for(i in 1:10)
 
 ## Simple Kriging
 
-Let us use simple kriging to develop a metamodel for the following one dimentional computer model, and visualize the fit, along with uncertainty.
+### Correctly guessed $\mu$ and $\theta$, estimated $\sigma^2$
+
+Let us use simple kriging to develop a metamodel for the following one dimensional computer model, and visualize the fit, along with uncertainty.
 
 ```{r}
 # Computer model
@@ -234,6 +236,7 @@ Let us find the root mean squared error (RMSE) on test data to evaluate the mode
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
 
+### Mis-specified $\mu$, correctly guessed $\theta$, estimated $\sigma^2$
 
 Note that we assumed the mean $\mu$ to be $\mu = 0$. In case our guess for $\mu$ was incorrect, it would have resulted in a worse model. Let us visualize the fit, and confidence intervals, if our guess for $\mu$ was $\mu = 100$.
 
@@ -290,6 +293,8 @@ We observe that the fit is much worse if our guess for the value of $\mu$ is ver
 
 ## Ordinary Kriging
 
+### Correctly guessed $\theta$, estimated $\mu$ and $\sigma^2$
+
 In ordinary kriging, we assume that we don't know the value of $\mu$, and estimate it from the data.
 
 ```{r}
@@ -342,7 +347,9 @@ sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 
 Note that the model is more accurate that simple kriging as $\mu$ is estimated from the data, instead of being guessed.
 
-In the above code on simple kriging, we have used the maximum likelihood estimates of $\mu$, and $\sigma^2$. However, we guessed the value of $\theta$. If $\theta$ is put incorrectly, then the model accuracy may deteriorate. Let us fit the model for $\theta$ = 1000.
+### Unreasonably high $\theta$, estimated $\mu$ and $\sigma^2$
+
+In the above code on simple kriging, we have used the maximum likelihood estimates of $\mu$, and $\sigma^2$. However, we guessed the value of $\theta$. If $\theta$ is guessed incorrectly, then the model accuracy may deteriorate. Let us fit the model for $\theta$ = 1000.
 
 ```{r}
 theta=1000
@@ -373,7 +380,7 @@ lines(u,y.low,lty=2,col=2,lwd=2)
 lines(u,y.high,lty=2,col=2,lwd=2)
 ```
 
-Note that as theta increases, the model tends to be pulled towards the mean, as the correlation between the neighoring response values reduces.
+Note that as $\theta$ increases, the model tends to be pulled towards the mean, as the correlation between the neighboring response values reduces.
 
 Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a high value of$\theta$.
 
@@ -382,8 +389,51 @@ Let us find the root mean squared error (RMSE) on test data to evaluate the mode
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
 
-As expected, the model accuracy has deteriorated for an unreasonable high value of the correlation parameter $\theta$.
+As expected, the model accuracy has deteriorated for an unreasonably high value of the correlation parameter $\theta$.
 
+### Unreasonably low $\theta$, estimated $\mu$ and $\sigma^2$
+
+Let us fit the model for $\theta$ = 1.
+
+```{r}
+theta=1
+R=exp(-theta*E^2)
+mu=0
+I=diag(n)
+Rinv=solve(R+10^(-7)*I)
+coef=Rinv%*%(y-mu)
+sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
+f.var=function(x)
+{ 
+  fac=1/(one%*%Rinv%*%one)
+  val=sigma2*(1-t(r(x))%*%Rinv%*%r(x)+fac*(1-t(r(x))%*%Rinv%*%one)^2)
+  return(val)
+}
+
+for(i in 1:N)
+{
+  y.pred[i]=fhat(u[i])
+  SD=sqrt(f.var(u[i]))
+  y.low[i]=y.pred[i]-2*SD
+  y.high[i]=y.pred[i]+2*SD
+}
+curve(f(x),from=0,to=1, ylim= c(-0.75, 0.55))
+points(D,y)
+lines(u,y.pred,col=3,lwd=2)
+lines(u,y.low,lty=2,col=2,lwd=2)
+lines(u,y.high,lty=2,col=2,lwd=2)
+```
+
+Note that as $\theta$ decreases, the model becomes overly smooth, as the correlation between the neighboring response values is high.
+
+Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a low value of $\theta$.
+
+```{r}
+# RMSE
+sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
+```
+
+As expected, the model accuracy has deteriorated for an unreasonably low value of the correlation parameter $\theta$.
 
 
 
