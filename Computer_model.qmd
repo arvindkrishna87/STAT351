@@ -464,7 +464,7 @@ The RMSE is:
 sqrt(mean((apply(cbind(test),1,fhat)-model_predictions)^2))
 ```
 
-The confidence interval is also returned using the argument `se.fit=TRUE` in the `predict.gp()` function.
+The confidence interval is also returned using the argument `se.fit = TRUE` in the `predict.gp()` function.
 
 ```{r}
 model_predictions_with_se <- predict.gp(model, matrix(test,1000,1), se.fit = TRUE)
