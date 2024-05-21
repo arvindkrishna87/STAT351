@@ -332,10 +332,6 @@ points(D,y)
 lines(u,y.pred,col=3,lwd=2)
 lines(u,y.low,lty=2,col=2,lwd=2)
 lines(u,y.high,lty=2,col=2,lwd=2)
-test=u
-
-# RMSE
-sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
 
 Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of ordinary kriging, where $\mu$ is estimated from the data.
@@ -354,17 +350,12 @@ In the above code on simple kriging, we have used the maximum likelihood estimat
 ```{r}
 theta=1000
 R=exp(-theta*E^2)
-mu=0
+one=rep(1,n)
+mu=drop(t(one)%*%Rinv%*%y/(t(one)%*%Rinv%*%one))
 I=diag(n)
 Rinv=solve(R+10^(-10)*I)
 coef=Rinv%*%(y-mu)
 sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
-f.var=function(x)
-{ 
-  fac=1/(one%*%Rinv%*%one)
-  val=sigma2*(1-t(r(x))%*%Rinv%*%r(x)+fac*(1-t(r(x))%*%Rinv%*%one)^2)
-  return(val)
-}
 
 for(i in 1:N)
 {
@@ -398,17 +389,12 @@ Let us fit the model for $\theta$ = 1.
 ```{r}
 theta=1
 R=exp(-theta*E^2)
-mu=0
+one=rep(1,n)
+mu=drop(t(one)%*%Rinv%*%y/(t(one)%*%Rinv%*%one))
 I=diag(n)
 Rinv=solve(R+10^(-7)*I)
 coef=Rinv%*%(y-mu)
 sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
-f.var=function(x)
-{ 
-  fac=1/(one%*%Rinv%*%one)
-  val=sigma2*(1-t(r(x))%*%Rinv%*%r(x)+fac*(1-t(r(x))%*%Rinv%*%one)^2)
-  return(val)
-}
 
 for(i in 1:N)
 {
@@ -434,6 +420,13 @@ sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
 
 As expected, the model accuracy has deteriorated for an unreasonably low value of the correlation parameter $\theta$.
+
+## Kriging with MLE
+
+In general, in case of unknown value of the parameters, instead of guessing their values, it is better to use their maximum likelihood estimates from the data. The R function `mlegp()` can be used to do that.
+
+
+
 
 
 
