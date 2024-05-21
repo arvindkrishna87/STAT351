@@ -262,8 +262,17 @@ window.Quarto = {
   <li><a href="#polynomial-interpolation" id="toc-polynomial-interpolation" class="nav-link active" data-scroll-target="#polynomial-interpolation"><span class="header-section-number">5.1</span> Polynomial interpolation</a></li>
   <li><a href="#splines" id="toc-splines" class="nav-link" data-scroll-target="#splines"><span class="header-section-number">5.2</span> Splines</a></li>
   <li><a href="#random-functions" id="toc-random-functions" class="nav-link" data-scroll-target="#random-functions"><span class="header-section-number">5.3</span> Random functions</a></li>
-  <li><a href="#simple-kriging" id="toc-simple-kriging" class="nav-link" data-scroll-target="#simple-kriging"><span class="header-section-number">5.4</span> Simple Kriging</a></li>
-  <li><a href="#ordinary-kriging" id="toc-ordinary-kriging" class="nav-link" data-scroll-target="#ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</a></li>
+  <li><a href="#simple-kriging" id="toc-simple-kriging" class="nav-link" data-scroll-target="#simple-kriging"><span class="header-section-number">5.4</span> Simple Kriging</a>
+  <ul class="collapse">
+  <li><a href="#correctly-guessed-mu-and-theta-estimated-sigma2" id="toc-correctly-guessed-mu-and-theta-estimated-sigma2" class="nav-link" data-scroll-target="#correctly-guessed-mu-and-theta-estimated-sigma2"><span class="header-section-number">5.4.1</span> Correctly guessed <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></a></li>
+  <li><a href="#mis-specified-mu-correctly-guessed-theta-estimated-sigma2" id="toc-mis-specified-mu-correctly-guessed-theta-estimated-sigma2" class="nav-link" data-scroll-target="#mis-specified-mu-correctly-guessed-theta-estimated-sigma2"><span class="header-section-number">5.4.2</span> Mis-specified <span class="math inline">\(\mu\)</span>, correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></a></li>
+  </ul></li>
+  <li><a href="#ordinary-kriging" id="toc-ordinary-kriging" class="nav-link" data-scroll-target="#ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</a>
+  <ul class="collapse">
+  <li><a href="#correctly-guessed-theta-estimated-mu-and-sigma2" id="toc-correctly-guessed-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#correctly-guessed-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.1</span> Correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
+  <li><a href="#unreasonably-high-theta-estimated-mu-and-sigma2" id="toc-unreasonably-high-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#unreasonably-high-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.2</span> Unreasonably high <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
+  <li><a href="#unreasonably-low-theta-estimated-mu-and-sigma2" id="toc-unreasonably-low-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#unreasonably-low-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.3</span> Unreasonably low <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -480,7 +489,9 @@ window.Quarto = {
 </section>
 <section id="simple-kriging" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="simple-kriging"><span class="header-section-number">5.4</span> Simple Kriging</h2>
-<p>Let us use simple kriging to develop a metamodel for the following one dimentional computer model, and visualize the fit, along with uncertainty.</p>
+<section id="correctly-guessed-mu-and-theta-estimated-sigma2" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="correctly-guessed-mu-and-theta-estimated-sigma2"><span class="header-section-number">5.4.1</span> Correctly guessed <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></h3>
+<p>Let us use simple kriging to develop a metamodel for the following one dimensional computer model, and visualize the fit, along with uncertainty.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computer model</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f<span class="ot">=</span><span class="cf">function</span>(x)</span>
@@ -545,6 +556,9 @@ window.Quarto = {
 <pre><code>[1] 0.09318819</code></pre>
 </div>
 </div>
+</section>
+<section id="mis-specified-mu-correctly-guessed-theta-estimated-sigma2" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="mis-specified-mu-correctly-guessed-theta-estimated-sigma2"><span class="header-section-number">5.4.2</span> Mis-specified <span class="math inline">\(\mu\)</span>, correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></h3>
 <p>Note that we assumed the mean <span class="math inline">\(\mu\)</span> to be <span class="math inline">\(\mu = 0\)</span>. In case our guess for <span class="math inline">\(\mu\)</span> was incorrect, it would have resulted in a worse model. Let us visualize the fit, and confidence intervals, if our guess for <span class="math inline">\(\mu\)</span> was <span class="math inline">\(\mu = 100\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
@@ -604,8 +618,11 @@ window.Quarto = {
 </div>
 <p>We observe that the fit is much worse if our guess for the value of <span class="math inline">\(\mu\)</span> is very different from its true value. Thus, in such cases, we should estimate the mean <span class="math inline">\(\mu\)</span> from the data, or use ordinary kriging instead of simple kriging, as shown below.</p>
 </section>
+</section>
 <section id="ordinary-kriging" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</h2>
+<section id="correctly-guessed-theta-estimated-mu-and-sigma2" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="correctly-guessed-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.1</span> Correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></h3>
 <p>In ordinary kriging, we assume that we don’t know the value of <span class="math inline">\(\mu\)</span>, and estimate it from the data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>one<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span>,n)</span>
@@ -665,7 +682,10 @@ window.Quarto = {
 </div>
 </div>
 <p>Note that the model is more accurate that simple kriging as <span class="math inline">\(\mu\)</span> is estimated from the data, instead of being guessed.</p>
-<p>In the above code on simple kriging, we have used the maximum likelihood estimates of <span class="math inline">\(\mu\)</span>, and <span class="math inline">\(\sigma^2\)</span>. However, we guessed the value of <span class="math inline">\(\theta\)</span>. If <span class="math inline">\(\theta\)</span> is put incorrectly, then the model accuracy may deteriorate. Let us fit the model for <span class="math inline">\(\theta\)</span> = 1000.</p>
+</section>
+<section id="unreasonably-high-theta-estimated-mu-and-sigma2" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="unreasonably-high-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.2</span> Unreasonably high <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></h3>
+<p>In the above code on simple kriging, we have used the maximum likelihood estimates of <span class="math inline">\(\mu\)</span>, and <span class="math inline">\(\sigma^2\)</span>. However, we guessed the value of <span class="math inline">\(\theta\)</span>. If <span class="math inline">\(\theta\)</span> is guessed incorrectly, then the model accuracy may deteriorate. Let us fit the model for <span class="math inline">\(\theta\)</span> = 1000.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">1000</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
@@ -701,7 +721,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Note that as theta increases, the model tends to be pulled towards the mean, as the correlation between the neighoring response values reduces.</p>
+<p>Note that as <span class="math inline">\(\theta\)</span> increases, the model tends to be pulled towards the mean, as the correlation between the neighboring response values reduces.</p>
 <p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a high value of<span class="math inline">\(\theta\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
@@ -710,9 +730,59 @@ window.Quarto = {
 <pre><code>[1] 0.1863229</code></pre>
 </div>
 </div>
-<p>As expected, the model accuracy has deteriorated for an unreasonable high value of the correlation parameter <span class="math inline">\(\theta\)</span>.</p>
+<p>As expected, the model accuracy has deteriorated for an unreasonably high value of the correlation parameter <span class="math inline">\(\theta\)</span>.</p>
+</section>
+<section id="unreasonably-low-theta-estimated-mu-and-sigma2" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="unreasonably-low-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.3</span> Unreasonably low <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></h3>
+<p>Let us fit the model for <span class="math inline">\(\theta\)</span> = 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">7</span>)<span class="sc">*</span>I)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>f.var<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>{ </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  fac<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(one<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  val<span class="ot">=</span>sigma2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span><span class="fu">r</span>(x)<span class="sc">+</span>fac<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(val)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that as <span class="math inline">\(\theta\)</span> decreases, the model becomes overly smooth, as the correlation between the neighboring response values is high.</p>
+<p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a low value of <span class="math inline">\(\theta\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1395105</code></pre>
+</div>
+</div>
+<p>As expected, the model accuracy has deteriorated for an unreasonably low value of the correlation parameter <span class="math inline">\(\theta\)</span>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
