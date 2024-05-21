@@ -225,9 +225,15 @@ lines(u,y.pred,col=3,lwd=2)
 lines(u,y.low,lty=2,col=2,lwd=2)
 lines(u,y.high,lty=2,col=2,lwd=2)
 test=u
+```
+
+Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging.
+
+```{r}
 # RMSE
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
+
 
 Note that we assumed the mean $\mu$ to be $\mu = 0$. In case our guess for $\mu$ was incorrect, it would have resulted in a worse model. Let us visualize the fit, and confidence intervals, if our guess for $\mu$ was $\mu = 100$.
 
@@ -271,6 +277,11 @@ for(i in 1:N)
 lines(u,y.pred,col=3,lwd=2)
 lines(u,y.low,lty=2,col=2,lwd=2)
 lines(u,y.high,lty=2,col=2,lwd=2)
+```
+
+Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with mis-specified $\mu$.
+
+```{r}
 # RMSE
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
@@ -321,6 +332,58 @@ test=u
 # RMSE
 sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
 ```
+
+Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of ordinary kriging, where $\mu$ is estimated from the data.
+
+```{r}
+# RMSE
+sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
+```
+
+Note that the model is more accurate that simple kriging as $\mu$ is estimated from the data, instead of being guessed.
+
+In the above code on simple kriging, we have used the maximum likelihood estimates of $\mu$, and $\sigma^2$. However, we guessed the value of $\theta$. If $\theta$ is put incorrectly, then the model accuracy may deteriorate. Let us fit the model for $\theta$ = 1000.
+
+```{r}
+theta=1000
+R=exp(-theta*E^2)
+mu=0
+I=diag(n)
+Rinv=solve(R+10^(-10)*I)
+coef=Rinv%*%(y-mu)
+sigma2=drop(1/n*t(y-mu)%*%Rinv%*%(y-mu))
+f.var=function(x)
+{ 
+  fac=1/(one%*%Rinv%*%one)
+  val=sigma2*(1-t(r(x))%*%Rinv%*%r(x)+fac*(1-t(r(x))%*%Rinv%*%one)^2)
+  return(val)
+}
+
+for(i in 1:N)
+{
+  y.pred[i]=fhat(u[i])
+  SD=sqrt(f.var(u[i]))
+  y.low[i]=y.pred[i]-2*SD
+  y.high[i]=y.pred[i]+2*SD
+}
+curve(f(x),from=0,to=1, ylim= c(-0.75, 0.55))
+points(D,y)
+lines(u,y.pred,col=3,lwd=2)
+lines(u,y.low,lty=2,col=2,lwd=2)
+lines(u,y.high,lty=2,col=2,lwd=2)
+```
+
+Note that as theta increases, the model tends to be pulled towards the mean, as the correlation between the neighoring response values reduces.
+
+Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a high value of$\theta$.
+
+```{r}
+# RMSE
+sqrt(mean((apply(cbind(test),1,fhat)-f(test))^2))
+```
+
+As expected, the model accuracy has deteriorated for an unreasonable high value of the correlation parameter $\theta$.
+
 
 
 
