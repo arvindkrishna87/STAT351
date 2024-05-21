@@ -234,7 +234,7 @@
     "href": "Computer_model.html#kriging-with-mle",
     "title": "5  Computer model",
     "section": "5.6 Kriging with MLE",
-    "text": "5.6 Kriging with MLE\nIn general, in case of unknown value of the parameters, instead of guessing their values, it is better to use their maximum likelihood estimates from the data. The R function mlegp() can be used to do that.",
+    "text": "5.6 Kriging with MLE\nIn general, in case of unknown value of the parameters, instead of guessing their values, it is better to use their maximum likelihood estimates from the data. The R function mlegp() can be used to do that.\n\nlibrary(mlegp)\n\n# Fit the model to the data\nmodel &lt;- mlegp(D, y)\n\nno reps detected - nugget will not be estimated\n\n========== FITTING GP # 1 ==============================\nrunning simplex # 1...\n...done\n...simplex #1 complete, loglike = 0.546783 (convergence)\nrunning simplex # 2...\n...done\n...simplex #2 complete, loglike = 0.546783 (convergence)\nrunning simplex # 3...\n...done\n...simplex #3 complete, loglike = 0.546783 (convergence)\nrunning simplex # 4...\n...done\n...simplex #4 complete, loglike = 0.546783 (convergence)\nrunning simplex # 5...\n...done\n...simplex #5 complete, loglike = 0.546783 (convergence)\n\nusing L-BFGS method from simplex #3...\n    iteration: 1,loglike = 0.546783\n...L-BFGS method complete\n\nMaximum likelihood estimates found, log like =  0.546783\ncreating gp object......done",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Computer model</span>"
     ]

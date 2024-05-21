@@ -769,6 +769,39 @@ window.Quarto = {
 <section id="kriging-with-mle" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="kriging-with-mle"><span class="header-section-number">5.6</span> Kriging with MLE</h2>
 <p>In general, in case of unknown value of the parameters, instead of guessing their values, it is better to use their maximum likelihood estimates from the data. The R function <code>mlegp()</code> can be used to do that.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlegp)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model to the data</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">mlegp</span>(D, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>no reps detected - nugget will not be estimated
+
+========== FITTING GP # 1 ==============================
+running simplex # 1...
+...done
+...simplex #1 complete, loglike = 0.546783 (convergence)
+running simplex # 2...
+...done
+...simplex #2 complete, loglike = 0.546783 (convergence)
+running simplex # 3...
+...done
+...simplex #3 complete, loglike = 0.546783 (convergence)
+running simplex # 4...
+...done
+...simplex #4 complete, loglike = 0.546783 (convergence)
+running simplex # 5...
+...done
+...simplex #5 complete, loglike = 0.546783 (convergence)
+
+using L-BFGS method from simplex #3...
+    iteration: 1,loglike = 0.546783
+...L-BFGS method complete
+
+Maximum likelihood estimates found, log like =  0.546783
+creating gp object......done</code></pre>
+</div>
+</div>
 
 
 </section>
