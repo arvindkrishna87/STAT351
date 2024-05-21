@@ -452,6 +452,16 @@ Maximum likelihood estimate (MLE) of the correlation parameter $\theta$ is:
 model$beta
 ```
 
+For making predictions, the function `predict.gp()` is used, and the observations for prediction must be specified as a matrix or a dataframe.
 
+```{r}
+model_predictions <- predict.gp(model, matrix(test,1000,1))
+```
+
+The RMSE is:
+
+```{r}
+sqrt(mean((apply(cbind(test),1,fhat)-model_predictions)^2))
+```
 
 
