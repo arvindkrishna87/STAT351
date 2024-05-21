@@ -432,6 +432,26 @@ library(mlegp)
 model <- mlegp(D, y)
 ```
 
+The parameter estimates are as follows:
+
+Maximum likelihood estimate (MLE) of the mean $\mu$ is:
+
+```{r}
+model$mu
+```
+
+Maximum likelihood estimate (MLE) of the variance $\sigma^2$ is:
+
+```{r}
+model$sig2
+```
+
+Maximum likelihood estimate (MLE) of the correlation parameter $\theta$ is:
+
+```{r}
+model$beta
+```
+
 
 
 
