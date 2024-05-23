@@ -240,6 +240,16 @@
     ]
   },
   {
+    "objectID": "computer_experiment_designs.html",
+    "href": "computer_experiment_designs.html",
+    "title": "6  Computer experiment designs",
+    "section": "",
+    "text": "6.1 Maximin design\nLet us generate a 4-run maximin design in \\([0, 1]^2\\) for \\(p=2\\).\nWe will use the maximin() function of the maximin library\nlibrary(maximin)\nFor generating a maximin design, we need to specify an initial design, and the function will add points to the design to develop a design that is as close to a maximin design as possible.\nLet us add the origin as a point in the initial design.\nD_initial &lt;- matrix(c(0,0),1,2)\nset.seed(3)\nD &lt;- maximin(n = 3, p=2, Xorig = D_initial)$Xf\nplot(D)\nAs expected, the design is the four corners of the feasible design space as the minimum distance between any two design points is the largest in this case.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Computer experiment designs</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",
