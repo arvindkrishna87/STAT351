@@ -18,7 +18,6 @@ Let us add the origin as a point in the initial design.
 D_initial <- matrix(c(0,0),1,2)
 ```
 
-
 ```{r}
 D <- maximin(n = 3, p=2, Xorig = D_initial)$Xf
 ```

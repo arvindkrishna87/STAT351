@@ -376,6 +376,20 @@
       ],
       "Hash": "1216ac65ac55ec0058a6f75d7ca0fd52"
     },
+    "cluster": {
+      "Package": "cluster",
+      "Version": "2.1.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "stats",
+        "utils"
+      ],
+      "Hash": "0aaa05204035dc43ea0004b9c76611dd"
+    },
     "colorspace": {
       "Package": "colorspace",
       "Version": "2.1-0",
@@ -878,6 +892,29 @@
       ],
       "Hash": "7ce2733a9826b3aeb1775d56fd305472"
     },
+    "maptree": {
+      "Package": "maptree",
+      "Version": "1.4-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cluster",
+        "rpart"
+      ],
+      "Hash": "31529e320177e8cede28e351f87368de"
+    },
+    "maximin": {
+      "Package": "maximin",
+      "Version": "1.0-5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "plgp"
+      ],
+      "Hash": "23c65c2bace8b09631d1d087a780bd24"
+    },
     "memoise": {
       "Package": "memoise",
       "Version": "2.0.1",
@@ -1094,6 +1131,18 @@
         "withr"
       ],
       "Hash": "876c618df5ae610be84356d5d7a5d124"
+    },
+    "plgp": {
+      "Package": "plgp",
+      "Version": "1.1-12",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "mvtnorm",
+        "tgp"
+      ],
+      "Hash": "7fb89539a4bf57d7691e82b501727252"
     },
     "plyr": {
       "Package": "plyr",
@@ -1318,6 +1367,19 @@
       ],
       "Hash": "c6fa270a97604238a5ce5fe5d327fdad"
     },
+    "rpart": {
+      "Package": "rpart",
+      "Version": "4.1.23",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "stats"
+      ],
+      "Hash": "b3d390424f41d04174cccf84d49676c2"
+    },
     "rprojroot": {
       "Package": "rprojroot",
       "Version": "2.0.4",
@@ -1450,6 +1512,17 @@
         "withr"
       ],
       "Hash": "4767a686ebe986e6cb01d075b3f09729"
+    },
+    "tgp": {
+      "Package": "tgp",
+      "Version": "2.4-22",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "maptree"
+      ],
+      "Hash": "b4a5d1e3dcca323b86376c980e6ad9fb"
     },
     "tibble": {
       "Package": "tibble",
