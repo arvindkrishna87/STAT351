@@ -264,7 +264,7 @@
     "href": "computer_experiment_designs.html#maxprolhd-maxpro",
     "title": "6  Computer experiment designs",
     "section": "6.3 MaxProLHD & MaxPro",
-    "text": "6.3 MaxProLHD & MaxPro\nLet us generate a 20-run MaxProLHD and MaxPro designs in \\([0, 1]^10\\) for \\(p=10\\).\nWe will use the MaxProLHD() and MaxPro() functions of the MaxPro library\n\nlibrary(MaxPro)\n\n\nset.seed(3)\nD1 &lt;- MaxProLHD(20, 10)$Design\nD2 &lt;- MaxPro(D1)$Design\npar(mfrow = c(1,2))\nplot(D1[,1:2], pch = 16, main = \"MaxProLHD(n = 20, p = 10)\")\nplot(D2[,1:2], pch = 16, main = \"MaxPro(n = 20, p = 10)\")\n\n\n\n\n\n\n\n\n\npar(mfrow = c(1,2))\nplot(D[,1:2], pch = 16, main = \"MmLHD(n = 20, p = 10)\")\nplot(D2[,1:2], pch = 16, main = \"MaxPro(n = 20, p = 10)\")\n\n\n\n\n\n\n\n\nNote that the projects of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design as expected.",
+    "text": "6.3 MaxProLHD & MaxPro\nLet us generate a 20-run MaxProLHD and MaxPro designs in \\([0, 1]^10\\) for \\(p=10\\).\nWe will use the MaxProLHD() and MaxPro() functions of the MaxPro library\n\nlibrary(MaxPro)\n\n\nset.seed(3)\nD1 &lt;- MaxProLHD(20, 10)$Design\nD2 &lt;- MaxPro(D1)$Design\npar(mfrow = c(1,2))\nplot(D1[,1:2], pch = 16, main = \"MaxProLHD(n = 20, p = 10)\")\nplot(D2[,1:2], pch = 16, main = \"MaxPro(n = 20, p = 10)\")\n\n\n\n\n\n\n\n\n\npar(mfrow = c(1,2))\nplot(D[,1:2], pch = 16, main = \"MmLHD(n = 20, p = 10)\")\nplot(D2[,1:2], pch = 16, main = \"MaxPro(n = 20, p = 10)\")\n\n\n\n\n\n\n\n\nNote that the projections of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design, as expected.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Computer experiment designs</span>"
     ]
@@ -549,7 +549,7 @@
     "href": "Assignment 4_questions.html#design-of-computer-experiments",
     "title": "Appendix D — Assignment 4",
     "section": "4) Design of computer experiments",
-    "text": "4) Design of computer experiments\nSuppose the computer model is given by the borehole function. Develop a simple-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs:\n\nMaximin design\nMaximin LHD\nMaxPro LHD\nMaxPro design\n\nCompute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence.\nCompare the RMSEs, and comment about the relative performance of the designs and the metamodels.\nWhich of the model-design combination has the least uncertainty in its predictions, on an average?\n(8 x 1.5 points for the RMSEs + 4 points for uncertainty + 3 points for comments = 19 points)",
+    "text": "4) Design of computer experiments\nSuppose the computer model is given by the borehole function. Develop an ordinary-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs:\n\nMaximin design\nMaximin LHD\nMaxPro LHD\nMaxPro design\n\nCompute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence.\nCompare the RMSEs, and comment about the relative performance of the designs and the metamodels.\nWhich of the model-design combination has the least uncertainty in its predictions, on an average?\n(8 x 1.5 points for the RMSEs + 4 points for uncertainty + 3 points for comments = 19 points)",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 4</span>"
