@@ -86,6 +86,7 @@ plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
 ```
 
 ```{r}
+windows.options(width = 20, height = 10, reset = FALSE) 
 par(mfrow = c(1,2))
 plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
 plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
