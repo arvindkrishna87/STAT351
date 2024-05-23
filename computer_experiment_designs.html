@@ -266,6 +266,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#maximin-design" id="toc-maximin-design" class="nav-link active" data-scroll-target="#maximin-design"><span class="header-section-number">6.1</span> Maximin design</a></li>
+  <li><a href="#maximin-lhd" id="toc-maximin-lhd" class="nav-link" data-scroll-target="#maximin-lhd"><span class="header-section-number">6.2</span> Maximin LHD</a></li>
   </ul>
 </nav>
     </div>
@@ -308,7 +309,7 @@ window.Quarto = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">maximin</span>(<span class="at">n =</span> <span class="dv">3</span>, <span class="at">p=</span><span class="dv">2</span>, <span class="at">Xorig =</span> D_initial)<span class="sc">$</span>Xf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D, <span class="at">pch =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -318,6 +319,27 @@ window.Quarto = {
 </div>
 </div>
 <p>As expected, the design is the four corners of the feasible design space as the minimum distance between any two design points is the largest in this case.</p>
+</section>
+<section id="maximin-lhd" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="maximin-lhd"><span class="header-section-number">6.2</span> Maximin LHD</h2>
+<p>Let us generate a 4-run maximin LHD in <span class="math inline">\([0, 1]^2\)</span> for <span class="math inline">\(p=2\)</span>.</p>
+<p>We will use the <code>maximinLHS()</code> function of the <code>lhs</code> library</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lhs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">maximinLHS</span>(<span class="dv">4</span>, <span class="dv">2</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">pch =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that the design has 4 distinct projections for each of the two factors.</p>
 
 
 </section>
