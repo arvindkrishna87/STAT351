@@ -19,6 +19,7 @@ D_initial <- matrix(c(0,0),1,2)
 ```
 
 ```{r}
+set.seed(3)
 D <- maximin(n = 3, p=2, Xorig = D_initial)$Xf
 ```
 
