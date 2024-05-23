@@ -47,5 +47,20 @@ plot(D, xlim = c(0, 1), ylim = c(0, 1), pch = 16)
 
 Note that the design has 4 distinct projections for each of the two factors.
 
+### MmLHD: Weakness
 
+MaximinLHD have good projections in a single dimension, but projection properties in 2, 3, …, 𝑝−1 dimensions may not be good.
+
+Let us compare the projections of a 2-dimensional design with that of a 20-dimensional design on a 2-dimensional subspace.
+
+```{r}
+set.seed(1)
+D <- maximinLHS(20, 2)
+par(mfrow = c(1,2))
+plot(D, pch = 16, main = "MmLHD(n = 20, p = 2)")
+D <- maximinLHS(20, 10)
+plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
+```
+
+We observe that the projects of the 20-dimensional MmLHD design are not that good.
 
