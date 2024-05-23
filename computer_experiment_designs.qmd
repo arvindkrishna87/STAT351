@@ -24,8 +24,28 @@ D <- maximin(n = 3, p=2, Xorig = D_initial)$Xf
 ```
 
 ```{r}
-plot(D)
+plot(D, pch = 16)
 ```
 
 As expected, the design is the four corners of the feasible design space as the minimum distance between any two design points is the largest in this case.
+
+## Maximin LHD
+
+Let us generate a 4-run maximin LHD in $[0, 1]^2$ for $p=2$.
+
+We will use the `maximinLHS()` function of the `lhs` library
+
+```{r, message = FALSE}
+library(lhs)
+```
+
+```{r}
+set.seed(1)
+D <- maximinLHS(4, 2)
+plot(D, xlim = c(0, 1), ylim = c(0, 1), pch = 16)
+```
+
+Note that the design has 4 distinct projections for each of the two factors.
+
+
 
