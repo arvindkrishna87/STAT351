@@ -74,10 +74,9 @@ We will use the `MaxProLHD()` and `MaxPro()` functions of the `MaxPro` library
 library(MaxPro)
 ```
 
-Let us visualize the desi
 
 ```{r}
-set.seed(1)
+set.seed(3)
 D1 <- MaxProLHD(20, 10)$Design
 D2 <- MaxPro(D1)$Design
 par(mfrow = c(1,2))
@@ -86,7 +85,6 @@ plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
 ```
 
 ```{r}
-windows.options(width = 20, height = 10, reset = FALSE) 
 par(mfrow = c(1,2))
 plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
 plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
