@@ -270,6 +270,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#mmlhd-weakness" id="toc-mmlhd-weakness" class="nav-link" data-scroll-target="#mmlhd-weakness"><span class="header-section-number">6.2.1</span> MmLHD: Weakness</a></li>
   </ul></li>
+  <li><a href="#maxprolhd-maxpro" id="toc-maxprolhd-maxpro" class="nav-link" data-scroll-target="#maxprolhd-maxpro"><span class="header-section-number">6.3</span> MaxProLHD &amp; MaxPro</a></li>
   </ul>
 </nav>
     </div>
@@ -348,7 +349,7 @@ window.Quarto = {
 <p>MaximinLHD have good projections in a single dimension, but projection properties in 2, 3, …, 𝑝−1 dimensions may not be good.</p>
 <p>Let us compare the projections of a 2-dimensional design with that of a 20-dimensional design on a 2-dimensional subspace.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">maximinLHS</span>(<span class="dv">20</span>, <span class="dv">2</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MmLHD(n = 20, p = 2)"</span>)</span>
@@ -363,9 +364,58 @@ window.Quarto = {
 </div>
 </div>
 <p>We observe that the projects of the 20-dimensional MmLHD design are not that good.</p>
-
-
 </section>
+</section>
+<section id="maxprolhd-maxpro" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="maxprolhd-maxpro"><span class="header-section-number">6.3</span> MaxProLHD &amp; MaxPro</h2>
+<p>Let us generate a 20-run MaxProLHD and MaxPro designs in <span class="math inline">\([0, 1]^10\)</span> for <span class="math inline">\(p=10\)</span>.</p>
+<p>We will use the <code>MaxProLHD()</code> and <code>MaxPro()</code> functions of the <code>MaxPro</code> library</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MaxPro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us visualize the desi</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>D1 <span class="ot">&lt;-</span> <span class="fu">MaxProLHD</span>(<span class="dv">20</span>, <span class="dv">10</span>)<span class="sc">$</span>Design</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>D2 <span class="ot">&lt;-</span> <span class="fu">MaxPro</span>(D1)<span class="sc">$</span>Design</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxProLHD(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxPro(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MmLHD(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxPro(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that the projects of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design as expected.</p>
+
+
 </section>
 
 </main> <!-- /main -->
