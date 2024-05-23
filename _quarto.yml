@@ -19,6 +19,7 @@ book:
     - ANOVA.qmd
     - Multiple_factors.qmd
     - Computer_model.qmd
+    - computer_experiment_designs.qmd
   appendices: 
     - Assignment A.qmd
     - Assignment B_questions.qmd

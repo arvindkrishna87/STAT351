@@ -1,0 +1,31 @@
+# Computer experiment designs
+
+## Maximin design
+
+Let us generate a 4-run maximin design in $[0, 1]^2$ for $p=2$.
+
+We will use the `maximin()` function of the `maximin` library
+
+```{r, message = FALSE}
+library(maximin)
+```
+
+For generating a maximin design, we need to specify an initial design, and the function will add points to the design to develop a design that is as close to a maximin design as possible.
+
+Let us add the origin as a point in the initial design.
+
+```{r}
+D_initial <- matrix(c(0,0),1,2)
+```
+
+
+```{r}
+D <- maximin(n = 3, p=2, Xorig = D_initial)$Xf
+```
+
+```{r}
+plot(D)
+```
+
+As expected, the design is the four corners of the feasible design space as the minimum distance between any two design points is the largest in this case.
+
