@@ -266,7 +266,10 @@ window.Quarto = {
    
   <ul>
   <li><a href="#maximin-design" id="toc-maximin-design" class="nav-link active" data-scroll-target="#maximin-design"><span class="header-section-number">6.1</span> Maximin design</a></li>
-  <li><a href="#maximin-lhd" id="toc-maximin-lhd" class="nav-link" data-scroll-target="#maximin-lhd"><span class="header-section-number">6.2</span> Maximin LHD</a></li>
+  <li><a href="#maximin-lhd" id="toc-maximin-lhd" class="nav-link" data-scroll-target="#maximin-lhd"><span class="header-section-number">6.2</span> Maximin LHD</a>
+  <ul class="collapse">
+  <li><a href="#mmlhd-weakness" id="toc-mmlhd-weakness" class="nav-link" data-scroll-target="#mmlhd-weakness"><span class="header-section-number">6.2.1</span> MmLHD: Weakness</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -340,8 +343,29 @@ window.Quarto = {
 </div>
 </div>
 <p>Note that the design has 4 distinct projections for each of the two factors.</p>
+<section id="mmlhd-weakness" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="mmlhd-weakness"><span class="header-section-number">6.2.1</span> MmLHD: Weakness</h3>
+<p>MaximinLHD have good projections in a single dimension, but projection properties in 2, 3, …, 𝑝−1 dimensions may not be good.</p>
+<p>Let us compare the projections of a 2-dimensional design with that of a 20-dimensional design on a 2-dimensional subspace.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">maximinLHS</span>(<span class="dv">20</span>, <span class="dv">2</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MmLHD(n = 20, p = 2)"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">maximinLHS</span>(<span class="dv">20</span>, <span class="dv">10</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MmLHD(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We observe that the projects of the 20-dimensional MmLHD design are not that good.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
