@@ -90,6 +90,6 @@ plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
 plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
 ```
 
-Note that the projects of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design as expected.
+Note that the projections of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design, as expected.
 
 

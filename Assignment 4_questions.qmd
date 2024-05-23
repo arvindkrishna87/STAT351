@@ -171,7 +171,7 @@ Derive the variance of the estimate of the metamodel in case of ordinary kriging
 
 ## 4) Design of computer experiments
 
-Suppose the computer model is given by the [borehole function](https://www.sfu.ca/~ssurjano/borehole.html). Develop a simple-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs: 
+Suppose the computer model is given by the [borehole function](https://www.sfu.ca/~ssurjano/borehole.html). Develop an ordinary-kriging metamodel, and a universal-kriging metamodel for each of the following 10-run designs: 
 
 1) Maximin design
 
