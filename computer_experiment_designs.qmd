@@ -54,7 +54,7 @@ MaximinLHD have good projections in a single dimension, but projection propertie
 Let us compare the projections of a 2-dimensional design with that of a 20-dimensional design on a 2-dimensional subspace.
 
 ```{r}
-set.seed(1)
+set.seed(3)
 D <- maximinLHS(20, 2)
 par(mfrow = c(1,2))
 plot(D, pch = 16, main = "MmLHD(n = 20, p = 2)")
@@ -63,4 +63,32 @@ plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
 ```
 
 We observe that the projects of the 20-dimensional MmLHD design are not that good.
+
+## MaxProLHD & MaxPro
+
+Let us generate a 20-run MaxProLHD and MaxPro designs in $[0, 1]^10$ for $p=10$.
+
+We will use the `MaxProLHD()` and `MaxPro()` functions of the `MaxPro` library
+
+```{r, message=FALSE}
+library(MaxPro)
+```
+
+Let us visualize the desi
+
+```{r}
+set.seed(1)
+D1 <- MaxProLHD(20, 10)$Design
+D2 <- MaxPro(D1)$Design
+plot(D1[,1:2], pch = 16, main = "MaxProLHD(n = 20, p = 10)")
+plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
+```
+
+```{r}
+plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
+plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
+```
+
+Note that the projects of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design as expected.
+
 

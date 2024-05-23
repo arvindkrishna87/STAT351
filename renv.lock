@@ -117,6 +117,16 @@
       ],
       "Hash": "0776bf7526869e0286b0463cb72fb211"
     },
+    "MaxPro": {
+      "Package": "MaxPro",
+      "Version": "4.1-2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "nloptr"
+      ],
+      "Hash": "dc86cb02ed6bd65a7b96a89fd1bae87d"
+    },
     "R6": {
       "Package": "R6",
       "Version": "2.5.1",
