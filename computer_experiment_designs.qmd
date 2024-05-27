@@ -24,7 +24,7 @@ D <- maximin(n = 3, p=2, Xorig = D_initial)$Xf
 ```
 
 ```{r}
-plot(D, pch = 16)
+plot(D, pch = 16, asp = 1)
 ```
 
 As expected, the design is the four corners of the feasible design space as the minimum distance between any two design points is the largest in this case.
