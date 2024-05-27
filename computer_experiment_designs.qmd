@@ -35,9 +35,9 @@ Note that the algorithm that optimizes the minimum distance between points does 
 Let us attempt to obtain a 5-run maximin design in $[0, 1]^2$ for $p=2$.
 
 ```{r}
-par(pty="s")
 set.seed(3)
 D <- maximin(n = 4, p=2, Xorig = D_initial)
+par(pty="s")
 plot(D$Xf, pch = 16)
 ```
 
@@ -55,12 +55,12 @@ minimum_distance <- function(x)
 min(apply(D$Xf, 1, minimum_distance))
 ```
 
-Let us increase the iterations of the function to see if that leads to a better design.
+Let us increase the iterations of the `maximin()` function to see if that leads to a better design.
 
 ```{r}
-par(pty="s")
 set.seed(3)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 100)
+par(pty="s")
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
@@ -68,9 +68,9 @@ min(apply(D$Xf, 1, minimum_distance))
 Increasing the number of iteration did not help. We can increase the iterations further. However, let us try to change the seed. 
 
 ```{r}
-par(pty="s")
 set.seed(4)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 100)
+par(pty="s")
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
@@ -78,17 +78,19 @@ min(apply(D$Xf, 1, minimum_distance))
 We got a better design, as the minimum distance between the points is higher. Let us increase the number of iterations to see if the design gets better.    
 
 ```{r}
-par(pty="s")
 set.seed(4)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 200)
+par(pty="s")
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
 
+The design gets better with increased iterations. Let us further increase the iterations.
+
 ```{r}
-par(pty="s")
 set.seed(4)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 400)
+par(pty="s")
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
@@ -96,9 +98,9 @@ min(apply(D$Xf, 1, minimum_distance))
 The design did not get better. Let us change the seed again.
 
 ```{r}
-par(pty="s")
 set.seed(5)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 400)
+par(pty="s")
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
@@ -124,9 +126,9 @@ which.max(min_dist)
 Let us plot the best design:
 
 ```{r}
-par(pty="s")
 set.seed(12)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 100)
+par(pty="s")
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
