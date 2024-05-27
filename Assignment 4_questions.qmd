@@ -181,7 +181,7 @@ Suppose the computer model is given by the [borehole function](https://www.sfu.c
 
 4) MaxPro design
 
-Compute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence.
+Compute the RMSE (root mean squared error) of each of the 8 metamodels on a 1000-run sobol sequence. 
 
 Compare the RMSEs, and comment about the relative performance of the designs and the metamodels.
 
