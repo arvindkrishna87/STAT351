@@ -62,7 +62,7 @@ plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
 
-Increasing the number of iteration did not help. We can increase the iterations further. However, let us try to change the seed.
+Increasing the number of iteration did not help. We can increase the iterations further. However, let us try to change the seed. 
 
 ```{r}
 set.seed(4)
