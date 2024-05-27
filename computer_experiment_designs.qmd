@@ -24,7 +24,7 @@ D <- maximin(n = 3, p=2, Xorig = D_initial)$Xf
 ```
 
 ```{r}
-par(pty="s")
+par(pty="s") # Making a square plot (maintaining aspect ratio)
 plot(D, pch = 16)
 ```
 
@@ -35,6 +35,7 @@ Note that the algorithm that optimizes the minimum distance between points does 
 Let us attempt to obtain a 5-run maximin design in $[0, 1]^2$ for $p=2$.
 
 ```{r}
+par(pty="s")
 set.seed(3)
 D <- maximin(n = 4, p=2, Xorig = D_initial)
 plot(D$Xf, pch = 16)
@@ -57,6 +58,7 @@ min(apply(D$Xf, 1, minimum_distance))
 Let us increase the iterations of the function to see if that leads to a better design.
 
 ```{r}
+par(pty="s")
 set.seed(3)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 100)
 plot(D$Xf, pch = 16)
@@ -66,6 +68,7 @@ min(apply(D$Xf, 1, minimum_distance))
 Increasing the number of iteration did not help. We can increase the iterations further. However, let us try to change the seed. 
 
 ```{r}
+par(pty="s")
 set.seed(4)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 100)
 plot(D$Xf, pch = 16)
@@ -75,6 +78,7 @@ min(apply(D$Xf, 1, minimum_distance))
 We got a better design, as the minimum distance between the points is higher. Let us increase the number of iterations to see if the design gets better.    
 
 ```{r}
+par(pty="s")
 set.seed(4)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 200)
 plot(D$Xf, pch = 16)
@@ -82,6 +86,7 @@ min(apply(D$Xf, 1, minimum_distance))
 ```
 
 ```{r}
+par(pty="s")
 set.seed(4)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 400)
 plot(D$Xf, pch = 16)
@@ -91,6 +96,7 @@ min(apply(D$Xf, 1, minimum_distance))
 The design did not get better. Let us change the seed again.
 
 ```{r}
+par(pty="s")
 set.seed(5)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 400)
 plot(D$Xf, pch = 16)
@@ -118,10 +124,73 @@ which.max(min_dist)
 Let us plot the best design:
 
 ```{r}
+par(pty="s")
 set.seed(12)
 D <- maximin(n = 4, p=2, Xorig = D_initial, T = 100)
 plot(D$Xf, pch = 16)
 min(apply(D$Xf, 1, minimum_distance))
 ```
 
+## Maximin LHD
+
+Let us generate a 4-run maximin LHD in $[0, 1]^2$ for $p=2$.
+
+We will use the `maximinLHS()` function of the `lhs` library
+
+```{r, message = FALSE}
+library(lhs)
+```
+
+```{r}
+set.seed(1)
+D <- maximinLHS(4, 2)
+plot(D, xlim = c(0, 1), ylim = c(0, 1), pch = 16)
+```
+
+Note that the design has 4 distinct projections for each of the two factors.
+
+### MmLHD: Weakness
+
+MaximinLHD have good projections in a single dimension, but projection properties in 2, 3, …, 𝑝−1 dimensions may not be good.
+
+Let us compare the projections of a 2-dimensional design with that of a 20-dimensional design on a 2-dimensional subspace.
+
+```{r}
+set.seed(3)
+D <- maximinLHS(20, 2)
+par(mfrow = c(1,2))
+plot(D, pch = 16, main = "MmLHD(n = 20, p = 2)")
+D <- maximinLHS(20, 10)
+plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
+```
+
+We observe that the projects of the 20-dimensional MmLHD design are not that good.
+
+## MaxProLHD & MaxPro
+
+Let us generate a 20-run MaxProLHD and MaxPro designs in $[0, 1]^10$ for $p=10$.
+
+We will use the `MaxProLHD()` and `MaxPro()` functions of the `MaxPro` library
+
+```{r, message=FALSE}
+library(MaxPro)
+```
+
+
+```{r}
+set.seed(3)
+D1 <- MaxProLHD(20, 10)$Design
+D2 <- MaxPro(D1)$Design
+par(mfrow = c(1,2))
+plot(D1[,1:2], pch = 16, main = "MaxProLHD(n = 20, p = 10)")
+plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
+```
+
+```{r}
+par(mfrow = c(1,2))
+plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
+plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
+```
+
+Note that the projections of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design, as expected.
 
