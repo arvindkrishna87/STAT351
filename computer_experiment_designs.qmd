@@ -190,7 +190,7 @@ Let us compare the projections of a 20-run 2-dimensional design with that of a 2
 The best 20-run MmLHD for $p=2$ is with seed:
 
 ```{r}
-min_dist <- rep(0, 20)
+min_dist <- rep(0, 10000)
 for(s in 1:10000)
 {
   set.seed(s)
@@ -203,7 +203,7 @@ which.max(min_dist)
 The best 20-run MmLHD for $p = 20$ is with seed:
 
 ```{r}
-min_dist <- rep(0, 20)
+min_dist <- rep(0, 10000)
 for(s in 1:10000)
 {
   set.seed(s)
@@ -241,22 +241,42 @@ We will use the `MaxProLHD()` and `MaxPro()` functions of the `MaxPro` library
 library(MaxPro)
 ```
 
+Let us find the best MaxProLHD design among 100 different MaxProLHDs. The seed that corresponds to the least MaxPro criterion is:
 
 ```{r}
-set.seed(3)
+maxpro_criterion <- rep(0, 100)
+for(s in 1:100)
+{
+  set.seed(s)
+  Dm <- MaxProLHD(n = 20, p = 10)
+  maxpro_criterion[s] <- Dm$measure
+}
+which.min(maxpro_criterion)
+```
+
+We will use the seed to visualize the projections of a 20-run MaxProLHD and MaxPro design in 20 dimensions on a 2-dimensional subspace.
+
+```{r}
+set.seed(26)
 D1 <- MaxProLHD(20, 10)$Design
 D2 <- MaxPro(D1)$Design
 par(mfrow = c(1,2))
+par(pty="s")
 plot(D1[,1:2], pch = 16, main = "MaxProLHD(n = 20, p = 10)")
+par(pty="s")
 plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
 ```
+
+Let us compare the 2-dimensional projections of the 20-run MaximinLHD with MaxPro design.
 
 ```{r}
 par(mfrow = c(1,2))
+par(pty="s")
 plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
+par(pty="s")
 plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
 ```
 
-Note that the projections of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design, as expected.
+Note that the projections of the MaxPro design in the 2-dimensional subspace are more space-filling than that of the MaximinLHD, as expected.
 
 
