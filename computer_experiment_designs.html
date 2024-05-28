@@ -759,7 +759,7 @@ window.Quarto = {
 <span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>  d2 <span class="ot">&lt;-</span> <span class="fu">MaxPro</span>(D1)<span class="sc">$</span>Design</span>
 <span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
 <span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"Maximin"</span>, <span class="st">"MmLHD"</span>, <span class="st">"MaxProLHD"</span>, </span>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"Maximin"</span>, <span class="st">"MmLHD"</span>, <span class="st">"MProLHD"</span>, </span>
 <span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a><span class="st">"MaxPro"</span>), <span class="at">ylab =</span> <span class="st">"Time (in seconds)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -769,6 +769,33 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>Maximin design takes the longest time as there are no constraints in the design criterion.</p>
+<p>Let us remove the maximin design from the plot to visualize the comparison of other designs more clearly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure[,<span class="sc">-</span><span class="dv">3</span>], <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"MmLHD"</span>, <span class="st">"MProLHD"</span>, </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="st">"MaxPro"</span>), <span class="at">ylab =</span> <span class="st">"Time (in seconds)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>MaxProLHD and MaxPro take longer time than MmLHD as the MaxPro criterion is optimized.</p>
+<p>Let us remove MaxProLHD and MaxPro from the plot to compare the time taken by MmLHD with low descrepancy sequences.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>)], <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"MmLHD"</span>), </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Time (in seconds)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected, MmLHD takes more time as it includes optimization of the MmLHD criterion.</p>
 
 
 </section>
