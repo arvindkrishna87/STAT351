@@ -366,7 +366,26 @@ for(i in 1:10)
   d2 <- MaxPro(D1)$Design
   time_measure[i,6] <- proc.time()[3] - time_start
 }
-boxplot(time_measure, names = c("Sobol", "Halton", "Maximin", "MmLHD", "MaxProLHD", 
+boxplot(time_measure, names = c("Sobol", "Halton", "Maximin", "MmLHD", "MProLHD", 
 "MaxPro"), ylab = "Time (in seconds)")
 ```
 
+Maximin design takes the longest time as there are no constraints in the design criterion. 
+
+Let us remove the maximin design from the plot to visualize the comparison of other designs more clearly.
+
+```{r}
+boxplot(time_measure[,-3], names = c("Sobol", "Halton", "MmLHD", "MProLHD", 
+"MaxPro"), ylab = "Time (in seconds)")
+```
+
+MaxProLHD and MaxPro take longer time than MmLHD as the MaxPro criterion is optimized.
+
+Let us remove MaxProLHD and MaxPro from the plot to compare the time taken by MmLHD with low descrepancy sequences.
+
+```{r}
+boxplot(time_measure[,-c(3,5:6)], names = c("Sobol", "Halton", "MmLHD"), 
+        ylab = "Time (in seconds)")
+```
+
+As expected, MmLHD takes more time as it includes optimization of the MmLHD criterion.
