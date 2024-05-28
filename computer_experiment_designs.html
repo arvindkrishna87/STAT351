@@ -276,6 +276,7 @@ window.Quarto = {
   <li><a href="#sobol" id="toc-sobol" class="nav-link" data-scroll-target="#sobol"><span class="header-section-number">6.4.1</span> Sobol</a></li>
   <li><a href="#halton" id="toc-halton" class="nav-link" data-scroll-target="#halton"><span class="header-section-number">6.4.2</span> Halton</a></li>
   </ul></li>
+  <li><a href="#comparison-of-time-taken-by-each-design" id="toc-comparison-of-time-taken-by-each-design" class="nav-link" data-scroll-target="#comparison-of-time-taken-by-each-design"><span class="header-section-number">6.5</span> Comparison of time taken by each design</a></li>
   </ul>
 </nav>
     </div>
@@ -700,9 +701,75 @@ window.Quarto = {
 </div>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="comparison-of-time-taken-by-each-design" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="comparison-of-time-taken-by-each-design"><span class="header-section-number">6.5</span> Comparison of time taken by each design</h2>
+<p>Let us compare the time taken by each design to generate a 50-run design in 50 dimensions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>time_measure <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">6</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sobol</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>time_start <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> <span class="fu">sobol</span>(n, <span class="dv">5</span>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Halton</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>time_start <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> <span class="fu">halton</span>(n, <span class="dv">5</span>)</span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Maximin</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>time_start <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>  D_initial <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>),<span class="dv">1</span>,<span class="dv">5</span>)</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> <span class="fu">maximin</span>(<span class="at">n =</span> n<span class="dv">-1</span>, <span class="at">p=</span><span class="dv">5</span>, <span class="at">Xorig =</span> D_initial)<span class="sc">$</span>Xf</span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a><span class="co"># MaximinLHD</span></span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>time_start <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> <span class="fu">maximinLHS</span>(<span class="at">n =</span> n, <span class="at">k=</span><span class="dv">5</span>)</span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a><span class="co"># MaxProLHD</span></span>
+<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a>time_start <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
+<span id="cb54-39"><a href="#cb54-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb54-40"><a href="#cb54-40" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb54-41"><a href="#cb54-41" aria-hidden="true" tabindex="-1"></a>  Dm <span class="ot">&lt;-</span> <span class="fu">MaxProLHD</span>(<span class="at">n =</span> n, <span class="at">p =</span> <span class="dv">5</span>)</span>
+<span id="cb54-42"><a href="#cb54-42" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
+<span id="cb54-43"><a href="#cb54-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-44"><a href="#cb54-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-45"><a href="#cb54-45" aria-hidden="true" tabindex="-1"></a><span class="co"># MaxPro</span></span>
+<span id="cb54-46"><a href="#cb54-46" aria-hidden="true" tabindex="-1"></a>time_start <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>]</span>
+<span id="cb54-47"><a href="#cb54-47" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb54-48"><a href="#cb54-48" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb54-49"><a href="#cb54-49" aria-hidden="true" tabindex="-1"></a>  D1 <span class="ot">&lt;-</span> <span class="fu">MaxProLHD</span>(<span class="at">n =</span> n, <span class="at">p =</span> <span class="dv">5</span>)<span class="sc">$</span>Design</span>
+<span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>  d2 <span class="ot">&lt;-</span> <span class="fu">MaxPro</span>(D1)<span class="sc">$</span>Design</span>
+<span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
+<span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"Maximin"</span>, <span class="st">"MaximinLHD"</span>, <span class="st">"MaxProLHD"</span>, <span class="st">"MaxPro"</span>), <span class="at">ylab =</span> <span class="st">"Time (in seconds)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
