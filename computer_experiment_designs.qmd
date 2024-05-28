@@ -185,7 +185,7 @@ min(apply(D, 1, minimum_distance, D = D))
 
 MaximinLHD have good projections in a single dimension, but projection properties in $2, 3, …, p−1$ dimensions may not be good.
 
-Let us compare the projections of a 20-run 2-dimensional design with that of a 20-run 20-dimensional design on a two-dimensional subspace.
+Let us compare the projections of a 20-run 2-dimensional design with that of a 20-run 10-dimensional design on a two-dimensional subspace.
 
 The best 20-run MmLHD for $p=2$ is with seed:
 
@@ -200,7 +200,7 @@ for(s in 1:10000)
 which.max(min_dist)
 ```
 
-The best 20-run MmLHD for $p = 20$ is with seed:
+The best 20-run MmLHD for $p = 10$ is with seed:
 
 ```{r}
 min_dist <- rep(0, 10000)
@@ -213,7 +213,7 @@ for(s in 1:10000)
 which.max(min_dist)
 ```
 
-Let us visualize the projections of the 20 run 2-dimensional MmLHD, and the 20-run 20-dimensional MmLHD on a 2-dimensional subspace, where the subspace is the subspace of the first two predictors.
+Let us visualize the projections of the 20 run 2-dimensional MmLHD, and the 20-run 10-dimensional MmLHD on a 2-dimensional subspace, where the subspace is the subspace of the first two predictors.
 
 ```{r}
 set.seed(7312)
@@ -227,13 +227,13 @@ par(pty="s")
 plot(D[,1:2], pch = 16, main = "MmLHD(n = 20, p = 10)")
 ```
 
-We observe that the projections of the 20-dimensional MmLHD are not as space-filling in the 2-dimensional subspace as the projections of the 2-dimensional MmLHD.
+We observe that the projections of the 10-dimensional MmLHD are not as space-filling in the 2-dimensional subspace as the projections of the 2-dimensional MmLHD.
 
 This issue motivates us to present a design that maximizes space-filling of the design projections in all multidimensional sub-spaces.
 
 ## MaxProLHD & MaxPro
 
-Let us generate a 20-run MaxProLHD and MaxPro designs in $[0, 1]^10$ for $p=10$.
+Let us generate a 20-run MaxProLHD and MaxPro designs in $[0, 1]^{10}$ for $p=10$.
 
 We will use the `MaxProLHD()` and `MaxPro()` functions of the `MaxPro` library
 
@@ -254,7 +254,7 @@ for(s in 1:100)
 which.min(maxpro_criterion)
 ```
 
-We will use the seed to visualize the projections of a 20-run MaxProLHD and MaxPro design in 20 dimensions on a 2-dimensional subspace.
+We will use the seed to visualize the projections of a 20-run MaxProLHD and MaxPro design in 10 dimensions on a 2-dimensional subspace.
 
 ```{r}
 set.seed(26)
