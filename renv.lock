@@ -1276,6 +1276,16 @@
       ],
       "Hash": "1bbc97f7d637ab3917c514a69047b2c1"
     },
+    "randtoolbox": {
+      "Package": "randtoolbox",
+      "Version": "2.0.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "rngWELL"
+      ],
+      "Hash": "3fbb3aa5688a4004b3d1c7efd80689f5"
+    },
     "rappdirs": {
       "Package": "rappdirs",
       "Version": "0.3.3",
@@ -1374,6 +1384,16 @@
         "yaml"
       ],
       "Hash": "9b148e7f95d33aac01f31282d49e4f44"
+    },
+    "rngWELL": {
+      "Package": "rngWELL",
+      "Version": "0.10-9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "b5c163aebf9187ab8a91df92832ff88e"
     },
     "rootSolve": {
       "Package": "rootSolve",
