@@ -293,6 +293,7 @@ Let us visualize a 100-run 2-dimensional Sobol sequence.
 
 ```{r}
 D_sobol <- sobol(100, 2)
+par(pty="s")
 plot(D_sobol)
 ```
 
@@ -304,6 +305,7 @@ Let us visualize a 100-run 2-dimensional Halton sequence.
 
 ```{r}
 D_halton <- halton(100, 2)
+par(pty="s")
 plot(D_halton)
 ```
 
