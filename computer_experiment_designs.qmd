@@ -279,4 +279,31 @@ plot(D2[,1:2], pch = 16, main = "MaxPro(n = 20, p = 10)")
 
 Note that the projections of the MaxPro design in the 2-dimensional subspace are more space-filling than that of the MaximinLHD, as expected.
 
+## Low descrepancy sequences
+
+We will use the library `randtoolbox` to generate low-discrepancy sequences.
+
+```{r}
+library(randtoolbox)
+```
+
+### Sobol
+
+Let us visualize a 100-run 2-dimensional Sobol sequence.
+
+```{r}
+D_sobol <- sobol(100, 2)
+plot(D_sobol)
+```
+
+As we can see, low descrepancy sequences minimize the difference between the proportion of points in a subregion and the proportion of the volume of that subregion. However, they do not necessarily have good projections. The same is true for the Halton sequence in the next section.
+
+### Halton
+
+Let us visualize a 100-run 2-dimensional Halton sequence.
+
+```{r}
+D_halton <- halton(100, 2)
+plot(D_halton)
+```
 
