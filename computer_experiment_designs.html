@@ -271,6 +271,11 @@ window.Quarto = {
   <li><a href="#mmlhd-weakness" id="toc-mmlhd-weakness" class="nav-link" data-scroll-target="#mmlhd-weakness"><span class="header-section-number">6.2.1</span> MmLHD: Weakness</a></li>
   </ul></li>
   <li><a href="#maxprolhd-maxpro" id="toc-maxprolhd-maxpro" class="nav-link" data-scroll-target="#maxprolhd-maxpro"><span class="header-section-number">6.3</span> MaxProLHD &amp; MaxPro</a></li>
+  <li><a href="#low-descrepancy-sequences" id="toc-low-descrepancy-sequences" class="nav-link" data-scroll-target="#low-descrepancy-sequences"><span class="header-section-number">6.4</span> Low descrepancy sequences</a>
+  <ul class="collapse">
+  <li><a href="#sobol" id="toc-sobol" class="nav-link" data-scroll-target="#sobol"><span class="header-section-number">6.4.1</span> Sobol</a></li>
+  <li><a href="#halton" id="toc-halton" class="nav-link" data-scroll-target="#halton"><span class="header-section-number">6.4.2</span> Halton</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -650,8 +655,52 @@ window.Quarto = {
 </div>
 </div>
 <p>Note that the projections of the MaxPro design in the 2-dimensional subspace are more space-filling than that of the MaximinLHD, as expected.</p>
+</section>
+<section id="low-descrepancy-sequences" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="low-descrepancy-sequences"><span class="header-section-number">6.4</span> Low descrepancy sequences</h2>
+<p>We will use the library <code>randtoolbox</code> to generate low-discrepancy sequences.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randtoolbox)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: rngWELL</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is randtoolbox. For an overview, type 'help("randtoolbox")'.</code></pre>
+</div>
+</div>
+<section id="sobol" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="sobol"><span class="header-section-number">6.4.1</span> Sobol</h3>
+<p>Let us visualize a 100-run 2-dimensional Sobol sequence.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>D_sobol <span class="ot">&lt;-</span> <span class="fu">sobol</span>(<span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D_sobol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see, low descrepancy sequences minimize the difference between the proportion of points in a subregion and the proportion of the volume of that subregion. However, they do not necessarily have good projections. The same is true for the Halton sequence in the next section.</p>
+</section>
+<section id="halton" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="halton"><span class="header-section-number">6.4.2</span> Halton</h3>
+<p>Let us visualize a 100-run 2-dimensional Halton sequence.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>D_halton <span class="ot">&lt;-</span> <span class="fu">halton</span>(<span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D_halton)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

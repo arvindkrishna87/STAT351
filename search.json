@@ -270,6 +270,16 @@
     ]
   },
   {
+    "objectID": "computer_experiment_designs.html#low-descrepancy-sequences",
+    "href": "computer_experiment_designs.html#low-descrepancy-sequences",
+    "title": "6  Computer experiment designs",
+    "section": "6.4 Low descrepancy sequences",
+    "text": "6.4 Low descrepancy sequences\nWe will use the library randtoolbox to generate low-discrepancy sequences.\n\nlibrary(randtoolbox)\n\nLoading required package: rngWELL\n\n\nThis is randtoolbox. For an overview, type 'help(\"randtoolbox\")'.\n\n\n\n6.4.1 Sobol\nLet us visualize a 100-run 2-dimensional Sobol sequence.\n\nD_sobol &lt;- sobol(100, 2)\nplot(D_sobol)\n\n\n\n\n\n\n\n\nAs we can see, low descrepancy sequences minimize the difference between the proportion of points in a subregion and the proportion of the volume of that subregion. However, they do not necessarily have good projections. The same is true for the Halton sequence in the next section.\n\n\n6.4.2 Halton\nLet us visualize a 100-run 2-dimensional Halton sequence.\n\nD_halton &lt;- halton(100, 2)\nplot(D_halton)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Computer experiment designs</span>"
+    ]
+  },
+  {
     "objectID": "Assignment A.html",
     "href": "Assignment A.html",
     "title": "Appendix A — Assignment 1",
