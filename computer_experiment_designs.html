@@ -546,7 +546,7 @@ window.Quarto = {
 <p>Let us compare the projections of a 20-run 2-dimensional design with that of a 20-run 20-dimensional design on a two-dimensional subspace.</p>
 <p>The best 20-run MmLHD for <span class="math inline">\(p=2\)</span> is with seed:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>min_dist <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">20</span>)</span>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>min_dist <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10000</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>{</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(s)</span>
@@ -560,7 +560,7 @@ window.Quarto = {
 </div>
 <p>The best 20-run MmLHD for <span class="math inline">\(p = 20\)</span> is with seed:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>min_dist <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">20</span>)</span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>min_dist <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10000</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>{</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(s)</span>
@@ -602,25 +602,30 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MaxPro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Let us find the best MaxProLHD design among 100 different MaxProLHDs. The seed that corresponds to the least MaxPro criterion is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>D1 <span class="ot">&lt;-</span> <span class="fu">MaxProLHD</span>(<span class="dv">20</span>, <span class="dv">10</span>)<span class="sc">$</span>Design</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>D2 <span class="ot">&lt;-</span> <span class="fu">MaxPro</span>(D1)<span class="sc">$</span>Design</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxProLHD(n = 20, p = 10)"</span>)</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxPro(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>maxpro_criterion <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(s)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  Dm <span class="ot">&lt;-</span> <span class="fu">MaxProLHD</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">p =</span> <span class="dv">10</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  maxpro_criterion[s] <span class="ot">&lt;-</span> Dm<span class="sc">$</span>measure</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(maxpro_criterion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26</code></pre>
 </div>
 </div>
-</div>
+<p>We will use the seed to visualize the projections of a 20-run MaxProLHD and MaxPro design in 20 dimensions on a 2-dimensional subspace.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MmLHD(n = 20, p = 10)"</span>)</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxPro(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">26</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>D1 <span class="ot">&lt;-</span> <span class="fu">MaxProLHD</span>(<span class="dv">20</span>, <span class="dv">10</span>)<span class="sc">$</span>Design</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>D2 <span class="ot">&lt;-</span> <span class="fu">MaxPro</span>(D1)<span class="sc">$</span>Design</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">pty=</span><span class="st">"s"</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxProLHD(n = 20, p = 10)"</span>)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">pty=</span><span class="st">"s"</span>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxPro(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -629,7 +634,22 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Note that the projections of the MaxPro design on the 2-d subspace are better than the projections of the MmLHD design, as expected.</p>
+<p>Let us compare the 2-dimensional projections of the 20-run MaximinLHD with MaxPro design.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">pty=</span><span class="st">"s"</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MmLHD(n = 20, p = 10)"</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">pty=</span><span class="st">"s"</span>)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(D2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">main =</span> <span class="st">"MaxPro(n = 20, p = 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="computer_experiment_designs_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that the projections of the MaxPro design in the 2-dimensional subspace are more space-filling than that of the MaximinLHD, as expected.</p>
 
 
 </section>
