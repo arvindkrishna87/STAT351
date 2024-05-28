@@ -366,6 +366,7 @@ for(i in 1:10)
   d2 <- MaxPro(D1)$Design
   time_measure[i,6] <- proc.time()[3] - time_start
 }
-boxplot(time_measure, names = c("Sobol", "Halton", "Maximin", "MaximinLHD", "MaxProLHD", "MaxPro"), ylab = "Time (in seconds)")
+boxplot(time_measure, names = c("Sobol", "Halton", "Maximin", "MmLHD", "MaxProLHD", 
+"MaxPro"), ylab = "Time (in seconds)")
 ```
 
