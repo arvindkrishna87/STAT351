@@ -309,3 +309,63 @@ par(pty="s")
 plot(D_halton)
 ```
 
+## Comparison of time taken by each design
+
+Let us compare the time taken by each design to generate a 50-run design in 50 dimensions.
+
+```{r}
+n=50
+time_measure <- matrix(0, 10, 6)
+
+# Sobol
+time_start <- proc.time()[3]
+for(i in 1:10)
+{
+  D <- sobol(n, 5)
+  time_measure[i,1] <- proc.time()[3] - time_start
+}
+
+# Halton
+time_start <- proc.time()[3]
+for(i in 1:10)
+{
+  D <- halton(n, 5)
+  time_measure[i,2] <- proc.time()[3] - time_start
+}
+
+# Maximin
+time_start <- proc.time()[3]
+for(i in 1:10)
+{
+  D_initial <- matrix(rep(0, 5),1,5)
+  D <- maximin(n = n-1, p=5, Xorig = D_initial)$Xf
+  time_measure[i,3] <- proc.time()[3] - time_start
+}
+
+# MaximinLHD
+time_start <- proc.time()[3]
+for(i in 1:10)
+{
+  D <- maximinLHS(n = n, k=5)
+  time_measure[i,4] <- proc.time()[3] - time_start
+}
+
+# MaxProLHD
+time_start <- proc.time()[3]
+for(i in 1:10)
+{
+  Dm <- MaxProLHD(n = n, p = 5)
+  time_measure[i,5] <- proc.time()[3] - time_start
+}
+
+# MaxPro
+time_start <- proc.time()[3]
+for(i in 1:10)
+{
+  D1 <- MaxProLHD(n = n, p = 5)$Design
+  d2 <- MaxPro(D1)$Design
+  time_measure[i,6] <- proc.time()[3] - time_start
+}
+boxplot(time_measure, names = c("Sobol", "Halton", "Maximin", "MaximinLHD", "MaxProLHD", "MaxPro"), ylab = "Time (in seconds)")
+```
+
