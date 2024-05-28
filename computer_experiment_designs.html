@@ -759,7 +759,8 @@ window.Quarto = {
 <span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>  d2 <span class="ot">&lt;-</span> <span class="fu">MaxPro</span>(D1)<span class="sc">$</span>Design</span>
 <span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>  time_measure[i,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fu">proc.time</span>()[<span class="dv">3</span>] <span class="sc">-</span> time_start</span>
 <span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"Maximin"</span>, <span class="st">"MaximinLHD"</span>, <span class="st">"MaxProLHD"</span>, <span class="st">"MaxPro"</span>), <span class="at">ylab =</span> <span class="st">"Time (in seconds)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(time_measure, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Sobol"</span>, <span class="st">"Halton"</span>, <span class="st">"Maximin"</span>, <span class="st">"MmLHD"</span>, <span class="st">"MaxProLHD"</span>, </span>
+<span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a><span class="st">"MaxPro"</span>), <span class="at">ylab =</span> <span class="st">"Time (in seconds)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
