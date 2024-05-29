@@ -558,7 +558,7 @@
     "href": "Assignment 4_questions.html#computer-models",
     "title": "Appendix D — Assignment 4",
     "section": "3) Computer models",
-    "text": "3) Computer models\nDerive the variance of the estimate of the metamodel in case of ordinary kriging. Compare it with the uncertainty in the estimate of the metamodel in case of simple kriging. Is it bigger or smaller? Why?\n(7 + 1 + 2 = 10 points)",
+    "text": "3) Computer models\nDerive the uncertainty in the estimate of the metamodel in case of ordinary kriging. Compare it with the uncertainty in the estimate of the metamodel in case of simple kriging. Is it bigger or smaller? Why?\n(7 + 1 + 2 = 10 points)",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 4</span>"
