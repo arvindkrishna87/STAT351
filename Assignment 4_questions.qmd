@@ -165,7 +165,7 @@ As shown in 2(a), two-factor interactions could not be estimated with the given 
 
 ## 3) Computer models
 
-Derive the variance of the estimate of the metamodel in case of ordinary kriging. Compare it with the uncertainty in the estimate of the metamodel in case of simple kriging. Is it bigger or smaller? Why?
+Derive the uncertainty in the estimate of the metamodel in case of ordinary kriging. Compare it with the uncertainty in the estimate of the metamodel in case of simple kriging. Is it bigger or smaller? Why?
 
 *(7 + 1 + 2 = 10 points)*
 
