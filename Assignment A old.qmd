@@ -1,8 +1,10 @@
 ---
-title: "Assignment A"
+title: "Assignment 1"
 format:
   html:
     toc: true
+    toc-depth: 4
+    number-sections: false
 self-contained: true
 link-external-newwindow: true
 editor_options: 
@@ -17,7 +19,7 @@ editor_options:
 
 3.  Quarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **28th April 2025 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **15th April 2024 at 11:59 pm**.
 
 5. Use a significance level $\alpha = 5\%$ in all hypothesis tests, unless otherwise specified.
 
@@ -78,7 +80,6 @@ State the null and alternate hypothesis, compute the test statistic, conduct the
 a <- c(8.73, 11.31,  9.15, 13.78, 11.58, 9.14, 11.05,  9.49)
 b <- c(10.77,  8.33, 11.87,  8.31,  7.28,  4.99, 12.61,  8.81)
 ```
-
 
 ### Q1(b)
 
@@ -220,7 +221,7 @@ Consider another experiment to compare two keyboards A and B in terms of typing 
 
 ### Q2(a)
 
-Use a statistical model to quantify the gains (1) using randomization *(use the randomized design on slide 15 of the class presentation "1. Introduction.pdf")*, and (2) using balanced randomization.
+Use a statistical model to quantify the gains (1) using randomization *(use the randomized design on slide 15 of the class presentation)*, and (2) using balanced randomization.
 
 *(4 points)*
 
@@ -228,7 +229,7 @@ Use a statistical model to quantify the gains (1) using randomization *(use the 
 
 Suppose the following sequence is obtained using balanced randomization:
 
-$1. A-B, 2. A-B, 3. A-B, 4. B-A, 5. B-A, 6. B-A.$
+1. A-B, 2. A-B, 3. A-B, 4. B-A, 5. B-A, 6. B-A.
 
 Would you use it for the study? What aspect of the sequence makes you concerned? 
 
