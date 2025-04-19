@@ -31,7 +31,7 @@ editor_options:
 
 8. For questions involving derivations (Q2, Q3 and Q5 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
 
-## Q1
+## Q1 {.unnumbered}
 
 WCAS (Weinberg College of Arts and Sciences) is considering replacing  keyboards used in offices of all its departments with new keyboards of a different brand. Let the current keyboard be denoted as A, and the new one denoted as B, where A and B can be assumed to be the brands of the keyboards. However, before making the purchase, WCAS is conducting an experiment to test if the new keyboard will increase the typing efficiency.
 
@@ -49,7 +49,7 @@ $y = \mu_{keyboard} + \beta_{script} + \epsilon$,
 
 where the effect of the keyboards is fixed, and the effect of the script is a random variable, whose variance will be higher if scripts from across multiple departments are used as compared to the case if scripts from within the same department are used in the experiment. However, a given script will have the same effect on the typing time if used multiple times in an experiment.
 
-### Q1(a)
+### Q1(a) {.unnumbered}
 
 The first experiment is conducted as follows. 
 
@@ -80,7 +80,7 @@ b <- c(10.77,  8.33, 11.87,  8.31,  7.28,  4.99, 12.61,  8.81)
 ```
 
 
-### Q1(b)
+### Q1(b) {.unnumbered}
 
 The company that sells keyboards of brand B contested the conclusions made based on the above test, and asked WCAS to conduct another experiment, where the same script is tested on both the keyboards, and the typing times are compared for the same script across keyboards.
 
@@ -111,13 +111,13 @@ b <- c(7.58,  9.11,  8.02, 12.75,  8.97,  6.65, 10.34, 11.24)
 ```
 
 
-### Q1(c)
+### Q1(c) {.unnumbered}
 
 Were the conclusions based on the experiments in 1(a) different from the experiments in 1(b)? If yes, then why? If no, then why not? Explain in terms of design principles.
 
 *(4 points)*
 
-### Q1(d)
+### Q1(d) {.unnumbered}
 
 Unconvinced by the results of the tests in 1(a) and 1(b), WCAS asked the Department of Statistics and Data Science (DSDS) to conduct both types of experiments (1(a) & 1(b)) again.
 
@@ -150,7 +150,7 @@ b <- c(9.20, 6.53, 9.52, 8.50, 9.75, 9.18, 9.92, 9.09)
 ```
 
 
-### Q1(e)
+### Q1(e) {.unnumbered}
 
 Are the conclusions based on the experiment conducted by DSDS in 1(d) the same as that of the experiment conducted in 1(a)? 
 
@@ -158,7 +158,7 @@ What do you think can be the reason of the conclusions being the same *(if they 
 
 *(4 points)*
 
-### Q1(f)
+### Q1(f) {.unnumbered}
 
 For the seconds experiment, DSDS randomly distributed 8 scripts among 16 typists, where each script was shared by two typists - one of them typed it with keyboard A, and the other one typed the same script with keyboard B.
 
@@ -186,7 +186,7 @@ a <- c(10.99,  9.73,  9.38,  9.29,  8.26,  9.11,  9.51,  9.73)
 b <- c(8.53,  7.06,  8.32, 10.79, 9.61, 11.00,  8.76,  8.88)
 ```
 
-### Q1(g)
+### Q1(g) {.unnumbered}
 
 Are the conclusions based on the experiment conducted by DSDS in 1(f) the same as that of the experiment conducted in 1(b)? 
 
@@ -194,13 +194,13 @@ What do you think can be the reason of the conclusions being the same *(if they 
 
 *(4 points)*
 
-### Q1(h)
+### Q1(h) {.unnumbered}
 
 If the true difference between the mean typing time with the 2 keyboards is 60 seconds, compute the power of the test for each of the 4 tests - 1(a), 1(b), 1(d), and 1(f). You can assume the population variances to be the same for the populations considered in each experiment.
 
 *(8 points)*
 
-### Q1(i)
+### Q1(i) {.unnumbered}
 
 Which test among 1(a), 1(b), 1(d), and 1(f) would you recommend in the future for a similar problem? Why?
 
@@ -208,23 +208,23 @@ Is there any potential disadvantage of the recommended test?
 
 *(4 points)*
 
-### Q1(j)
+### Q1(j) {.unnumbered}
 
 Design an experiment that uses minimum resources *(i.e., minimum replicates)* to provide a power of at least 95% in detecting a potential difference of 60 seconds in the typing time taken by the keyboards. Mention the design. You may modify any of the designs in 1(a), 1(b), 1(d), or 1(f), or even combine the results of some of the experiments to come up with a more reliable design.
 
 *(4 points)*
 
-## Q2
+## Q2 {.unnumbered}
 
 Consider another experiment to compare two keyboards A and B in terms of typing efficiency. In this experiment, six manuscripts 1-6 are given to the same typist.
 
-### Q2(a)
+### Q2(a) {.unnumbered}
 
 Use a statistical model to quantify the gains (1) using randomization *(use the randomized design on slide 15 of the class presentation "1. Introduction.pdf")*, and (2) using balanced randomization.
 
 *(4 points)*
 
-### Q2(b)
+### Q2(b) {.unnumbered}
 
 Suppose the following sequence is obtained using balanced randomization:
 
@@ -238,7 +238,7 @@ How can you modify the design to reduce the expected bias?
 
 *(2 + 2 + 2 = 6 points)*
 
-## Q3
+## Q3 {.unnumbered}
 
 A fertilizer is claimed to change the mean yield of a crop to 3 times the mean yield without the fertilizer minus 5 units, i.e.,
 
@@ -248,31 +248,31 @@ mean yield with fertilizer = 3 * (mean yield without fertilizer) - 5
 
 Assume that the variances of the yield of the two populations (with & without the fertilizer), $\sigma_{Fertilizer}^2$ and $\sigma_{NoFertilizer}^2$ are known.
 
-### Q3(a)
+### Q3(a) {.unnumbered}
 
 State the null and alternate hypothesis.
 
 *(4 points)*
 
-### Q3(b)
+### Q3(b) {.unnumbered}
 
 Formulate the test statistic.
 
 *(4 points)*
 
-### Q3(c)
+### Q3(c) {.unnumbered}
 
 Derive an expression for the ratio of the number of observations to be sampled from each of the populations, so as to maximize the power of the test. Assume a fixed budget of a total of $N$ samples *(i.e., sum of number of samples from both the populations is $N$)*.
 
 *(6 points)*
 
-## Q4
+## Q4 {.unnumbered}
 
 In the early stages of research and development experimentation which type of error do you think is most important, type I or type II? Justify your answer.
 
 *(4 points)*
 
-## Q5
+## Q5 {.unnumbered}
 
 Consider a hardness testing machine that presses a rod with a pointed tip *(treatment)* into a metal specimen *(experimental unit)* with a known force.
 
@@ -298,39 +298,39 @@ $i = 1,2$ *(There are 2 tips)*,
 
 $j = 1, ..., n$ *(There are $n$ replicates for each tip)*
 
-### Q5(a)
+### Q5(a) {.unnumbered}
 
 Suppose that a randomly selected set of $n$ metal specimens is assigned to tip 1, and another set of randomly selected $n$ metal specimens is assigned to tip 2 *(i.e., a total of 2$n$ specimens are used in the experiment)*, and the appropriate test is used to test the hypothesis if the mean hardness measured by the two tips is the same. 
 
-#### Q5(a)(i)
+#### Q5(a)(i) {.unnumbered}
 
 Derive an expression for the expected bias of the estimated difference in the mean hardness measured by the 2 tips.
 
 *(4 points)*
 
-#### Q5(a)(ii)
+#### Q5(a)(ii) {.unnumbered}
 
 Derive an expression for the expected variance of the estimated difference in the mean hardness measured by the 2 tips.
 
 *(4 points)*
 
-### Q5(b)
+### Q5(b) {.unnumbered}
 
 Suppose that a randomly selected set of $n$ metal specimens is assigned to both the tips *(i.e., a total of $n$ specimens are used in the experiment)*. For each specimen, hardness is observed at a point in the specimen using tip 1 and at another point within the same specimen using tip 2.  The appropriate test is used to test the hypothesis if the mean hardness measured by the two tips is the same. 
 
-#### Q5(b)(i)
+#### Q5(b)(i) {.unnumbered}
 
 Derive an expression for the expected bias of the estimated difference in the mean hardness measured by the 2 tips.
 
 *(2 points)*
 
-#### Q5(b)(ii)
+#### Q5(b)(ii) {.unnumbered}
 
 Derive an expression for the expected variance of the estimated difference in the mean hardness measured by the 2 tips.
 
 *(3 points)*
 
-### Q5(c)
+### Q5(c) {.unnumbered}
 
 Derive the condition, when the expected precision of the estimated difference in means of the hardness measured by the two tips will be higher in the experimental design of 5(b) as compared to the experimental design in 5(a).
 
@@ -338,7 +338,7 @@ Derive the condition, when the expected precision of the estimated difference in
 
 *(8 points)*
 
-### Q5(d)
+### Q5(d) {.unnumbered}
 
 How does the difference in the precision of the estimated difference *(in means of the hardness measured by the two tips)* by the two experimental designs *(5(a) and 5(b))* change as the number of replicates $n$ are increased in each of those designs.
 
