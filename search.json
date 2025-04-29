@@ -403,7 +403,7 @@
     "href": "Assignment B_questions.html#q1",
     "title": "Appendix B — Assignment B",
     "section": "Q1",
-    "text": "Q1\nIn Q1 of assignment 1, suppose three keyboards were being compared, instead of two. Let us say there were keyboards of another brand C. Assume that the number of replicates of keyboard C were the same as that of keyboards A and B in all the experiments. After the experiment is conducted, ANOVA is used to identify a difference between the typing time of all pairs of keyboards. Will it be more likely or less likely to observe a statistically significant difference between keyboard A and keyboard B in each of the experiments - 1(a), 1(b), 1(d), and 1(f)? Justify your answer.\n(4 points)",
+    "text": "Q1\nIn Q1 of assignment A, suppose three keyboards were being compared, instead of two. Let us say there were keyboards of another brand C. Assume that the number of replicates of keyboard C were the same as that of keyboards A and B in all the experiments. After the experiment is conducted, ANOVA is used to identify a difference between the typing time of all pairs of keyboards. Will it be more likely or less likely to observe a statistically significant difference between keyboard A and keyboard B in each of the experiments - 1(a), 1(b), 1(d), and 1(f)? Justify your answer.\n(4 points)",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment B</span>"
