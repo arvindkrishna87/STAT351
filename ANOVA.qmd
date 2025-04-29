@@ -89,6 +89,10 @@ print(paste0("Estimated difference between treatment 3 and treatment 1 = ", trea
 print(paste0("Estimated difference between treatment 3 and treatment 2 = ", treatment_means$mean_wt[3] - treatment_means$mean_wt[2]))
 ```
 
+```{r}
+# Upper bound of the confidence interval for the estimated difference between treatment 2 and treatment 1 
+```
+
 
 Bonferroni's confidence intervals are overly conservative. Let us find the confidence intervals basead on Tukey's method:
 
