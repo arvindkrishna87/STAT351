@@ -202,6 +202,8 @@ We conclude that there is no statistically significant difference between the ef
 
 ### Model assumptions check
 
+#### Visual test (Mean error = 0)
+
 ```{r}
 par(mfrow = c(2,2))
 plot(model)
@@ -209,11 +211,15 @@ plot(model)
 
 Based on the plot of the residuals against fitted values, the average residual is close to zero. Thus, the assumption of the error term having a zero mean is satisfied.
 
+#### homoscedasticity test
+
 ```{r}
 bptest(model)
 ```
 
 Based on the Breusch Pagan test, the homoscedasticity assumption is satisfied.
+
+#### Normality test
 
 ```{r}
 shapiro.test(model$residuals)
