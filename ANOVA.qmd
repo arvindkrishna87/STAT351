@@ -8,6 +8,7 @@ Let us consider an example where we have results from an experiment to compare y
 # Loading the dataset
 library(car)
 library(DescTools)
+library(tidyverse)
 data <- PlantGrowth
 ```
 
@@ -18,6 +19,52 @@ anova(lm(weight ~ group, data = data))
 ```
 
 The null hypothesis that all treatments are the same is rejected at a significance level of 5\%.
+
+Performing the calculations by the `anova()` manually for better understanding:
+
+```{r}
+# Finding the treatment means
+treatment_means <- data %>% 
+  group_by(group) %>% 
+  summarise(mean_wt = mean(weight))
+
+# Replicates
+n <- 10
+
+# Treatments
+k <- 3
+
+# Total experiments
+N <- k*n
+
+# grand mean
+grand_mean <- mean(data$weight)
+
+# Error sum of squares
+data_with_treatment_mean <- merge(data, treatment_means)
+SSE <- sum((data_with_treatment_mean$weight - data_with_treatment_mean$mean_wt)**2)
+print(paste0("SSE = ", SSE))
+
+# Treatment sum of squares
+SSTr <- n*sum((treatment_means$mean_wt - grand_mean)**2)
+print(paste0("SSTr = ", SSTr))
+
+# Mean sum of squared error
+MSE <- SSE / (N - k)
+print(paste0("MSE = ", MSE))
+
+# Mean sum of square treatment
+MSTr <- SSTr / (k - 1)
+print(paste0("MSTr = ", MSTr))
+
+# F-statistic
+F <- MSTr / MSE
+print(paste0("F-statistic = ", F))
+
+# p-value
+pf(F, k-1, N-k, lower.tail = FALSE)
+```
+
 
 ## Confidence interval
 
