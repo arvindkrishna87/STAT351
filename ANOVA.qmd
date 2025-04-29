@@ -20,7 +20,9 @@ anova(lm(weight ~ group, data = data))
 
 The null hypothesis that all treatments are the same is rejected at a significance level of 5\%.
 
-Performing the calculations by the `anova()` manually for better understanding:
+::: {.callout-note appearance="simple"}
+
+**Manual calculation:** Let us perform the calculations by the `anova()` manually for better understanding.
 
 ```{r}
 # Finding the treatment means
@@ -64,7 +66,7 @@ print(paste0("F-statistic = ", F))
 # p-value
 pf(F, k-1, N-k, lower.tail = FALSE)
 ```
-
+:::
 
 ## Confidence interval
 
@@ -76,6 +78,17 @@ PostHocTest(aov_object, method = "bonferroni")
 ```
 
 Based on Bonferroni's method, we observe that treatment 1 and treatment 2 are significantly different, but there is no difference between other pairs.
+
+**Manual calculation:** Let us perform the calculations by the `PostHocTest(method = "bonferroni")` function manually for better understanding.
+
+```{r}
+# Estimates of the pairwise difference of treatment means
+
+print(paste0("Estimated difference between treatment 2 and treatment 1 = ", treatment_means$mean_wt[2] - treatment_means$mean_wt[1]))
+print(paste0("Estimated difference between treatment 3 and treatment 1 = ", treatment_means$mean_wt[3] - treatment_means$mean_wt[1]))
+print(paste0("Estimated difference between treatment 3 and treatment 2 = ", treatment_means$mean_wt[3] - treatment_means$mean_wt[2]))
+```
+
 
 Bonferroni's confidence intervals are overly conservative. Let us find the confidence intervals basead on Tukey's method:
 
