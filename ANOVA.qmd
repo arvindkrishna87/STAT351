@@ -217,7 +217,7 @@ Based on the plot of the residuals against fitted values, the average residual i
 bptest(model)
 ```
 
-Based on the Breusch Pagan test, the homoscedasticity assumption is satisfied.
+Based on the Breusch Pagan test, the homoscedasticity assumption is satisfied. 
 
 #### Normality test
 
