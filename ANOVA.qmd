@@ -79,6 +79,8 @@ PostHocTest(aov_object, method = "bonferroni")
 
 Based on Bonferroni's method, we observe that treatment 1 and treatment 2 are significantly different, but there is no difference between other pairs.
 
+::: {.callout-note appearance="simple"}
+
 **Manual calculation:** Let us perform the calculations by the `PostHocTest(method = "bonferroni")` function manually for better understanding.
 
 ```{r}
@@ -110,12 +112,16 @@ k_dash = 3
 ```
 
 Similarly, we can calculate the Bonferroni's confidence interval of other estimates.
+:::
+
 
 Bonferroni's confidence intervals are overly conservative. Let us find the confidence intervals basead on Tukey's method:
 
 ```{r}
 PostHocTest(aov_object, method = "hsd")
 ```
+
+::: {.callout-note appearance="simple"}
 
 **Manual calculation:** Let us perform the calculations by the `PostHocTest(method = "hsd")` function manually for better understanding.
 
@@ -142,6 +148,7 @@ k_dash = 3
 ```
 
 Similarly, we can calculate the Tukey's confidence interval of other estimates.
+:::
 
 ## Model assumptions check
 
