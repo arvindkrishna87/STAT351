@@ -9,6 +9,7 @@ Let us consider an example where we have results from an experiment to compare y
 library(car)
 library(DescTools)
 library(tidyverse)
+library(lmtest)
 data <- PlantGrowth
 ```
 
@@ -198,6 +199,29 @@ summary.aov(model,split = list(treatment = list("Control vs acid"=1,
 ```
 
 We conclude that there is no statistically significant difference between the effect of organic acids. However, there is a statistically significant difference between the effect of inorganic and organic acids, and an even higher statistically significant difference between the weight of seeds in the control group and the weight seeds treated with acid.
+
+### Model assumptions check
+
+```{r}
+par(mfrow = c(2,2))
+plot(model)
+```
+
+Based on the plot of the residuals against fitted values, the average residual is close to zero. Thus, the assumption of the error term having a zero mean is satisfied.
+
+```{r}
+bptest(model)
+```
+
+Based on the Breusch Pagan test, the homoscedasticity assumption is satisfied.
+
+```{r}
+shapiro.test(model$residuals)
+```
+
+Based on Shapiro’s test, the residuals are normally distributed.
+
+Thus, all the model assumptions are satisfied.
 
 ### Trend comparison
 
