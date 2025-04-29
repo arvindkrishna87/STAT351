@@ -395,6 +395,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Based on Bonferroni’s method, we observe that treatment 1 and treatment 2 are significantly different, but there is no difference between other pairs.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
 <p><strong>Manual calculation:</strong> Let us perform the calculations by the <code>PostHocTest(method = "bonferroni")</code> function manually for better understanding.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimates of the pairwise difference of treatment means</span></span>
@@ -437,6 +443,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Similarly, we can calculate the Bonferroni’s confidence interval of other estimates.</p>
+</div>
+</div>
+</div>
 <p>Bonferroni’s confidence intervals are overly conservative. Let us find the confidence intervals basead on Tukey’s method:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PostHocTest</span>(aov_object, <span class="at">method =</span> <span class="st">"hsd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -455,6 +464,12 @@ trt2-trt1  0.865  0.1737839 1.5562161 0.0120 *
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
 <p><strong>Manual calculation:</strong> Let us perform the calculations by the <code>PostHocTest(method = "hsd")</code> function manually for better understanding.</p>
 <p>The calculation of the estimates of the pairwise difference of treatment means is the same as that for Bonferroni’s method.</p>
 <div class="cell">
@@ -482,6 +497,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Similarly, we can calculate the Tukey’s confidence interval of other estimates.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="model-assumptions-check" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="model-assumptions-check"><span class="header-section-number">3.3</span> Model assumptions check</h2>
