@@ -255,7 +255,8 @@ window.Quarto = {
   <li><a href="#contrasts" id="toc-contrasts" class="nav-link" data-scroll-target="#contrasts"><span class="header-section-number">3.4</span> Contrasts</a>
   <ul class="collapse">
   <li><a href="#class-comparison" id="toc-class-comparison" class="nav-link" data-scroll-target="#class-comparison"><span class="header-section-number">3.4.1</span> Class comparison</a></li>
-  <li><a href="#trend-comparison" id="toc-trend-comparison" class="nav-link" data-scroll-target="#trend-comparison"><span class="header-section-number">3.4.2</span> Trend comparison</a></li>
+  <li><a href="#model-assumptions-check-1" id="toc-model-assumptions-check-1" class="nav-link" data-scroll-target="#model-assumptions-check-1"><span class="header-section-number">3.4.2</span> Model assumptions check</a></li>
+  <li><a href="#trend-comparison" id="toc-trend-comparison" class="nav-link" data-scroll-target="#trend-comparison"><span class="header-section-number">3.4.3</span> Trend comparison</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -290,7 +291,8 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> PlantGrowth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> PlantGrowth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let us print the anova table.</p>
 <div class="cell">
@@ -559,25 +561,63 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>We conclude that there is no statistically significant difference between the effect of organic acids. However, there is a statistically significant difference between the effect of inorganic and organic acids, and an even higher statistically significant difference between the weight of seeds in the control group and the weight seeds treated with acid.</p>
 </section>
-<section id="trend-comparison" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="trend-comparison"><span class="header-section-number">3.4.2</span> Trend comparison</h3>
+<section id="model-assumptions-check-1" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="model-assumptions-check-1"><span class="header-section-number">3.4.2</span> Model assumptions check</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ANOVA_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on the plot of the residuals against fitted values, the average residual is close to zero. Thus, the assumption of the error term having a zero mean is satisfied.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  model
+BP = 6.8284, df = 3, p-value = 0.07757</code></pre>
+</div>
+</div>
+<p>Based on the Breusch Pagan test, the homoscedasticity assumption is satisfied.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  model$residuals
+W = 0.97225, p-value = 0.8016</code></pre>
+</div>
+</div>
+<p>Based on Shapiro’s test, the residuals are normally distributed.</p>
+<p>Thus, all the model assumptions are satisfied.</p>
+</section>
+<section id="trend-comparison" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="trend-comparison"><span class="header-section-number">3.4.3</span> Trend comparison</h3>
 <p>This is an example to identify if there is a linear, quadratic, or higher order relationship between a continuous treatment and the response.</p>
 <p>Consider the data <code>laser_power.csv</code>, which consists of laser power, and the corresponding strength of the material obtained using a machining process involving the laser. The question to be answered is if there is a linear or quadratic relationship between the laser power and strength of the material.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'laser_power.csv'</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>power <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>power)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear contrast</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quadratic contrast</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>mat.contrast <span class="ot">&lt;-</span> <span class="fu">cbind</span>(c1, c2)</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(strength <span class="sc">~</span> power, <span class="at">data =</span> data,</span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">contrasts =</span> <span class="fu">list</span>(<span class="at">power =</span> mat.contrast))</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(model, <span class="at">split =</span> <span class="fu">list</span>(<span class="at">power =</span> <span class="fu">list</span>(<span class="st">"linear"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"quadratic"</span> <span class="ot">=</span> <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'laser_power.csv'</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>power <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>power)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear contrast</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quadratic contrast</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>mat.contrast <span class="ot">&lt;-</span> <span class="fu">cbind</span>(c1, c2)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(strength <span class="sc">~</span> power, <span class="at">data =</span> data,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">contrasts =</span> <span class="fu">list</span>(<span class="at">power =</span> mat.contrast))</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(model, <span class="at">split =</span> <span class="fu">list</span>(<span class="at">power =</span> <span class="fu">list</span>(<span class="st">"linear"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"quadratic"</span> <span class="ot">=</span> <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   Df Sum Sq Mean Sq F value  Pr(&gt;F)   
 power               2 224.18  112.09  11.318 0.00920 **
@@ -590,13 +630,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>We conclude that there is a linear relationship between laser power and strength. This can be seen visually as well as below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>power <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">substr</span>(data<span class="sc">$</span>power,<span class="dv">5</span>,<span class="dv">8</span>))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data<span class="sc">$</span>power, data<span class="sc">$</span>strength)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(strength<span class="sc">~</span>power, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>power <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">substr</span>(data<span class="sc">$</span>power,<span class="dv">5</span>,<span class="dv">8</span>))</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data<span class="sc">$</span>power, data<span class="sc">$</span>strength)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(strength<span class="sc">~</span>power, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="ANOVA_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="ANOVA_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
