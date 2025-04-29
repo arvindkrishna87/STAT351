@@ -563,6 +563,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="model-assumptions-check-1" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="model-assumptions-check-1"><span class="header-section-number">3.4.2</span> Model assumptions check</h3>
+<section id="visual-test-mean-error-0" class="level4" data-number="3.4.2.1">
+<h4 data-number="3.4.2.1" class="anchored" data-anchor-id="visual-test-mean-error-0"><span class="header-section-number">3.4.2.1</span> Visual test (Mean error = 0)</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -575,6 +577,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Based on the plot of the residuals against fitted values, the average residual is close to zero. Thus, the assumption of the error term having a zero mean is satisfied.</p>
+</section>
+<section id="homoscedasticity-test" class="level4" data-number="3.4.2.2">
+<h4 data-number="3.4.2.2" class="anchored" data-anchor-id="homoscedasticity-test"><span class="header-section-number">3.4.2.2</span> homoscedasticity test</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -586,6 +591,9 @@ BP = 6.8284, df = 3, p-value = 0.07757</code></pre>
 </div>
 </div>
 <p>Based on the Breusch Pagan test, the homoscedasticity assumption is satisfied.</p>
+</section>
+<section id="normality-test" class="level4" data-number="3.4.2.3">
+<h4 data-number="3.4.2.3" class="anchored" data-anchor-id="normality-test"><span class="header-section-number">3.4.2.3</span> Normality test</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -598,6 +606,7 @@ W = 0.97225, p-value = 0.8016</code></pre>
 </div>
 <p>Based on Shapiro’s test, the residuals are normally distributed.</p>
 <p>Thus, all the model assumptions are satisfied.</p>
+</section>
 </section>
 <section id="trend-comparison" class="level3" data-number="3.4.3">
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="trend-comparison"><span class="header-section-number">3.4.3</span> Trend comparison</h3>
