@@ -90,9 +90,26 @@ print(paste0("Estimated difference between treatment 3 and treatment 2 = ", trea
 ```
 
 ```{r}
+# Calculating the confidence interval
+
+# Significance level
+alpha = 0.05
+
+# Number of comparisons
+k_dash = 3
+
 # Upper bound of the confidence interval for the estimated difference between treatment 2 and treatment 1 
+
+(treatment_means$mean_wt[2] - treatment_means$mean_wt[1]) + (sqrt(MSE))*sqrt(2/n)*qt(1 - alpha/(2*k_dash), N - k)
 ```
 
+```{r}
+# Lower bound of the confidence interval for the estimated difference between treatment 2 and treatment 1 
+
+(treatment_means$mean_wt[2] - treatment_means$mean_wt[1]) - (sqrt(MSE))*sqrt(2/n)*qt(1 - alpha/(2*k_dash), N - k)
+```
+
+Similarly, we can calculate the confidence interval of other estimates.
 
 Bonferroni's confidence intervals are overly conservative. Let us find the confidence intervals basead on Tukey's method:
 
