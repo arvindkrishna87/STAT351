@@ -1,5 +1,5 @@
 ---
-title: "Assignment 3"
+title: "Assignment C"
 format:
   html:
     toc: true
@@ -18,7 +18,7 @@ editor_options:
 
 3.  Quarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **17th May 2024 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **27th May 2025 at 11:59 pm**.
 
 5. Use a significance level $\alpha = 5\%$ in all hypothesis tests, unless otherwise specified.
 
@@ -32,9 +32,9 @@ editor_options:
 
 8. For questions involving derivations (Q1, Q4(d) in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
 
-9. To maintain family-wise error-rate, use Bonferroni's correction, wherever needed. Do not use Tukey's correction. This is to ensure consistency and simplicity of solutions.
+9. To maintain family-wise error-rate, use Tukey's correction, wherever needed.  This is to ensure consistency of solutions.
 
-## 1 Robustness to interaction effect
+## Q1 Robustness to interaction effect
 
 Consider the randomized complete block design, with no replicates. Suppose that there is a significant interaction between the treatments and the blocks. However, if no interaction is assumed between the treatments and the blocks, will the hypothesis test of testing if all treatments are the same hold?
 
@@ -48,7 +48,7 @@ Derive $E(MSTr)$, and $E(MSE)$ in both the cases to argue whether the hypothesis
 
 *(10 points)*
 
-## 2) RCBD (without replicates)
+## Q2) RCBD (without replicates)
 
 During the Covid-19 pandemic, several schools changed their mode of instruction from in-person to virtual or hybrid. As a result, educators decided to test the effect of virtual / hybrid / in-person education on the ACT scores of high school students. 
 
@@ -92,7 +92,7 @@ Which teaching mode is the best for students *(consider uncertainties)*?
 
 *(1 point)*
 
-## 3) RCBD (with replicates)
+## Q3) RCBD (with replicates)
 
 Schools may be interacting with the teaching mode to effect the ACT scores. The file `act_scores2.csv` consists of replicates of average ACT scores for a given school and teaching mode.
 
@@ -130,7 +130,18 @@ Estimate the variance of the school effect, and the variance of the interaction 
 
 *(4 points)*
 
-### 3f) Chance
+### 3f) Teaching mode effect
+
+Find the variance of the estimate of the difference in any pair of teaching mode effects.
+
+*(2 points)*
+
+### 3g) Precision
+Use the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects. Did it increase or decrease as compared to that in case of RBCD without replicates [2(e)]? Why?   
+
+*(4 points)*
+
+### 3h) Chance
 
 What is the chance that a school with in-person education has a worse average ACT score than a school with virtual education?
 
@@ -138,18 +149,7 @@ Consider the degrees of freedom of the $t$-distribution as the minimum of the de
 
 *(4 points)*
 
-### 3g) Teaching mode effect
-
-Find the variance of the estimate of the difference in any pair of teaching mode effects.
-
-*(2 points)*
-
-### 3h) Precision
-Use the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects. Did it increase or decrease as compared to that in case of RBCD without replicates [2(e)]? Why?   
-
-*(4 points)*
-
-## 4) Three-way ANOVA
+## Q4) Three-way ANOVA
 
 Based on exploratory research, it was found that the income status of a student's family is likely to effect the ACT score, and it may also interact with the teaching mode and school in effecting the ACT score. To analyze these effects, the average ACT score was collected for students of a given income status, school, and being taught with a particular teaching mode.
 
@@ -231,7 +231,7 @@ Use the result of the previous question to obtain the width of the confidence in
 
 ### 4i) Change in precision
 
-Has the width of the confidence interval obtained in the previous question reduced as compared to that in 3(h)? If yes, then why? Given the same number of data points in Qs 3 and 4, why will the width reduce in 4(h) as compared to that in 3(h)?
+Has the width of the confidence interval obtained in the previous question reduced as compared to that in 3(h)? If yes, then why? Given the same number of data points in Qs 3 and 4, why will the width reduce in 4(h) as compared to that in 3(g)?
 
 *(4 points)*
 
