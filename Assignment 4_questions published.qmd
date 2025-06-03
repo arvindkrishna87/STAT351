@@ -126,7 +126,7 @@ Use the result of the previous question to obtain the width of the confidence in
 
 ### 2f) Comparison
 
-Has the width increased or decreased as compared to that in 4(h) of assignment C? One can argue that the number of runs is greater in 4(h). Thus, intuitively, the estimates must be more precise in 4(h). If the width has decreased as compared to 4(h), then why? 
+Has the width increased or decreased as compared to that in 4(h) of assignment C? Why? 
 
 *(4 points)*
 
