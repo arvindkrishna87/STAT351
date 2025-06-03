@@ -275,7 +275,10 @@ window.Quarto = {
   <li><a href="#unreasonably-high-theta-estimated-mu-and-sigma2" id="toc-unreasonably-high-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#unreasonably-high-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.2</span> Unreasonably high <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
   <li><a href="#unreasonably-low-theta-estimated-mu-and-sigma2" id="toc-unreasonably-low-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#unreasonably-low-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.3</span> Unreasonably low <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
   </ul></li>
-  <li><a href="#kriging-with-mle" id="toc-kriging-with-mle" class="nav-link" data-scroll-target="#kriging-with-mle"><span class="header-section-number">5.6</span> Kriging with MLE</a></li>
+  <li><a href="#kriging-with-mle" id="toc-kriging-with-mle" class="nav-link" data-scroll-target="#kriging-with-mle"><span class="header-section-number">5.6</span> Kriging with MLE</a>
+  <ul class="collapse">
+  <li><a href="#universal-kriging-with-mle" id="toc-universal-kriging-with-mle" class="nav-link" data-scroll-target="#universal-kriging-with-mle"><span class="header-section-number">5.6.1</span> Universal Kriging (with MLE)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -868,8 +871,108 @@ creating gp object......done</code></pre>
 </div>
 </div>
 </div>
+<section id="universal-kriging-with-mle" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="universal-kriging-with-mle"><span class="header-section-number">5.6.1</span> Universal Kriging (with MLE)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlegp)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model to the data</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the mean is not constant in Universal Kriging</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">mlegp</span>(D, y, <span class="at">constantMean =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>no reps detected - nugget will not be estimated
+
+========== FITTING GP # 1 ==============================
+running simplex # 1...
+...done
+...simplex #1 complete, loglike = 2.675207 (convergence)
+running simplex # 2...
+...done
+...simplex #2 complete, loglike = 2.675207 (convergence)
+running simplex # 3...
+...done
+...simplex #3 complete, loglike = 2.675207 (convergence)
+running simplex # 4...
+...done
+...simplex #4 complete, loglike = 2.675207 (convergence)
+running simplex # 5...
+...done
+...simplex #5 complete, loglike = 2.675207 (convergence)
+
+using L-BFGS method from simplex #3...
+...L-BFGS method complete
+
+Maximum likelihood estimates found, log like =  2.675207
+creating gp object......done</code></pre>
+</div>
+</div>
+<p>The parameter estimates are as follows:</p>
+<p>Maximum likelihood estimate (MLE) of the mean <span class="math inline">\(\mu\)</span> is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             [,1]
+ [1,] -0.42670107
+ [2,] -0.35999264
+ [3,] -0.29328421
+ [4,] -0.22657578
+ [5,] -0.15986735
+ [6,] -0.09315892
+ [7,] -0.02645049
+ [8,]  0.04025793
+ [9,]  0.10696636
+[10,]  0.17367479</code></pre>
+</div>
+</div>
+<p>Maximum likelihood estimate (MLE) of the variance <span class="math inline">\(\sigma^2\)</span> is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>sig2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04061705</code></pre>
+</div>
+</div>
+<p>Maximum likelihood estimate (MLE) of the correlation parameter <span class="math inline">\(\theta\)</span> is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 76.40715</code></pre>
+</div>
+</div>
+<p>For making predictions, the function <code>predict.gp()</code> is used, and the observations for prediction must be specified as a matrix or a dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>model_predictions <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The RMSE is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span>model_predictions)<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09638877</code></pre>
+</div>
+</div>
+<p>The confidence interval is also returned using the argument <code>se.fit = TRUE</code> in the <code>predict.gp()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model_predictions_with_se <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>), <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us plot the model and the confidence interval:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>mean_prediction <span class="ot">&lt;-</span> model_predictions_with_se<span class="sc">$</span>fit</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>se_prediction <span class="ot">&lt;-</span> model_predictions_with_se<span class="sc">$</span>se.fit</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>se_prediction,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>se_prediction,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
