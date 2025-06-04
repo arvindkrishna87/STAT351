@@ -33,7 +33,7 @@ editor_options:
 
 8. For questions involving derivations (Q2a-c, Q3 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
 
-9. To maintain family-wise error-rate, use Bonferroni's correction, wherever needed. Don't use Tukey's correction. This is for consistency and simplicity of solutions.
+9. To maintain family-wise error-rate, use Tukey's correction, wherever needed. Don't use Bonferroni's correction. This is for consistency and simplicity of solutions.
 
 ## 1) LSD (without replicates)
 
