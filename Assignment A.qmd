@@ -31,7 +31,7 @@ editor_options:
 
 8. For questions involving derivations (Q2, Q3 and Q5 in this assignment), you are allowed to do them on paper, scan and upload separately. However, you are welcome to type the derivations in this template.
 
-## Q1 {.unnumbered}
+## Q1 Randomization vs Blocking {.unnumbered}
 
 WCAS (Weinberg College of Arts and Sciences) is considering replacing  keyboards used in offices of all its departments with new keyboards of a different brand. Let the current keyboard be denoted as A, and the new one denoted as B, where A and B can be assumed to be the brands of the keyboards. However, before making the purchase, WCAS is conducting an experiment to test if the new keyboard will increase the typing efficiency.
 
@@ -214,7 +214,7 @@ Design an experiment that uses minimum resources *(i.e., minimum replicates)* to
 
 *(4 points)*
 
-## Q2 {.unnumbered}
+## Q2 Expected bias in randomization {.unnumbered}
 
 Consider another experiment to compare two keyboards A and B in terms of typing efficiency. In this experiment, six manuscripts 1-6 are given to the same typist.
 
@@ -238,7 +238,7 @@ How can you modify the design to reduce the expected bias?
 
 *(2 + 2 + 2 = 6 points)*
 
-## Q3 {.unnumbered}
+## Q3 Hypothesis testing {.unnumbered}
 
 A fertilizer is claimed to change the mean yield of a crop to 3 times the mean yield without the fertilizer minus 5 units, i.e.,
 
@@ -266,13 +266,13 @@ Derive an expression for the ratio of the number of observations to be sampled f
 
 *(6 points)*
 
-## Q4 {.unnumbered}
+## Q4 Type I vs Type II error {.unnumbered}
 
 In the early stages of research and development experimentation which type of error do you think is most important, type I or type II? Justify your answer.
 
 *(4 points)*
 
-## Q5 {.unnumbered}
+## Q5 Randomization vs Blocking with random effects {.unnumbered}
 
 Consider a hardness testing machine that presses a rod with a pointed tip *(treatment)* into a metal specimen *(experimental unit)* with a known force.
 

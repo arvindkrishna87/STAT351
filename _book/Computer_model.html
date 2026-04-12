@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Design and analysis of experiments (R notes) - 5&nbsp; Computer model</title>
+<title>5&nbsp; Computer model – Design and analysis of experiments (R notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,7 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -64,24 +65,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Assignment A.html" rel="next">
+<link href="./computer_experiment_designs.html" rel="next">
 <link href="./Multiple_factors.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,30 +99,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Computer_model.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Computer model</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Computer_model.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Computer model</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -122,10 +159,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./NU_Stat_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="https://statistics.northwestern.edu/" class="sidebar-logo-link">
+      <img src="./NU_Stat_logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./NU_Stat_logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Design and analysis of experiments (R notes)</a> 
@@ -174,11 +212,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Computer model</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./computer_experiment_designs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computer experiment designs</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -186,25 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment A.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment 1</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Assignment B_questions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Assignment 3_questions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Assignment 3</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Assignment templates and Datasets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></span></a>
   </div>
 </li>
       </ul>
@@ -212,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -222,6 +248,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#polynomial-interpolation" id="toc-polynomial-interpolation" class="nav-link active" data-scroll-target="#polynomial-interpolation"><span class="header-section-number">5.1</span> Polynomial interpolation</a></li>
   <li><a href="#splines" id="toc-splines" class="nav-link" data-scroll-target="#splines"><span class="header-section-number">5.2</span> Splines</a></li>
   <li><a href="#random-functions" id="toc-random-functions" class="nav-link" data-scroll-target="#random-functions"><span class="header-section-number">5.3</span> Random functions</a></li>
+  <li><a href="#simple-kriging" id="toc-simple-kriging" class="nav-link" data-scroll-target="#simple-kriging"><span class="header-section-number">5.4</span> Simple Kriging</a>
+  <ul class="collapse">
+  <li><a href="#correctly-guessed-mu-and-theta-estimated-sigma2" id="toc-correctly-guessed-mu-and-theta-estimated-sigma2" class="nav-link" data-scroll-target="#correctly-guessed-mu-and-theta-estimated-sigma2"><span class="header-section-number">5.4.1</span> Correctly guessed <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></a></li>
+  <li><a href="#mis-specified-mu-correctly-guessed-theta-estimated-sigma2" id="toc-mis-specified-mu-correctly-guessed-theta-estimated-sigma2" class="nav-link" data-scroll-target="#mis-specified-mu-correctly-guessed-theta-estimated-sigma2"><span class="header-section-number">5.4.2</span> Mis-specified <span class="math inline">\(\mu\)</span>, correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></a></li>
+  </ul></li>
+  <li><a href="#ordinary-kriging" id="toc-ordinary-kriging" class="nav-link" data-scroll-target="#ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</a>
+  <ul class="collapse">
+  <li><a href="#correctly-guessed-theta-estimated-mu-and-sigma2" id="toc-correctly-guessed-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#correctly-guessed-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.1</span> Correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
+  <li><a href="#unreasonably-high-theta-estimated-mu-and-sigma2" id="toc-unreasonably-high-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#unreasonably-high-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.2</span> Unreasonably high <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
+  <li><a href="#unreasonably-low-theta-estimated-mu-and-sigma2" id="toc-unreasonably-low-theta-estimated-mu-and-sigma2" class="nav-link" data-scroll-target="#unreasonably-low-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.3</span> Unreasonably low <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></a></li>
+  </ul></li>
+  <li><a href="#kriging-with-mle" id="toc-kriging-with-mle" class="nav-link" data-scroll-target="#kriging-with-mle"><span class="header-section-number">5.6</span> Kriging with MLE</a></li>
+  <li><a href="#universal-kriging-with-mle" id="toc-universal-kriging-with-mle" class="nav-link" data-scroll-target="#universal-kriging-with-mle"><span class="header-section-number">5.7</span> Universal Kriging (with MLE)</a></li>
   </ul>
 </nav>
     </div>
@@ -243,13 +282,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>Assume that the true computer model is the following:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<p><img src="Computer_model_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We will consider potential methods to replace the computer model above with a metamodel or a surrogate model.</p>
@@ -257,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.1" class="anchored" data-anchor-id="polynomial-interpolation"><span class="header-section-number">5.1</span> Polynomial interpolation</h2>
 <p>Below is an example of a <span class="math inline">\(7\)</span>-point polynomial interpolator.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="at">length=</span><span class="dv">7</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,x,x<span class="sc">^</span><span class="dv">2</span>,x<span class="sc">^</span><span class="dv">3</span>,x<span class="sc">^</span><span class="dv">4</span>,x<span class="sc">^</span><span class="dv">5</span>,x<span class="sc">^</span><span class="dv">6</span>))</span>
@@ -267,15 +312,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  yhat[i]<span class="ot">=</span><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">1</span>,u[i],u[i]<span class="sc">^</span><span class="dv">2</span>,u[i]<span class="sc">^</span><span class="dv">3</span>,u[i]<span class="sc">^</span><span class="dv">4</span>,u[i]<span class="sc">^</span><span class="dv">5</span>,u[i]<span class="sc">^</span><span class="dv">6</span>)<span class="sc">*</span>a)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,yhat, <span class="at">col=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x,y,<span class="at">col=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x,y,<span class="at">col=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<p><img src="Computer_model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Notice that the polynomial interpolation model tends to be unstable near the edges, this is called Runge’s phenomenon.</p>
 <p>The instability increases as the degree of the polynomial increases. Consider the same example if 9 equally-spaced points are considered, instead of 7.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="at">length=</span><span class="dv">9</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,x,x<span class="sc">^</span><span class="dv">2</span>,x<span class="sc">^</span><span class="dv">3</span>,x<span class="sc">^</span><span class="dv">4</span>,x<span class="sc">^</span><span class="dv">5</span>,x<span class="sc">^</span><span class="dv">6</span>,x<span class="sc">^</span><span class="dv">7</span>,x<span class="sc">^</span><span class="dv">8</span>))</span>
@@ -285,9 +334,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  yhat[i]<span class="ot">=</span><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">1</span>,u[i],u[i]<span class="sc">^</span><span class="dv">2</span>,u[i]<span class="sc">^</span><span class="dv">3</span>,u[i]<span class="sc">^</span><span class="dv">4</span>,u[i]<span class="sc">^</span><span class="dv">5</span>,u[i]<span class="sc">^</span><span class="dv">6</span>, u[i]<span class="sc">^</span><span class="dv">7</span>,u[i]<span class="sc">^</span><span class="dv">8</span>)<span class="sc">*</span>a)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,yhat, <span class="at">col=</span><span class="st">'blue'</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x,y,<span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x,y,<span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<p><img src="Computer_model_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -295,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.2" class="anchored" data-anchor-id="splines"><span class="header-section-number">5.2</span> Splines</h2>
 <p>Let us consider splines as the metamodel to replace the same computer model considered above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">from=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">to=</span><span class="dv">4</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>,<span class="dv">1</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Splines with 7 points</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -311,9 +364,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>x<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(x,y, <span class="at">pch=</span><span class="dv">3</span>,<span class="at">col=</span><span class="dv">3</span>)</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">splinefun</span>(x,y,<span class="at">method=</span><span class="st">"natural"</span>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(a,<span class="at">add=</span>T,<span class="at">col=</span><span class="dv">3</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(a,<span class="at">add=</span>T,<span class="at">col=</span><span class="dv">3</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<p><img src="Computer_model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We observe that splines fit the points smoothly, which is desired. However, splines do not scale up and are difficult to fit in case of higher dimensions.</p>
@@ -323,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will now adopt a statistical approach to replace the computer model with a metamodel, where we view the deterministic computer model as a realization from a stochastic process.</p>
 <p>Let us consider quadratic functions as the random functions to develop the metamodel.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="at">length=</span><span class="dv">10</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="at">length=</span><span class="dv">10</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">3</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>b[<span class="dv">1</span>]<span class="sc">+</span>b[<span class="dv">2</span>]<span class="sc">*</span>x<span class="sc">+</span>b[<span class="dv">3</span>]<span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
@@ -333,9 +390,567 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>{b<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">3</span>)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>b[<span class="dv">1</span>]<span class="sc">+</span>b[<span class="dv">2</span>]<span class="sc">*</span>x<span class="sc">+</span>b[<span class="dv">3</span>]<span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x,y,<span class="st">"l"</span>,<span class="at">col=</span>i)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x,y,<span class="st">"l"</span>,<span class="at">col=</span>i)}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<p><img src="Computer_model_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We want a more flexible random function, so that a flexible computer model could correspond to a realization from that random function.</p>
+<p>Suppose <span class="math inline">\(y(x_i) \sim N(0, \sigma^2)\)</span>. Let us plot a realization of this model for <span class="math inline">\(\sigma^2 = 1\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="at">length=</span>N)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">rnorm</span>(N)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Although the function does seem to be flexible, it is not smooth. We want to have a smooth function, which is also flexible, as the metamodel.</p>
+<p>The reason why the above realization of a computer model is not smooth is because the response values are not correlated. The sample paths for the above random function follow the multivariate normal distribution with the identity matrix as the covariance matrix, i.e.,</p>
+<p><span class="math display">\[\textbf{y} \sim N_{100}(\textbf{0}, \textbf{I}),\]</span></p>
+<p>where <span class="math inline">\(\textbf{I}\)</span> is the <span class="math inline">\(100 \times 100\)</span> identity matrix.</p>
+<p>For smooth functions, adjacent points <span class="math inline">\(y(x)\)</span> and <span class="math inline">\(y(x + \Delta)\)</span> should be positively correlated.</p>
+<p>Let us introduce correlation between response values to make the realizations of the computer models more smooth.</p>
+<p>Let us assume that the response values have an underlying multivariate normal distribution, with a covariance matrix that is not the diagonal matrix.</p>
+<p>For example, consider the covariance matrix <span class="math inline">\(R\)</span>. where:</p>
+<p><span class="math display">\[\textbf{R} = \exp\{-\theta(x_i-x_j)^2\}_{100 \times 100}\]</span> In the above correlation function, we can control the flexibility by changing the value of <span class="math inline">\(\theta\)</span>. The higher the value of <span class="math inline">\(\theta\)</span>, the lesser is the correlation between the response values, for a given distance between inputs, and the higher is the flexibility of the function. Thus, this correlation function can provide the desired level of flexibility while also providing smoothness in the function.</p>
+<p>Then,</p>
+<p><span class="math display">\[\textbf{y} \sim N(0, \textbf{R})\]</span> Let us visualize 10 realizations from the above random function to see the smoothness.</p>
+<p>If <span class="math inline">\(\textbf{z} \sim N(\textbf{0}, \textbf{I})\)</span>, then <span class="math inline">\(\textbf{y} = \textbf{R}^{1/2}\textbf{z}\)</span>.</p>
+<p><strong>Proof:</strong> Given <span class="math inline">\(y = \textbf{R}^{1/2}\textbf{z}\)</span>,</p>
+<p><span class="math inline">\(E(\textbf{y}) = \textbf{R}^{1/2}E(\textbf{z}) = 0\)</span></p>
+<p><span class="math inline">\(Var(\textbf{y}) = Var(\textbf{R}^{1/2}\textbf{z})\)</span></p>
+<p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}^{1/2}Var(\textbf{z})R^{1/2})\)</span></p>
+<p><em>(Refer to equation 313 in the <a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">matrix cookbook</a>)</em></p>
+<p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}^{1/2}\textbf{I}\textbf{R}^{1/2})\)</span></p>
+<p><span class="math inline">\(\implies Var(\textbf{y}) = \textbf{R}\)</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(x, <span class="at">diag=</span>T, ,<span class="at">upper=</span>T))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation matrix R</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span><span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>eig<span class="ot">=</span><span class="fu">eigen</span>(R)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>R.sqrt<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">rnorm</span>(N)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R.sqrt<span class="sc">%*%</span>z</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R.sqrt<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can increase the flexibility by increasing the value of the correlation parameter <span class="math inline">\(\theta\)</span> to say <span class="math inline">\(\theta = 5\)</span>, as shown below.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(x, <span class="at">diag=</span>T, ,<span class="at">upper=</span>T))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation matrix R</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>eig<span class="ot">=</span><span class="fu">eigen</span>(R)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>R.sqrt<span class="ot">=</span>eig<span class="sc">$</span>vec<span class="sc">%*%</span><span class="fu">diag</span>(<span class="fu">sqrt</span>(eig<span class="sc">$</span>val<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)))<span class="sc">%*%</span><span class="fu">t</span>(eig<span class="sc">$</span>vec)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">rnorm</span>(N)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>R.sqrt<span class="sc">%*%</span>z</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="st">"l"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x,R.sqrt<span class="sc">%*%</span><span class="fu">rnorm</span>(N),<span class="at">col=</span>i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="simple-kriging" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="simple-kriging"><span class="header-section-number">5.4</span> Simple Kriging</h2>
+<section id="correctly-guessed-mu-and-theta-estimated-sigma2" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="correctly-guessed-mu-and-theta-estimated-sigma2"><span class="header-section-number">5.4.1</span> Correctly guessed <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></h3>
+<p>Let us use simple kriging to develop a metamodel for the following one dimensional computer model, and visualize the fit, along with uncertainty.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computer model</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sin</span>(<span class="dv">30</span><span class="sc">*</span>(x<span class="fl">-.9</span>)<span class="sc">^</span><span class="dv">4</span>)<span class="sc">*</span><span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>(x<span class="fl">-.9</span>))<span class="sc">+</span>(x<span class="fl">-.9</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">10</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>D<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>n)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">f</span>(D)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y,<span class="at">pch=</span><span class="dv">4</span>,<span class="at">cex=</span><span class="dv">2</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(D, <span class="at">diag=</span>T, <span class="at">upper=</span>T))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)<span class="sc">*</span>I)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>basis<span class="ot">=</span><span class="cf">function</span>(h)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>h<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>r<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  vec<span class="ot">=</span><span class="fu">basis</span>(x<span class="sc">-</span>D)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(vec)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>fhat<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  mu<span class="sc">+</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>coef</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>f.var<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  sigma2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span><span class="fu">r</span>(x))</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">1000</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>u<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>N)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>y.pred<span class="ot">=</span>y.low<span class="ot">=</span>y.high<span class="ot">=</span><span class="fu">numeric</span>(N)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>test<span class="ot">=</span>u</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09318819</code></pre>
+</div>
+</div>
+</section>
+<section id="mis-specified-mu-correctly-guessed-theta-estimated-sigma2" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="mis-specified-mu-correctly-guessed-theta-estimated-sigma2"><span class="header-section-number">5.4.2</span> Mis-specified <span class="math inline">\(\mu\)</span>, correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\sigma^2\)</span></h3>
+<p>Note that we assumed the mean <span class="math inline">\(\mu\)</span> to be <span class="math inline">\(\mu = 0\)</span>. In case our guess for <span class="math inline">\(\mu\)</span> was incorrect, it would have resulted in a worse model. Let us visualize the fit, and confidence intervals, if our guess for <span class="math inline">\(\mu\)</span> was <span class="math inline">\(\mu = 100\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y,<span class="at">pch=</span><span class="dv">4</span>,<span class="at">cex=</span><span class="dv">2</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>E<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">dist</span>(D, <span class="at">diag=</span>T, <span class="at">upper=</span>T))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)<span class="sc">*</span>I)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>basis<span class="ot">=</span><span class="cf">function</span>(h)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>h<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>r<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  vec<span class="ot">=</span><span class="fu">basis</span>(x<span class="sc">-</span>D)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(vec)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>fhat<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  mu<span class="sc">+</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>coef</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>f.var<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  sigma2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span><span class="fu">r</span>(x))</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">1000</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>u<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span>N)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>y.pred<span class="ot">=</span>y.low<span class="ot">=</span>y.high<span class="ot">=</span><span class="fu">numeric</span>(N)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with mis-specified <span class="math inline">\(\mu\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.501507</code></pre>
+</div>
+</div>
+<p>We observe that the fit is much worse if our guess for the value of <span class="math inline">\(\mu\)</span> is very different from its true value. Thus, in such cases, we should estimate the mean <span class="math inline">\(\mu\)</span> from the data, or use ordinary kriging instead of simple kriging, as shown below.</p>
+</section>
+</section>
+<section id="ordinary-kriging" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="ordinary-kriging"><span class="header-section-number">5.5</span> Ordinary Kriging</h2>
+<section id="correctly-guessed-theta-estimated-mu-and-sigma2" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="correctly-guessed-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.1</span> Correctly guessed <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></h3>
+<p>In ordinary kriging, we assume that we don’t know the value of <span class="math inline">\(\mu\)</span>, and estimate it from the data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>one<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span>,n)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="fu">drop</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>y<span class="sc">/</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The estimated value of <span class="math inline">\(\mu\)</span> from the data is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.1229525</code></pre>
+</div>
+</div>
+<p>Let us use it to fit the ordinary kriging model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>f.var<span class="ot">=</span><span class="cf">function</span>(x)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>{ </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  fac<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>(one<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  val<span class="ot">=</span>sigma2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span><span class="fu">r</span>(x)<span class="sc">+</span>fac<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">t</span>(<span class="fu">r</span>(x))<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(val)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of ordinary kriging, where <span class="math inline">\(\mu\)</span> is estimated from the data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09235139</code></pre>
+</div>
+</div>
+<p>Note that the model is more accurate that simple kriging as <span class="math inline">\(\mu\)</span> is estimated from the data, instead of being guessed.</p>
+</section>
+<section id="unreasonably-high-theta-estimated-mu-and-sigma2" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="unreasonably-high-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.2</span> Unreasonably high <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></h3>
+<p>In the above code on simple kriging, we have used the maximum likelihood estimates of <span class="math inline">\(\mu\)</span>, and <span class="math inline">\(\sigma^2\)</span>. However, we guessed the value of <span class="math inline">\(\theta\)</span>. If <span class="math inline">\(\theta\)</span> is guessed incorrectly, then the model accuracy may deteriorate. Let us fit the model for <span class="math inline">\(\theta\)</span> = 1000.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">1000</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>one<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span>,n)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="fu">drop</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>y<span class="sc">/</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span>)<span class="sc">*</span>I)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that as <span class="math inline">\(\theta\)</span> increases, the model tends to be pulled towards the mean, as the correlation between the neighboring response values reduces.</p>
+<p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a high value of<span class="math inline">\(\theta\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.178251</code></pre>
+</div>
+</div>
+<p>As expected, the model accuracy has deteriorated for an unreasonably high value of the correlation parameter <span class="math inline">\(\theta\)</span>.</p>
+</section>
+<section id="unreasonably-low-theta-estimated-mu-and-sigma2" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="unreasonably-low-theta-estimated-mu-and-sigma2"><span class="header-section-number">5.5.3</span> Unreasonably low <span class="math inline">\(\theta\)</span>, estimated <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span></h3>
+<p>Let us fit the model for <span class="math inline">\(\theta\)</span> = 1.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>theta<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>R<span class="ot">=</span><span class="fu">exp</span>(<span class="sc">-</span>theta<span class="sc">*</span>E<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>one<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">1</span>,n)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">=</span><span class="fu">drop</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>y<span class="sc">/</span>(<span class="fu">t</span>(one)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>one))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>I<span class="ot">=</span><span class="fu">diag</span>(n)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>Rinv<span class="ot">=</span><span class="fu">solve</span>(R<span class="sc">+</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">7</span>)<span class="sc">*</span>I)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>coef<span class="ot">=</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>sigma2<span class="ot">=</span><span class="fu">drop</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">*</span><span class="fu">t</span>(y<span class="sc">-</span>mu)<span class="sc">%*%</span>Rinv<span class="sc">%*%</span>(y<span class="sc">-</span>mu))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  y.pred[i]<span class="ot">=</span><span class="fu">fhat</span>(u[i])</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  SD<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">f.var</span>(u[i]))</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  y.low[i]<span class="ot">=</span>y.pred[i]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  y.high[i]<span class="ot">=</span>y.pred[i]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>SD</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.pred,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.low,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,y.high,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that as <span class="math inline">\(\theta\)</span> decreases, the model becomes overly smooth, as the correlation between the neighboring response values is high.</p>
+<p>Let us find the root mean squared error (RMSE) on test data to evaluate the model accuracy in case of simple kriging, with a low value of <span class="math inline">\(\theta\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSE</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span><span class="fu">f</span>(test))<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.139509</code></pre>
+</div>
+</div>
+<p>As expected, the model accuracy has deteriorated for an unreasonably low value of the correlation parameter <span class="math inline">\(\theta\)</span>.</p>
+</section>
+</section>
+<section id="kriging-with-mle" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="kriging-with-mle"><span class="header-section-number">5.6</span> Kriging with MLE</h2>
+<p>In general, in case of unknown value of the parameters, instead of guessing their values, it is better to use their maximum likelihood estimates from the data. The R function <code>mlegp()</code> can be used to do that.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlegp)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model to the data</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">mlegp</span>(D, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>no reps detected - nugget will not be estimated
+
+========== FITTING GP # 1 ==============================
+running simplex # 1...
+...done
+...simplex #1 complete, loglike = 0.546783 (convergence)
+running simplex # 2...
+...done
+...simplex #2 complete, loglike = 0.546783 (convergence)
+running simplex # 3...
+...done
+...simplex #3 complete, loglike = 0.546783 (convergence)
+running simplex # 4...
+...done
+...simplex #4 complete, loglike = 0.546783 (convergence)
+running simplex # 5...
+...done
+...simplex #5 complete, loglike = 0.546783 (convergence)
+
+using L-BFGS method from simplex #3...
+    iteration: 1,loglike = 0.546783
+...L-BFGS method complete
+
+Maximum likelihood estimates found, log like =  0.546783
+creating gp object......done</code></pre>
+</div>
+</div>
+<p>The parameter estimates are as follows:</p>
+<p>Maximum likelihood estimate (MLE) of the mean <span class="math inline">\(\mu\)</span> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            [,1]
+ [1,] -0.1319677
+ [2,] -0.1319677
+ [3,] -0.1319677
+ [4,] -0.1319677
+ [5,] -0.1319677
+ [6,] -0.1319677
+ [7,] -0.1319677
+ [8,] -0.1319677
+ [9,] -0.1319677
+[10,] -0.1319677</code></pre>
+</div>
+</div>
+<p>Maximum likelihood estimate (MLE) of the variance <span class="math inline">\(\sigma^2\)</span> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>sig2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07437116</code></pre>
+</div>
+</div>
+<p>Maximum likelihood estimate (MLE) of the correlation parameter <span class="math inline">\(\theta\)</span> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>beta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 54.08923</code></pre>
+</div>
+</div>
+<p>For making predictions, the function <code>predict.gp()</code> is used, and the observations for prediction must be specified as a matrix or a dataframe.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model_predictions <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The RMSE is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span>model_predictions)<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.100242</code></pre>
+</div>
+</div>
+<p>The confidence interval is also returned using the argument <code>se.fit = TRUE</code> in the <code>predict.gp()</code> function.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>model_predictions_with_se <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>), <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let us plot the model and the confidence interval:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>mean_prediction <span class="ot">&lt;-</span> model_predictions_with_se<span class="sc">$</span>fit</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>se_prediction <span class="ot">&lt;-</span> model_predictions_with_se<span class="sc">$</span>se.fit</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>se_prediction,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>se_prediction,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="universal-kriging-with-mle" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="universal-kriging-with-mle"><span class="header-section-number">5.7</span> Universal Kriging (with MLE)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlegp)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model to the data</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the mean is not constant in Universal Kriging</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">mlegp</span>(D, y, <span class="at">constantMean =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>no reps detected - nugget will not be estimated
+
+========== FITTING GP # 1 ==============================
+running simplex # 1...
+...done
+...simplex #1 complete, loglike = 2.675207 (convergence)
+running simplex # 2...
+...done
+...simplex #2 complete, loglike = 2.675207 (convergence)
+running simplex # 3...
+...done
+...simplex #3 complete, loglike = 2.675207 (convergence)
+running simplex # 4...
+...done
+...simplex #4 complete, loglike = 2.675207 (convergence)
+running simplex # 5...
+...done
+...simplex #5 complete, loglike = 2.675207 (convergence)
+
+using L-BFGS method from simplex #3...
+...L-BFGS method complete
+
+Maximum likelihood estimates found, log like =  2.675207
+creating gp object......done</code></pre>
+</div>
+</div>
+<p>The parameter estimates are as follows:</p>
+<p>Maximum likelihood estimate (MLE) of the mean <span class="math inline">\(\mu\)</span> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             [,1]
+ [1,] -0.42670107
+ [2,] -0.35999264
+ [3,] -0.29328421
+ [4,] -0.22657578
+ [5,] -0.15986735
+ [6,] -0.09315892
+ [7,] -0.02645049
+ [8,]  0.04025793
+ [9,]  0.10696636
+[10,]  0.17367479</code></pre>
+</div>
+</div>
+<p>Maximum likelihood estimate (MLE) of the variance <span class="math inline">\(\sigma^2\)</span> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>sig2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04061705</code></pre>
+</div>
+</div>
+<p>Maximum likelihood estimate (MLE) of the correlation parameter <span class="math inline">\(\theta\)</span> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>beta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 76.40715</code></pre>
+</div>
+</div>
+<p>For making predictions, the function <code>predict.gp()</code> is used, and the observations for prediction must be specified as a matrix or a dataframe.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>model_predictions <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The RMSE is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="fu">apply</span>(<span class="fu">cbind</span>(test),<span class="dv">1</span>,fhat)<span class="sc">-</span>model_predictions)<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09638877</code></pre>
+</div>
+</div>
+<p>The confidence interval is also returned using the argument <code>se.fit = TRUE</code> in the <code>predict.gp()</code> function.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model_predictions_with_se <span class="ot">&lt;-</span> <span class="fu">predict.gp</span>(model, <span class="fu">matrix</span>(test,<span class="dv">1000</span>,<span class="dv">1</span>), <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let us plot the model and the confidence interval:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">f</span>(x),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">1</span>, <span class="at">ylim=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.75</span>, <span class="fl">0.55</span>))</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(D,y)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>mean_prediction <span class="ot">&lt;-</span> model_predictions_with_se<span class="sc">$</span>fit</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>se_prediction <span class="ot">&lt;-</span> model_predictions_with_se<span class="sc">$</span>se.fit</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>se_prediction,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(u,mean_prediction <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>se_prediction,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Computer_model_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -344,43 +959,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
@@ -388,207 +1018,360 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
       return codeEl.innerText;
     }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-  function tippyHover(el, contentFn) {
-    const config = {
-      allowHTML: true,
-      content: contentFn,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start'
-    };
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      return note.innerHTML;
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
       });
     }
-  }
-});
-</script>
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Multiple_factors.html" class="pagination-link">
+      <a href="./Multiple_factors.html" class="pagination-link" aria-label="Multiple factors">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple factors</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Assignment A.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./computer_experiment_designs.html" class="pagination-link" aria-label="Computer experiment designs">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computer experiment designs</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
