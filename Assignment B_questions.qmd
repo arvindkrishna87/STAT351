@@ -20,7 +20,7 @@ editor_options:
 
 3.  Quarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **9th May 2025 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **12th May 2026 at 11:59 pm**.
 
 5. Use a significance level $\alpha = 5\%$ in all hypothesis tests, unless otherwise specified.
 
