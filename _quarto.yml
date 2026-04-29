@@ -22,6 +22,7 @@ book:
     - computer_experiment_designs.qmd
   appendices: 
     - Assignment A.qmd
+    - Assignment B_questions.qmd
 
 bibliography: references.bib
 
