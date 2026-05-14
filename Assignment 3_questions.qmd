@@ -18,7 +18,7 @@ editor_options:
 
 3.  Quarto-render the file as HTML to submit. For theoretical questions, you can either type the answer within the template and include the solutions in this file, or write the solution on paper, scan and submit separately.
 
-4.  The assignment is worth 100 points, and is due on **27th May 2025 at 11:59 pm**.
+4.  The assignment is worth 100 points, and is due on **26th May 2026 at 11:59 pm**.
 
 5. Use a significance level $\alpha = 5\%$ in all hypothesis tests, unless otherwise specified.
 
@@ -118,28 +118,30 @@ Is there a statistically significant variation in school effects? Are all the te
 
 *(4 points)*
 
-### 3d) Best teaching mode
 
-Which teaching mode is the best for students *(consider uncertainties)*?
-
-*(2 points)*
-
-### 3e) Effects variance
+### 3d) Effects variance
 
 Estimate the variance of the school effect, and the variance of the interaction effect.
 
 *(4 points)*
 
-### 3f) Teaching mode effect
+### 3e) Teaching mode effect
 
 Find the variance of the estimate of the difference in any pair of teaching mode effects.
 
 *(2 points)*
 
-### 3g) Precision
+### 3f) Precision
 Use the result of the previous question to obtain the width of the confidence interval of the difference in the estimates of any pair of teaching mode effects. Did it increase or decrease as compared to that in case of RBCD without replicates [2(e)]? Why?   
 
 *(4 points)*
+
+### 3g) Best teaching mode
+
+Which teaching mode is the best for students *(consider uncertainties)*?
+
+*(2 points)*
+
 
 ### 3h) Chance
 
@@ -231,7 +233,7 @@ Use the result of the previous question to obtain the width of the confidence in
 
 ### 4i) Change in precision
 
-Has the width of the confidence interval obtained in the previous question reduced as compared to that in 3(h)? If yes, then why? Given the same number of data points in Qs 3 and 4, why will the width reduce in 4(h) as compared to that in 3(g)?
+Has the width of the confidence interval obtained in the previous question reduced as compared to that in 3(f)? If yes, then why? Given the same number of data points in Qs 3 and 4, why will the width reduce in 4(h) as compared to that in 3(f)?
 
 *(4 points)*
 
